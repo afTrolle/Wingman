@@ -1,0 +1,38 @@
+[versions]
+kotlin = "1.8.20"
+ktor = "2.2.4"
+datetime = "0.4.0"
+serialization = "1.5.0"
+openai = "3.1.1"
+decompose = "2.0.0-alpha-01"
+agp = "7.4.2"
+compose = "1.4.0"
+
+compileSdk = "33"
+minSdk = "25"
+iosTarget = "14.1"
+appVersion = "1.0"
+buildVersion = "1"
+
+[libraries]
+decompose = { module = "com.arkivanov.decompose:decompose", version.ref = "decompose" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "serialization" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "datetime" }
+ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
+ktor-serialization_kotlinx_json = { module = "io.ktor:kotlinx-serialization-json", version.ref = "ktor" }
+ktor-client-content_negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+openai-client = { module = "com.aallam.openai:openai-client", version.ref = "ktor" }
+
+androidx-activity-compose = "androidx.activity:activity-compose:1.6.1"
+androidx-appcompat = "androidx.appcompat:appcompat:1.6.1"
+androidx-core = "androidx.core:core-ktx:1.9.0"
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlin-cocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "compose" }
+
