@@ -14,22 +14,13 @@ android {
         versionCode = libs.versions.buildVersion.get().toInt()
         versionName = libs.versions.appVersion.get()
     }
-//    buildFeatures {
-//        compose = true
-//    }
-//    composeOptions {
-//        kotlinCompilerExtensionVersion = "1.4.4"
-//    }
-//    packagingOptions {
-//        resources {
-//            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-//        }
-//    }
-//    buildTypes {
-//        getByName("release") {
-//            isMinifyEnabled = false
-//        }
-//    }
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            //FIX-Me https://github.com/Kotlin/kotlinx.coroutines/issues/3668
+            excludes += "META-INF/versions/9/previous-compilation-data.bin"
+        }
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11

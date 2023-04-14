@@ -34,6 +34,10 @@ kotlin {
                 implementation(compose.material)
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
+                implementation(libs.voyager.navigator)
+                implementation(libs.voyager.transitions)
+                implementation(libs.koin.core)
+                implementation(libs.kotlinx.coroutines.core)
             }
         }
         val commonTest by getting {
@@ -45,6 +49,9 @@ kotlin {
             dependencies {
                 api(libs.androidx.activity.compose)
                 api(libs.androidx.core)
+                api(libs.koin.android)
+                api(libs.play.services.auth)
+                api(libs.kotlinx.coroutines.play)
             }
         }
         val androidUnitTest by getting
