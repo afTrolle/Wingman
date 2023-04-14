@@ -23,8 +23,7 @@ internal val sharedModule: Module = module {
 
     // Screen View Models
     factory { HomeScreenModel() }
-    factory { SignInScreen.SignInScreenModel(get()) }
-
+    factory { SignInScreen.SignInScreenModel() }
 }
 
 

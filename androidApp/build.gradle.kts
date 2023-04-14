@@ -14,6 +14,9 @@ android {
         versionCode = libs.versions.buildVersion.get().toInt()
         versionName = libs.versions.appVersion.get()
     }
+    buildFeatures {
+        compose = true
+    }
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -32,4 +35,5 @@ android {
 
 dependencies {
     implementation(projects.shared)
+    implementation(compose.uiTooling)
 }

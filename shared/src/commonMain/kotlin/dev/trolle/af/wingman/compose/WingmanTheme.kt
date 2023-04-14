@@ -8,8 +8,8 @@ import androidx.compose.ui.graphics.Color
 object WingManThemeColors {
     private val red = Color(0xFFf50057)
     private val redVariant = Color(0xFFbb004e)
-    private val green = Color(0xFF26a69a)
-    private val greenVariant = Color(0xFF00796a)
+    private val green = Color(0xFF00796B)
+    private val greenVariant = Color(0xFF004D40)
     private val purple = Color(0xFF880e4f)
     private val peach = Color(0xFFff9e80)
     private val peachLight = Color(0xFFfce6e3)
@@ -21,7 +21,7 @@ object WingManThemeColors {
         secondaryVariant = redVariant,
         background = peachLight,
         surface = peachLight,
-        onPrimary = Color.Black,
+        onPrimary = Color.White,
         onSecondary = Color.Black,
     )
 }

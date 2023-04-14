@@ -4,8 +4,7 @@ Wingman utilizing Jetpack [Compose Multiplatform](https://github.com/JetBrains/c
 Using Tinder & OpenAI APIs to AI-power conversation starters, helping you break the ice and engage with potential matches effortlessly. 
 Enhance your dating experience with Wingman!
 
-Follow our tutorial below to get the app up and running.
-The result will be a [Kotlin Multiplatform](https://kotlinlang.org/docs/multiplatform.html) project that uses Compose Multiplatform UI framework.
+Follow our steps below to get the app up and running.
 
 ## Set up the environment
 

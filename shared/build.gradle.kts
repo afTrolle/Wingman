@@ -28,7 +28,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                // Compose referenced from compose plugin
+                // referenced from compose plugin
                 implementation(compose.runtime)
                 implementation(compose.foundation)
                 implementation(compose.material)
@@ -36,8 +36,8 @@ kotlin {
                 implementation(compose.components.resources)
                 implementation(libs.voyager.navigator)
                 implementation(libs.voyager.transitions)
-                implementation(libs.koin.core)
-                implementation(libs.kotlinx.coroutines.core)
+                api(libs.koin.core)
+                api(libs.kotlinx.coroutines.core)
             }
         }
         val commonTest by getting {
@@ -82,6 +82,9 @@ android {
     sourceSets["main"].resources.srcDirs("src/commonMain/resources")
     defaultConfig {
         minSdk = libs.versions.minSdk.get().toInt()
+    }
+    buildFeatures {
+        compose = true
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
