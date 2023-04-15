@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.cocoapods)
     alias(libs.plugins.jetbrains.compose)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 kotlin {
@@ -33,14 +34,19 @@ kotlin {
                 implementation(compose.foundation)
                 implementation(compose.material)
                 implementation(compose.ui)
-                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class) implementation(
-                    compose.components.resources
-                )
+                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+                implementation(compose.components.resources)
+                implementation(libs.accompanist.systemuicontroller)
                 implementation(libs.voyager.navigator)
                 implementation(libs.voyager.transitions)
                 api(libs.koin.core)
                 api(libs.kotlinx.coroutines.core)
-                implementation(libs.accompanist.systemuicontroller)
+                api(libs.kotlinx.datetime)
+                implementation(libs.kotlinx.serialization.json)
+
+                implementation(libs.ktor.client.cio)
+                implementation(libs.ktor.client.content.negotiation)
+                implementation(libs.ktor.serialization.json)
             }
         }
         val commonTest by getting {
