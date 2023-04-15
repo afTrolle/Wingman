@@ -6,7 +6,6 @@ import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
 
 object OTPScreen : Screen {
-
     @Composable
     override fun Content() {
 //        val screenModel = rememberScreenModel<HomeScreenModel>()

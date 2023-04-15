@@ -32,12 +32,15 @@ kotlin {
                 implementation(compose.runtime)
                 implementation(compose.foundation)
                 implementation(compose.material)
-                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-                implementation(compose.components.resources)
+                implementation(compose.ui)
+                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class) implementation(
+                    compose.components.resources
+                )
                 implementation(libs.voyager.navigator)
                 implementation(libs.voyager.transitions)
                 api(libs.koin.core)
                 api(libs.kotlinx.coroutines.core)
+                implementation(libs.accompanist.systemuicontroller)
             }
         }
         val commonTest by getting {
@@ -52,6 +55,7 @@ kotlin {
                 api(libs.koin.android)
                 api(libs.play.services.auth)
                 api(libs.kotlinx.coroutines.play)
+                api(libs.libphonenumber)
             }
         }
         val androidUnitTest by getting

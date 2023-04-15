@@ -12,6 +12,8 @@ object WingManThemeColors {
     private val greenVariant = Color(0xFF004D40)
     private val purple = Color(0xFF880e4f)
     private val peach = Color(0xFFff9e80)
+    val sand = Color(0xFFFFF7ED)
+    private val sandSurface = Color(0xFFffe9c7)
     private val peachLight = Color(0xFFfce6e3)
 
     fun getLightThemeColors() = lightColors(
@@ -19,8 +21,8 @@ object WingManThemeColors {
         primaryVariant = greenVariant,
         secondary = red,
         secondaryVariant = redVariant,
-        background = peachLight,
-        surface = peachLight,
+        background = sand,
+        surface = sandSurface,
         onPrimary = Color.White,
         onSecondary = Color.Black,
     )

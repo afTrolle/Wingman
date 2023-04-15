@@ -4,6 +4,9 @@ import dev.trolle.af.wingman.service.PersistenceService
 import dev.trolle.af.wingman.service.TinderService
 
 interface UserRepository {
+    fun startSignIn(phoneNumber: String) {
+        TODO("Not yet implemented")
+    }
 
     val userIsSignedIn: Boolean
 

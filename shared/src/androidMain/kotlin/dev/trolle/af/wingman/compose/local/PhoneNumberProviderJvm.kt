@@ -34,6 +34,7 @@ class PhoneNumberProviderImpl(
             launcher.launch(input)
         }.onFailure {
             if (it is CancellationException) throw it
+            phoneNumber.value = Result.success(null)
         }
     }
 }
