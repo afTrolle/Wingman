@@ -1,6 +1,7 @@
 package dev.trolle.af.wingman.koin
 
 
+import dev.trolle.af.wingman.navigationService
 import dev.trolle.af.wingman.repository.userRepository
 import dev.trolle.af.wingman.screen.HomeScreenModel
 import dev.trolle.af.wingman.screen.SignInScreen
@@ -25,6 +26,7 @@ internal val sharedModule: Module = module {
 
     // Service (dependency-less)
     single { openAIService() }
+    single { navigationService() }
     single { tinderService(get()) }
     single { persistenceService() }
     single { phoneValidateService() }
@@ -34,7 +36,7 @@ internal val sharedModule: Module = module {
 
     // Screen View Models
     factory { HomeScreenModel() }
-    factory { SignInScreen.SignInScreenModel(get(), get()) }
+    factory { SignInScreen.SignInScreenModel(get(), get(), get()) }
 }
 
 

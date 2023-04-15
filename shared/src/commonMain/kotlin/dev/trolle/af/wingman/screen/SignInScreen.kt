@@ -5,30 +5,34 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
-import cafe.adriel.voyager.core.model.coroutineScope
+import cafe.adriel.voyager.core.lifecycle.LifecycleEffect
 import cafe.adriel.voyager.core.screen.Screen
+import dev.trolle.af.wingman.NavigationService
 import dev.trolle.af.wingman.compose.SignIn
 import dev.trolle.af.wingman.compose.local.LocalPhoneNumberProvider
-import dev.trolle.af.wingman.ext.runCatchingCancelable
 import dev.trolle.af.wingman.ext.throwCancellation
 import dev.trolle.af.wingman.koin.getScreenModel
 import dev.trolle.af.wingman.repository.UserRepository
+import dev.trolle.af.wingman.resources.Strings
 import dev.trolle.af.wingman.screen.util.StateScreenModel
 import dev.trolle.af.wingman.screen.util.launch
 import dev.trolle.af.wingman.service.PhoneValidateService
-import kotlinx.coroutines.flow.updateAndGet
 import kotlinx.coroutines.launch
 
 data class SignInState(
     val phoneNumber: String = "",
     val isValid: Boolean? = null,
     val filterInteraction: Boolean = true,
+    val isButtonEnabled: Boolean = true,
+    val errorMessage: String? = null,
+    val isLogoVisible: Boolean = false,
 )
 
 object SignInScreen : Screen {
     class SignInScreenModel(
         private val phoneValidateService: PhoneValidateService,
         private val userRepository: UserRepository,
+        private val navigationService: NavigationService,
     ) : StateScreenModel<SignInState>(SignInState()) {
 
         fun onPhoneNumberChange(number: String) =
@@ -42,18 +46,17 @@ object SignInScreen : Screen {
             }
 
             if (state.isValid == true) {
-                // TODO add loading spinner
+                updateState { it.copy(isButtonEnabled = false) }
                 kotlin.runCatching {
                     userRepository.startSignIn(state.phoneNumber)
                 }.throwCancellation()
                     .onFailure {
                         // TODO show error toast
+                        updateState { it.copy(errorMessage = Strings.error_something_went_wrong) }
                     }.onSuccess {
-                        // TODO navigate to openScreen
+                        navigationService.navigate(OTPScreen(state.phoneNumber))
                     }
-                // TODO remove loading spinner
-
-                // TODO Navigate to otp screen
+                updateState { it.copy(isButtonEnabled = true) }
             }
         }
 
@@ -80,12 +83,18 @@ object SignInScreen : Screen {
                 isValid = updatedIsValid
             )
         }
+
+        fun onStart() {
+            // Set once so that logo animation is only done once
+            updateState { it.copy(isLogoVisible = true) }
+        }
     }
 
     @Composable
     override fun Content() {
         val viewModel = getScreenModel<SignInScreenModel>()
         val state by viewModel.state.collectAsState()
+        LifecycleEffect(onStarted = viewModel::onStart)
 
         // Consider moving into screenModel instead. (Refactor PhoneNumberProvider into Service)
         val phoneNumberProvider = LocalPhoneNumberProvider.current

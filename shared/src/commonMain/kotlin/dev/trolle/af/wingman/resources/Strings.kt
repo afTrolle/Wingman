@@ -5,4 +5,6 @@ object Strings {
     const val app_name = "Wingman"
     const val button_sign_in = "Sign in"
     const val logo_desc = "app logo"
+
+    const val error_something_went_wrong: String = "Something went wrong"
 }

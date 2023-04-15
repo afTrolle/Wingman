@@ -13,15 +13,14 @@ import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
 abstract class StateScreenModel<S>(initialState: S) : ScreenModel {
-    // Consider moving State to ScreenModelStore see, coroutineScope for example
     protected val mutableState: MutableStateFlow<S> = MutableStateFlow(initialState)
     val state: StateFlow<S> = mutableState
 
-    protected fun updateState(update: (state: S) -> S) {
+    protected fun updateState(update: (state: S) -> S) =
         mutableState.update(update)
-    }
 
-    protected fun updateStateAndGet(update: (state: S) -> S): S = mutableState.updateAndGet(update)
+    protected fun updateStateAndGet(update: (state: S) -> S): S =
+        mutableState.updateAndGet(update)
 
 }
 

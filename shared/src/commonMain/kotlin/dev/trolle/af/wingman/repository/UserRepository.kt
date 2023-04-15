@@ -17,7 +17,6 @@ fun userRepository(
 
     override suspend fun startSignIn(phoneNumber: String) {
         tinderService.otp(phoneNumber)
-        TODO("Not yet implemented")
     }
 
     override val userIsSignedIn: Boolean get() = false

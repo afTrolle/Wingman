@@ -15,11 +15,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
@@ -47,10 +43,8 @@ fun SignIn(
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        var visible by remember { mutableStateOf(false) }
-        LaunchedEffect(Unit) { visible = true }
         DefaultAnimatedVisibility(
-            visible = visible,
+            visible = state.isLogoVisible,
             modifier = Modifier.weight(1f)
         ) {
             LogoWithText()
