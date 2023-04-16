@@ -13,7 +13,6 @@ import dev.trolle.af.wingman.screen.util.launch
 import dev.trolle.af.wingman.service.NavigationService
 import io.github.aakira.napier.Napier
 import org.koin.core.parameter.parametersOf
-import org.koin.core.qualifier.named
 
 data class OneTimePasswordState(
     val phoneNumber: String,
@@ -34,9 +33,15 @@ class OneTimePasswordModel(
 ) {
     fun onOneTimePasswordChanged(text: String) = launch {
         updateState {
+            val oneTimePassword = text.filter { char -> char.isDigit() }
+                .take(it.oneTimePasswordLength)
+
+            val isOneTimePasswordError =
+                if (oneTimePassword.isEmpty() && it.isOneTimePasswordError) false else it.isOneTimePasswordError
+
             it.copy(
-                oneTimePassword = text.filter { char -> char.isDigit() }
-                    .take(it.oneTimePasswordLength)
+                oneTimePassword = oneTimePassword,
+                isOneTimePasswordError = isOneTimePasswordError
             )
         }
     }
@@ -69,7 +74,8 @@ data class OneTimePasswordScreen(
 ) : Screen {
     @Composable
     override fun Content() {
-        val viewModel = getScreenModel<OneTimePasswordModel>(qualifier = named(phoneNumber)) {
+        // Can only be one instance of model in the stack
+        val viewModel = getScreenModel<OneTimePasswordModel>() {
             parametersOf(phoneNumber)
         }
         val state by viewModel.state.collectAsState()
