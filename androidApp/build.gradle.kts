@@ -36,4 +36,5 @@ android {
 dependencies {
     implementation(projects.shared)
     implementation(compose.uiTooling)
+//    implementation("androidx.appcompat:appcompat:1.4.1")
 }

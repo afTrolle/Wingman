@@ -27,6 +27,11 @@ kotlin {
     }
 
     sourceSets {
+        all {
+            languageSettings {
+                optIn("com.russhwolf.settings.ExperimentalSettingsApi")
+            }
+        }
         val commonMain by getting {
             dependencies {
                 // referenced from compose plugin
@@ -36,7 +41,7 @@ kotlin {
                 implementation(compose.ui)
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
-                implementation(libs.accompanist.systemuicontroller)
+                api(libs.accompanist.systemuicontroller)
                 implementation(libs.voyager.navigator)
                 implementation(libs.voyager.transitions)
                 api(libs.koin.core)
@@ -47,6 +52,9 @@ kotlin {
                 implementation(libs.ktor.client.content.negotiation)
                 implementation(libs.ktor.serialization.json)
                 implementation(libs.napier)
+                implementation(libs.settings.coroutines)
+                implementation(libs.settings.serialization)
+                implementation(libs.settings.core)
             }
         }
         val commonTest by getting {
@@ -62,6 +70,8 @@ kotlin {
                 api(libs.play.services.auth)
                 api(libs.kotlinx.coroutines.play)
                 api(libs.libphonenumber)
+                implementation(libs.settings.datastore)
+                implementation(libs.androidx.datastore.preferences)
             }
         }
         val androidUnitTest by getting

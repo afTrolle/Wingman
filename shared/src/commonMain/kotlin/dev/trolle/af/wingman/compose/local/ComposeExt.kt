@@ -15,6 +15,8 @@ expect fun Modifier.statusBarsPadding(): Modifier
 
 expect fun Modifier.systemBarsPadding(): Modifier
 
+expect fun Modifier.imePadding(): Modifier
+
 
 @Composable
 fun Dp.toSp() = LocalDensity.current.run {

@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -30,6 +31,7 @@ fun OneTimePasswordInput(
     text: String,
     onTextChanged: (TextFieldValue) -> Unit,
     modifier: Modifier = Modifier,
+    error: Boolean,
 ) {
     val textFieldValue = remember(text, length) { TextFieldValue(text, TextRange(length)) }
     BasicTextField(
@@ -45,9 +47,10 @@ fun OneTimePasswordInput(
             Row(
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
+
                 repeat(length) { index ->
                     val char = textFieldValue.text.getOrNull(index)?.toString() ?: ""
-                    OneTimePasswordEntry(char)
+                    OneTimePasswordEntry(char, error)
                 }
             }
         }
@@ -55,10 +58,19 @@ fun OneTimePasswordInput(
 }
 
 @Composable
-private fun OneTimePasswordEntry(char: String) {
+private fun OneTimePasswordEntry(
+    char: String,
+    error: Boolean
+) {
+
+    val targetColor = when {
+        error -> MaterialTheme.colors.error
+        char.isEmpty() -> Color.Gray.copy(alpha = .8f)
+        else -> MaterialTheme.colors.primary.copy(.8f)
+    }
+
     val color = animateColorAsState(
-        targetValue = if (char.isEmpty()) Color.Gray.copy(alpha = .8f)
-        else MaterialTheme.colors.primary.copy(.8f)
+        targetValue = targetColor
     )
     val textStyle = MaterialTheme.typography.h6
     Column(
@@ -69,7 +81,7 @@ private fun OneTimePasswordEntry(char: String) {
         Text(
             text = char,
             style = textStyle,
-            color = MaterialTheme.colors.onSurface
+            color = LocalTextStyle.current.color
         )
         // Highlight bar
         Box(

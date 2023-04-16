@@ -3,6 +3,7 @@ package dev.trolle.af.wingman.koin
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.remember
 import org.koin.core.Koin
 import org.koin.core.annotation.KoinInternalApi
 import org.koin.core.module.Module
@@ -45,30 +46,9 @@ fun KoinApplication(
     application: KoinAppDeclaration,
     content: @Composable () -> Unit
 ) {
-    val koinApplication = koinApplication(application)
-    CompositionLocalProvider(
-        LocalKoinApplication provides koinApplication.koin,
-        LocalKoinScope provides koinApplication.koin.scopeRegistry.rootScope
-    ) {
-        content()
-    }
-}
-
-/**
- * Start Koin Application from Compose
- *
- * @param moduleList - list of Modules to run within Koin Application
- * @param content - following compose function
- *
- * @author Arnaud Giuliani
- */
-@OptIn(KoinInternalApi::class)
-@Composable
-fun KoinApplication(
-    moduleList: () -> List<Module>,
-    content: @Composable () -> Unit
-) {
-    val koinApplication = koinApplication { modules(moduleList()) }
+    // Added remember to not recreate koin on re-composition.
+    // Guessing they didn't have it in the original because it's usually is declared first
+    val koinApplication = remember { koinApplication(application) }
     CompositionLocalProvider(
         LocalKoinApplication provides koinApplication.koin,
         LocalKoinScope provides koinApplication.koin.scopeRegistry.rootScope

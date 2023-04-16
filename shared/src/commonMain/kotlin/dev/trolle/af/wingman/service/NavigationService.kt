@@ -1,4 +1,4 @@
-package dev.trolle.af.wingman
+package dev.trolle.af.wingman.service
 
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.Navigator
@@ -8,8 +8,9 @@ import kotlinx.coroutines.flow.first
 
 interface NavigationService {
     suspend fun setNavigator(navigator: Navigator)
-    suspend fun navigate(screen: Screen)
+    suspend fun open(screen: Screen)
     suspend fun pop()
+    suspend fun replaceAll(screen: Screen)
 }
 
 fun navigationService() = object : NavigationService {
@@ -25,8 +26,12 @@ fun navigationService() = object : NavigationService {
         navigatorState.emit(navigator)
     }
 
-    override suspend fun navigate(screen: Screen) {
+    override suspend fun open(screen: Screen) {
         navigatorState.first().push(screen)
+    }
+
+    override suspend fun replaceAll(screen: Screen) {
+        navigatorState.first().replaceAll(screen)
     }
 
     override suspend fun pop() {

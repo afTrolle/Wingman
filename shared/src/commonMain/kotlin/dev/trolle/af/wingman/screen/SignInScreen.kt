@@ -7,7 +7,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import cafe.adriel.voyager.core.lifecycle.LifecycleEffect
 import cafe.adriel.voyager.core.screen.Screen
-import dev.trolle.af.wingman.NavigationService
+import dev.trolle.af.wingman.service.NavigationService
 import dev.trolle.af.wingman.compose.SignIn
 import dev.trolle.af.wingman.compose.local.LocalPhoneNumberProvider
 import dev.trolle.af.wingman.ext.throwCancellation
@@ -50,14 +50,14 @@ object SignInScreen : Screen {
             if (state.isValid == true) {
                 updateState { it.copy(isButtonEnabled = false) }
                 kotlin.runCatching {
-                    userRepository.startSignIn(state.phoneNumber)
+                    userRepository.signInRequestOneTimePassword(state.phoneNumber)
                 }.throwCancellation()
                     .onFailure {
                         Napier.e("Sign In Error", it)
                         // TODO show error toast
                         updateState { it.copy(errorMessage = Strings.error_something_went_wrong) }
                     }.onSuccess {
-                        navigationService.navigate(OneTimePasswordScreen(state.phoneNumber))
+                        navigationService.open(OneTimePasswordScreen(state.phoneNumber))
                     }
                 updateState { it.copy(isButtonEnabled = true) }
             }
@@ -76,13 +76,14 @@ object SignInScreen : Screen {
         }
 
         private fun SignInState.updatePhoneNumber(number: String): SignInState {
+            val filteredNumber =  number.filter { it.isDigit() || it == '+' }
             val updatedIsValid = when {
-                number.isEmpty() -> null // reset validation
-                isValid == false -> phoneValidateService.isPhoneNumberValid(number)
+                filteredNumber.isEmpty() -> null // reset validation
+                isValid == false -> phoneValidateService.isPhoneNumberValid(filteredNumber)
                 else -> isValid
             }
             return copy(
-                phoneNumber = number,
+                phoneNumber = filteredNumber,
                 isValid = updatedIsValid
             )
         }

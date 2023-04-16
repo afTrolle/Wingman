@@ -5,28 +5,36 @@ import dev.trolle.af.wingman.service.tinder.RateLimit
 import dev.trolle.af.wingman.service.tinder.model.AccessTokenResponse
 import dev.trolle.af.wingman.service.tinder.model.ApiTokenRequest
 import dev.trolle.af.wingman.service.tinder.model.MyProfileResponse
-import dev.trolle.af.wingman.service.tinder.model.ProfileResponse
-import dev.trolle.af.wingman.service.tinder.model.RefreshTokenResponse
 import dev.trolle.af.wingman.service.tinder.model.OtpRequest
+import dev.trolle.af.wingman.service.tinder.model.ProfileResponse
 import dev.trolle.af.wingman.service.tinder.model.RefreshApiTokenRequest
-import io.ktor.client.*
-import io.ktor.client.call.*
+import dev.trolle.af.wingman.service.tinder.model.RefreshTokenResponse
+import io.ktor.client.HttpClient
+import io.ktor.client.call.body
 import io.ktor.client.engine.cio.CIO
-import io.ktor.client.plugins.*
-import io.ktor.client.plugins.contentnegotiation.*
-import io.ktor.client.request.*
+import io.ktor.client.plugins.HttpRequestRetry
+import io.ktor.client.plugins.UserAgent
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.request.HttpRequestBuilder
+import io.ktor.client.request.header
+import io.ktor.client.request.parameter
+import io.ktor.client.request.post
+import io.ktor.client.request.request
+import io.ktor.client.request.setBody
 import io.ktor.client.statement.HttpResponse
-import io.ktor.http.*
-import io.ktor.serialization.kotlinx.json.*
+import io.ktor.http.ContentType
+import io.ktor.http.HttpMethod
+import io.ktor.http.contentType
+import io.ktor.http.path
+import io.ktor.serialization.kotlinx.json.json
 import io.ktor.utils.io.errors.IOException
 import kotlinx.coroutines.CancellationException
 import kotlinx.serialization.json.Json
 
 interface TinderService {
     suspend fun otp(phoneNumber: String)
-    suspend fun refreshToken(otp: String, phoneNumber: String): RefreshTokenResponse
-    suspend fun apiToken(refreshToken: String): AccessTokenResponse
-
+    suspend fun refreshToken(oneTimePassword: String, phoneNumber: String): RefreshTokenResponse
+    suspend fun accessToken(refreshToken: String): AccessTokenResponse
     suspend fun matches(token: String, count: Int): MatchesResponse
     suspend fun profile(token: String, id: String): ProfileResponse
     suspend fun myProfile(token: String): MyProfileResponse
@@ -75,7 +83,7 @@ internal fun tinderService(
     }
 
     override suspend fun refreshToken(
-        otp: String,
+        oneTimePassword: String,
         phoneNumber: String
     ): RefreshTokenResponse {
         rateLimiter.delay()
@@ -83,11 +91,11 @@ internal fun tinderService(
             url { path("/v2/auth/sms/validate") }
             contentType(ContentType.Application.Json)
             parameter("auth_type", "sms")
-            setBody(RefreshApiTokenRequest(otp, phoneNumber))
+            setBody(RefreshApiTokenRequest(oneTimePassword, phoneNumber))
         }.body()
     }
 
-    override suspend fun apiToken(refreshToken: String): AccessTokenResponse {
+    override suspend fun accessToken(refreshToken: String): AccessTokenResponse {
         rateLimiter.delay()
         val result = client.post(host) {
             url { path("/v2/auth/login/sms") }
