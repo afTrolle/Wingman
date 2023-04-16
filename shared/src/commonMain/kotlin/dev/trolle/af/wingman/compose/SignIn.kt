@@ -1,11 +1,13 @@
 package dev.trolle.af.wingman.compose
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
@@ -18,9 +20,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusEvent
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import dev.trolle.af.wingman.compose.local.FilterableInteractionSource
 import dev.trolle.af.wingman.compose.local.systemBarsPadding
 import dev.trolle.af.wingman.resources.Strings
 import dev.trolle.af.wingman.screen.SignInState
@@ -35,22 +39,34 @@ fun SignIn(
     onSignIn: () -> Unit = {},
     onPressInteractionConsumed: () -> Unit = {}
 ) = Scaffold { paddingValues ->
-    Column(
+    Box(
         modifier = Modifier.fillMaxHeight()
             .padding(paddingValues)
             .systemBarsPadding()
-            .padding(horizontal = 32.dp),
-        verticalArrangement = Arrangement.SpaceBetween,
-        horizontalAlignment = Alignment.CenterHorizontally
+            .padding(horizontal = 32.dp)
     ) {
-        DefaultAnimatedVisibility(
-            visible = state.isLogoVisible,
-            modifier = Modifier.weight(1f)
+        Column(
+            modifier = Modifier.align(Alignment.Center),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            LogoWithText()
+            DefaultAnimatedVisibility(
+                visible = state.isLogoVisible,
+                modifier = Modifier.height(350.dp)
+            ) {
+                LogoWithText()
+            }
+            BottomInput(state, onPhoneNumberChange, onPressInteractionConsumed, onSignIn)
         }
 
-        BottomInput(state, onPhoneNumberChange, onPressInteractionConsumed, onSignIn)
+        Text(
+            text = Strings.disclaimer,
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)
+                .align(Alignment.BottomCenter),
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.caption,
+            color = MaterialTheme.colors.secondaryVariant.copy(alpha = 0.8f)
+        )
     }
 }
 
@@ -73,7 +89,6 @@ private fun LogoWithText() =
         )
     }
 
-
 @Composable
 private fun BottomInput(
     state: SignInState,
@@ -84,21 +99,26 @@ private fun BottomInput(
     modifier = Modifier.padding(bottom = 40.dp),
     verticalArrangement = Arrangement.spacedBy(8.dp),
 ) {
+    val focusManager = LocalFocusManager.current
+
     TextField(
         value = state.phoneNumber,
         isError = state.isValid?.not() ?: false,
+        label = { Text(Strings.phone_number_label) },
         placeholder = { Text(Strings.phone_number_placeholder) },
         onValueChange = onPhoneNumberChange,
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth()
+            .onFocusEvent {
+                if (it.isFocused && state.filterInteraction) {
+                    onPressInteractionConsumed()
+                    focusManager.clearFocus()
+                }
+            },
         singleLine = true,
         keyboardOptions = KeyboardOptions(
             autoCorrect = false,
             keyboardType = KeyboardType.Phone,
         ),
-        interactionSource = rememberInteractionsCaptureClickFilter(
-            state,
-            onPressInteractionConsumed
-        )
     )
 
     val onButtonClick = remember(state.filterInteraction) {
@@ -107,20 +127,10 @@ private fun BottomInput(
     Button(
         onClick = onButtonClick,
         modifier = Modifier.fillMaxWidth(),
+        enabled = state.isButtonEnabled,
     ) {
-        Text(Strings.button_sign_in)
-    }
-}
-
-@Composable
-private fun rememberInteractionsCaptureClickFilter(
-    state: SignInState,
-    onPressInteractionFiltered: () -> Unit
-) = remember(state.filterInteraction) {
-    FilterableInteractionSource { interaction ->
-        if (interaction is PressInteraction.Press && state.filterInteraction) {
-            onPressInteractionFiltered()
-        }
-        interaction.takeUnless { state.filterInteraction }
+        Text(
+            text = Strings.button_sign_in,
+        )
     }
 }

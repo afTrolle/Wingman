@@ -41,7 +41,6 @@ internal fun tinderService(
     private val client = HttpClient(CIO) {
         // Throw exception on non-2xx responses
         expectSuccess = true
-
         install(ContentNegotiation) {
             json(json)
         }

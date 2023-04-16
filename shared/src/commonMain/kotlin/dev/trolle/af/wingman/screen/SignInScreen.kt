@@ -17,6 +17,8 @@ import dev.trolle.af.wingman.resources.Strings
 import dev.trolle.af.wingman.screen.util.StateScreenModel
 import dev.trolle.af.wingman.screen.util.launch
 import dev.trolle.af.wingman.service.PhoneValidateService
+import io.github.aakira.napier.Napier
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 data class SignInState(
@@ -40,7 +42,7 @@ object SignInScreen : Screen {
                 it.updatePhoneNumber(number)
             }
 
-        fun onSignIn() = launch {
+        fun onSignIn() = launch(Dispatchers.Default) {
             val state = updateStateAndGet {
                 it.copy(isValid = phoneValidateService.isPhoneNumberValid(it.phoneNumber))
             }
@@ -51,10 +53,11 @@ object SignInScreen : Screen {
                     userRepository.startSignIn(state.phoneNumber)
                 }.throwCancellation()
                     .onFailure {
+                        Napier.e("Sign In Error", it)
                         // TODO show error toast
                         updateState { it.copy(errorMessage = Strings.error_something_went_wrong) }
                     }.onSuccess {
-                        navigationService.navigate(OTPScreen(state.phoneNumber))
+                        navigationService.navigate(OneTimePasswordScreen(state.phoneNumber))
                     }
                 updateState { it.copy(isButtonEnabled = true) }
             }
@@ -121,7 +124,8 @@ object SignInScreen : Screen {
                 } else {
                     viewModel.setPhoneNumber(null)
                 }
-            })
+            }
+        )
     }
 }
 
