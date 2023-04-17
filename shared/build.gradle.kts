@@ -1,9 +1,12 @@
+import org.jetbrains.compose.internal.utils.getLocalProperty
+
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.cocoapods)
     alias(libs.plugins.jetbrains.compose)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.buildconfig)
 }
 
 kotlin {
@@ -30,6 +33,7 @@ kotlin {
         all {
             languageSettings {
                 optIn("com.russhwolf.settings.ExperimentalSettingsApi")
+                optIn("com.aallam.openai.api.BetaOpenAI")
             }
         }
         val commonMain by getting {
@@ -48,13 +52,15 @@ kotlin {
                 api(libs.kotlinx.coroutines.core)
                 api(libs.kotlinx.datetime)
                 implementation(libs.kotlinx.serialization.json)
-                implementation(libs.ktor.client.cio)
+                implementation(libs.ktor.client.core)
                 implementation(libs.ktor.client.content.negotiation)
                 implementation(libs.ktor.serialization.json)
                 implementation(libs.napier)
                 implementation(libs.settings.coroutines)
                 implementation(libs.settings.serialization)
                 implementation(libs.settings.core)
+                implementation(libs.openai.client)
+                api(libs.image.loader.core)
             }
         }
         val commonTest by getting {
@@ -72,6 +78,7 @@ kotlin {
                 api(libs.libphonenumber)
                 implementation(libs.settings.datastore)
                 implementation(libs.androidx.datastore.preferences)
+                implementation(libs.ktor.client.okhttp)
             }
         }
         val androidUnitTest by getting
@@ -83,6 +90,9 @@ kotlin {
             iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
+            dependencies {
+                implementation(libs.ktor.client.darwin)
+            }
         }
         val iosX64Test by getting
         val iosArm64Test by getting
@@ -95,6 +105,13 @@ kotlin {
         }
     }
 }
+buildConfig {
+    val openApiKey: String = project.getLocalProperty("open.api.key") ?: ""
+    val enableLogging: String by project.properties
+    buildConfigField("String", "OPEN_API_TOKEN", "\"$openApiKey\"")
+    buildConfigField("boolean", "LOGGING_ENABLED", enableLogging)
+}
+
 
 android {
     namespace = "dev.trolle.af.wingman"

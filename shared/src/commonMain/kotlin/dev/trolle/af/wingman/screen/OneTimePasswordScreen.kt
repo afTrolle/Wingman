@@ -36,8 +36,7 @@ class OneTimePasswordModel(
             val oneTimePassword = text.filter { char -> char.isDigit() }
                 .take(it.oneTimePasswordLength)
 
-            val isOneTimePasswordError =
-                if (oneTimePassword.isEmpty() && it.isOneTimePasswordError) false else it.isOneTimePasswordError
+            val isOneTimePasswordError = if (oneTimePassword.isEmpty() && it.isOneTimePasswordError) false else it.isOneTimePasswordError
 
             it.copy(
                 oneTimePassword = oneTimePassword,
@@ -48,7 +47,7 @@ class OneTimePasswordModel(
 
     fun onSignIn() = launch {
         val state = updateStateAndGet {
-            it.copy(isOneTimePasswordError = it.isCorrectLength)
+            it.copy(isOneTimePasswordError = !it.isCorrectLength)
         }
         if (state.isCorrectLength) {
             updateState { it.copy(signInEnabled = false) }

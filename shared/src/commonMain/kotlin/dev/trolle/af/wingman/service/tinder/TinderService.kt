@@ -1,9 +1,8 @@
-package dev.trolle.app.service.tinder
+package dev.trolle.af.wingman.service.tinder
 
-import MatchesResponse
-import dev.trolle.af.wingman.service.tinder.RateLimit
 import dev.trolle.af.wingman.service.tinder.model.AccessTokenResponse
 import dev.trolle.af.wingman.service.tinder.model.ApiTokenRequest
+import dev.trolle.af.wingman.service.tinder.model.MatchesResponse
 import dev.trolle.af.wingman.service.tinder.model.MyProfileResponse
 import dev.trolle.af.wingman.service.tinder.model.OtpRequest
 import dev.trolle.af.wingman.service.tinder.model.ProfileResponse
@@ -11,19 +10,17 @@ import dev.trolle.af.wingman.service.tinder.model.RefreshApiTokenRequest
 import dev.trolle.af.wingman.service.tinder.model.RefreshTokenResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
-import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.HttpRequestRetry
 import io.ktor.client.plugins.UserAgent
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.request.HttpRequestBuilder
+import io.ktor.client.request.get
 import io.ktor.client.request.header
 import io.ktor.client.request.parameter
 import io.ktor.client.request.post
-import io.ktor.client.request.request
 import io.ktor.client.request.setBody
 import io.ktor.client.statement.HttpResponse
 import io.ktor.http.ContentType
-import io.ktor.http.HttpMethod
 import io.ktor.http.contentType
 import io.ktor.http.path
 import io.ktor.serialization.kotlinx.json.json
@@ -40,13 +37,15 @@ interface TinderService {
     suspend fun myProfile(token: String): MyProfileResponse
 }
 
+// expect val engine : HttpClientEngine
+
 internal fun tinderService(
     json: Json,
     rateLimiter: RateLimit = RateLimit(),
     host: String = "https://api.gotinder.com"
 ) = object : TinderService {
 
-    private val client = HttpClient(CIO) {
+    private val client = HttpClient() {
         // Throw exception on non-2xx responses
         expectSuccess = true
         install(ContentNegotiation) {
@@ -120,10 +119,11 @@ internal fun tinderService(
         ).body()
 
     override suspend fun myProfile(token: String): MyProfileResponse =
-        commonDelayedRequest(
-            token = token,
-            path = "/profile"
-        ).body()
+        client.get(host) {
+            header("X-Auth-Token", token)
+            url { path("/profile") }
+            contentType(ContentType.Application.Json)
+        }.body()
 
     /*
      Utilities
@@ -136,14 +136,12 @@ internal fun tinderService(
     }
 
     private suspend fun commonDelayedRequest(
-        method: HttpMethod = HttpMethod.Get,
         token: String,
         path: String,
         config: HttpRequestBuilder.() -> Unit = {}
     ): HttpResponse {
         rateLimiter.delay()
-        return client.request {
-            this.method = method
+        return client.get(host) {
             commonRequestConfig(authToken = token, path = path)
             config()
         }
