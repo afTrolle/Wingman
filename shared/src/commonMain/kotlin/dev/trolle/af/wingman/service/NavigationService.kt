@@ -6,14 +6,14 @@ import kotlinx.coroutines.channels.BufferOverflow.DROP_OLDEST
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.first
 
-interface NavigationService {
+internal interface NavigationService {
     suspend fun setNavigator(navigator: Navigator)
     suspend fun open(screen: Screen)
     suspend fun pop()
     suspend fun replaceAll(screen: Screen)
 }
 
-fun navigationService() = object : NavigationService {
+internal fun navigationService() = object : NavigationService {
 
     private val navigatorState = MutableSharedFlow<Navigator>(
         replay = 1,

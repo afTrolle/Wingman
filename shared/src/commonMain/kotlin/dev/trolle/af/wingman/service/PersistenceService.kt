@@ -19,7 +19,7 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
-interface PersistenceService {
+internal interface PersistenceService {
     suspend fun setSessionData(sessionData: SessionData?)
 
     val sessionDataFlow: Flow<SessionData?>
@@ -33,13 +33,13 @@ const val sessionDataKey = "sessionData"
 const val suggestionStoreKey = "suggestionStore"
 
 // Consider using realm or sqlDelight,
-fun persistenceService(
+internal fun persistenceService(
     settings: FlowSettings,
     json: Json
 ) = object : PersistenceService {
 
     // TODO add error handling for failure to write to persistence "out of disk space for example"
-    val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
+    private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
 
     override suspend fun setSessionData(sessionData: SessionData?) =
         updateSetting(sessionDataKey, sessionData)

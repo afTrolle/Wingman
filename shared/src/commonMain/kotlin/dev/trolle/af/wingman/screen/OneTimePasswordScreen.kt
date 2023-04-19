@@ -24,7 +24,7 @@ data class OneTimePasswordState(
 
 val OneTimePasswordState.isCorrectLength get() = oneTimePassword.length == oneTimePasswordLength
 
-class OneTimePasswordModel(
+internal class OneTimePasswordModel(
     phoneNumber: String,
     private val userRepository: UserRepository,
     private val navigationService: NavigationService,
@@ -68,7 +68,7 @@ class OneTimePasswordModel(
     }
 }
 
-data class OneTimePasswordScreen(
+internal data class OneTimePasswordScreen(
     val phoneNumber: String
 ) : Screen {
     @Composable

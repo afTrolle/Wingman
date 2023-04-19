@@ -30,16 +30,18 @@ data class SignInState(
     val isLogoVisible: Boolean = false,
 )
 
-object SignInScreen : Screen {
-    class SignInScreenModel(
+internal object SignInScreen : Screen {
+    internal class SignInScreenModel(
         private val phoneValidateService: PhoneValidateService,
         private val userRepository: UserRepository,
         private val navigationService: NavigationService,
     ) : StateScreenModel<SignInState>(SignInState()) {
 
-        fun onPhoneNumberChange(number: String) =
-            updateState {
-                it.updatePhoneNumber(number)
+        fun onPhoneNumberChange(number: String?) =
+            launch {
+                updateState {
+                    it.updatePhoneNumber(number ?: "")
+                }
             }
 
         fun onSignIn() = launch(Dispatchers.Default) {
@@ -63,20 +65,9 @@ object SignInScreen : Screen {
             }
         }
 
-        fun setPhoneNumber(number: String?) {
-            val numberToUpdate = number ?: ""
-            updateState { state ->
-                if (state.phoneNumber.isBlank()) {
-                    state.updatePhoneNumber(numberToUpdate)
-                        .copy(filterInteraction = false)
-                } else {
-                    state
-                }
-            }
-        }
 
         private fun SignInState.updatePhoneNumber(number: String): SignInState {
-            val filteredNumber =  number.filter { it.isDigit() || it == '+' }
+            val filteredNumber = number.filter { it.isDigit() || it == '+' }
             val updatedIsValid = when {
                 filteredNumber.isEmpty() -> null // reset validation
                 isValid == false -> phoneValidateService.isPhoneNumberValid(filteredNumber)
@@ -84,7 +75,8 @@ object SignInScreen : Screen {
             }
             return copy(
                 phoneNumber = filteredNumber,
-                isValid = updatedIsValid
+                isValid = updatedIsValid,
+                filterInteraction = false,
             )
         }
 
@@ -105,8 +97,10 @@ object SignInScreen : Screen {
         val phoneNumberState = phoneNumberProvider?.phoneNumber?.collectAsState()
         val phoneNumberResult = phoneNumberState?.value
         LaunchedEffect(phoneNumberResult) {
-            if (phoneNumberResult != null) {
-                viewModel.setPhoneNumber(phoneNumberResult.getOrNull())
+            if (phoneNumberProvider == null) {
+                viewModel.onPhoneNumberChange(null)
+            } else if (phoneNumberResult != null) {
+                viewModel.onPhoneNumberChange(phoneNumberResult.getOrNull())
             }
         }
         val scope = rememberCoroutineScope()
@@ -122,8 +116,6 @@ object SignInScreen : Screen {
                             fetchPhoneNumber()
                         }
                     }
-                } else {
-                    viewModel.setPhoneNumber(null)
                 }
             }
         )

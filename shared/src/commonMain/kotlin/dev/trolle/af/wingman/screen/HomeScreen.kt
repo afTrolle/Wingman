@@ -12,7 +12,7 @@ import dev.trolle.af.wingman.screen.util.launch
 import io.github.aakira.napier.Napier
 
 
-object HomeScreen : Screen {
+internal object HomeScreen : Screen {
     @Composable
     override fun Content() {
         val viewModel = getScreenModel<HomeScreenModel>()

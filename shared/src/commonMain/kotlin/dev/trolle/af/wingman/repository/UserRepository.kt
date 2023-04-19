@@ -28,7 +28,7 @@ interface UserRepository {
     suspend fun getMatches(): List<Match>
 }
 
-fun userRepository(
+internal fun userRepository(
     openAIService: OpenAIService,
     tinderService: TinderService,
     persistenceService: PersistenceService,
@@ -98,14 +98,15 @@ fun userRepository(
         personId: String,
         myPublicProfile: ProfileResponse.Profile,
         matchProfile: ProfileResponse.Profile
-    ) = persistenceService.suggestions.value[personId]
-        ?: openAIService.fetchSuggestion(
+    ) = persistenceService.suggestions.value.getOrElse(personId) {
+        openAIService.fetchSuggestion(
             myPublicProfile,
             matchProfile
         )?.also { suggestion ->
             persistenceService.addSuggestion(personId, suggestion)
         } ?: ""
 
+    }
 
     /*
     Utility
