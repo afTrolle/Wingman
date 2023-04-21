@@ -1,4 +1,4 @@
-package dev.trolle.af.wingman.compose.local.preview
+package dev.trolle.af.wingman.compose.preview
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf

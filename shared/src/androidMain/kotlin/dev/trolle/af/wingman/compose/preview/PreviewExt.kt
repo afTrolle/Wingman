@@ -22,9 +22,9 @@ import okio.Path.Companion.toOkioPath
 fun PreviewDefaults(content: @Composable () -> Unit) {
     // Turn off the decor fitting system windows, means handling insets manually
     val systemUiController = rememberSystemUiController()
-    val window = LocalContext.current.getActivity()!!.window
+    val window = LocalContext.current.getActivity()?.window
     SideEffect {
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+        window?.let { WindowCompat.setDecorFitsSystemWindows(window, false) }
         systemUiController.setSystemBarsColor(
             Color.Transparent,
             darkIcons = true,

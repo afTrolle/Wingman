@@ -70,6 +70,8 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 api(libs.androidx.activity.compose)
+                api(compose.preview)
+                api(compose.uiTooling)
                 api(libs.androidx.core)
                 api(libs.koin.android)
                 api(libs.play.services.auth)
