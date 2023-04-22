@@ -31,6 +31,7 @@ object WingManThemeColors {
 @Composable
 fun WingManTheme(content: @Composable () -> Unit) {
     MaterialTheme(
-        colors = WingManThemeColors.getLightThemeColors(), content = content
+        colors = WingManThemeColors.getLightThemeColors(),
+        content = content
     )
 }

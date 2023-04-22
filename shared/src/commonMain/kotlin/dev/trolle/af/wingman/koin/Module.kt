@@ -7,7 +7,7 @@ import dev.trolle.af.wingman.ext.isDebug
 import dev.trolle.af.wingman.repository.userRepository
 import dev.trolle.af.wingman.screen.HomeScreenModel
 import dev.trolle.af.wingman.screen.OneTimePasswordModel
-import dev.trolle.af.wingman.screen.SignInScreen
+import dev.trolle.af.wingman.screen.SignInScreenModel
 import dev.trolle.af.wingman.service.navigationService
 import dev.trolle.af.wingman.service.openAIService
 import dev.trolle.af.wingman.service.persistenceService
@@ -54,10 +54,10 @@ internal val sharedModule: Module = module {
 
     // Screen View Models
     factory { HomeScreenModel(get()) }
-    factory { SignInScreen.SignInScreenModel(get(), get(), get()) }
+    factory { SignInScreenModel(get(), get(), get(), get()) }
     factory { params -> OneTimePasswordModel(params.get(), get(), get()) }
 }
 internal val appModule get() = listOf(platformModule, sharedModule)
 
 @Composable
-expect fun BuildKoinAppDeclaration(): KoinAppDeclaration
+expect fun buildKoinAppDeclaration(): KoinAppDeclaration

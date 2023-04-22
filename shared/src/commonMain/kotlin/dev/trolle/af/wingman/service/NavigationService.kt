@@ -1,5 +1,7 @@
 package dev.trolle.af.wingman.service
 
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.Navigator
 import kotlinx.coroutines.channels.BufferOverflow.DROP_OLDEST
@@ -11,6 +13,15 @@ internal interface NavigationService {
     suspend fun open(screen: Screen)
     suspend fun pop()
     suspend fun replaceAll(screen: Screen)
+}
+
+@Composable
+internal fun NavigationService.Register(
+    navigator: Navigator
+) {
+    LaunchedEffect(navigator) {
+        setNavigator(navigator)
+    }
 }
 
 internal fun navigationService() = object : NavigationService {
