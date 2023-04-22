@@ -10,17 +10,16 @@ import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
 import platform.Foundation.NSUserDefaults
 
-actual val platformModule: Module = module {
+internal actual val platformModule: Module = module {
 
     single<FlowSettings> {
         NSUserDefaultsSettings(NSUserDefaults.standardUserDefaults).toFlowSettings()
     }
 
     single { phoneNumberService() }
-
 }
 
 @Composable
-actual fun buildKoinAppDeclaration(): KoinAppDeclaration = {
+internal actual fun buildKoinAppDeclaration(): KoinAppDeclaration = {
     modules(appModule)
 }

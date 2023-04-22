@@ -2,7 +2,6 @@ package dev.trolle.af.wingman.service
 
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 
-
 internal actual fun phoneValidateService() = object : PhoneValidateService {
 
     private val phoneUtil = PhoneNumberUtil.getInstance()
@@ -17,5 +16,4 @@ internal actual fun phoneValidateService() = object : PhoneValidateService {
         val phoneNumber = phoneUtil.parse(number, null)
         return phoneUtil.format(phoneNumber, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL)
     }
-
 }

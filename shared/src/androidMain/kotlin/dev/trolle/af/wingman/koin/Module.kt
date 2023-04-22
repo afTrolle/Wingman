@@ -18,7 +18,7 @@ import org.koin.dsl.module
 private val Context.dataStore by preferencesDataStore("settings")
 
 // Platform specific module.
-actual val platformModule: Module = module {
+internal actual val platformModule: Module = module {
 
     single<FlowSettings> {
         // Use android data store as underlying persistence
@@ -27,11 +27,11 @@ actual val platformModule: Module = module {
         DataStoreSettings(dateStore)
     }
 
-    single { phoneNumberService(get())}
+    single { phoneNumberService(get()) }
 }
 
 @Composable
-actual fun buildKoinAppDeclaration(): KoinAppDeclaration {
+internal actual fun buildKoinAppDeclaration(): KoinAppDeclaration {
     val context = LocalContext.current.applicationContext
     return {
         modules(appModule)

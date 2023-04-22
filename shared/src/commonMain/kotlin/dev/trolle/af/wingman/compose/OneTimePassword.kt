@@ -27,7 +27,7 @@ import dev.trolle.af.wingman.screen.OneTimePasswordState
 fun OneTimePassword(
     oneTimePasswordState: OneTimePasswordState,
     onOneTimePasswordChanged: (String) -> Unit = {},
-    onSignIn: () -> Unit = {}
+    onSignIn: () -> Unit = {},
 ) {
     Scaffold { paddingValues ->
         Box(
@@ -39,12 +39,12 @@ fun OneTimePassword(
             Column(
                 modifier = Modifier.fillMaxWidth().fillMaxHeight(0.60f),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Bottom
+                verticalArrangement = Arrangement.Bottom,
             ) {
                 Text(
                     text = Strings.enterOneTimePassword,
                     textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.h4
+                    style = MaterialTheme.typography.h4,
                 )
                 Spacer(Modifier.height(44.dp))
                 Text(
@@ -59,7 +59,7 @@ fun OneTimePassword(
                     length = oneTimePasswordState.oneTimePasswordLength,
                     error = oneTimePasswordState.isOneTimePasswordError,
                     text = oneTimePasswordState.oneTimePassword,
-                    onTextChanged = { onOneTimePasswordChanged(it.text) }
+                    onTextChanged = { onOneTimePasswordChanged(it.text) },
                 )
                 Text(
                     text = Strings.phoneNumberSentTo(oneTimePasswordState.phoneNumber),
@@ -75,9 +75,8 @@ fun OneTimePassword(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .imePadding()
-                    .padding(bottom = 8.dp)
+                    .padding(bottom = 8.dp),
             )
         }
     }
 }
-

@@ -2,7 +2,6 @@
 
 package dev.trolle.af.wingman.compose.local
 
-
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.statusBarsPadding

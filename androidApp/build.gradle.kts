@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.jetbrains.compose)
+    alias(libs.plugins.ktlint)
 }
 
 android {
@@ -20,7 +21,7 @@ android {
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
-            //FIX-Me https://github.com/Kotlin/kotlinx.coroutines/issues/3668
+            // FIX-Me https://github.com/Kotlin/kotlinx.coroutines/issues/3668
             excludes += "META-INF/versions/9/previous-compilation-data.bin"
         }
     }
@@ -36,5 +37,4 @@ android {
 dependencies {
     implementation(projects.shared)
     implementation(compose.uiTooling)
-//    implementation("androidx.appcompat:appcompat:1.4.1")
 }

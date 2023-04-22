@@ -1,4 +1,5 @@
 @file:JvmName("PhoneNumberServiceKtJvm")
+
 package dev.trolle.af.wingman.service
 
 import android.content.Context
@@ -24,7 +25,7 @@ internal fun phoneNumberService(context: Context): PhoneNumberService = object :
     @Composable
     override fun Register() {
         launcher = rememberLauncherForActivityResult(
-            ActivityResultContracts.StartIntentSenderForResult()
+            ActivityResultContracts.StartIntentSenderForResult(),
         ) { result ->
             val catching = runCatching {
                 context.signInClient.getPhoneNumberFromIntent(result.data)

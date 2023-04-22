@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ProfileResponse(
     val results: Profile? = null,
-    val status: Int? = null
+    val status: Int? = null,
 ) {
 
     @Serializable
@@ -69,7 +69,7 @@ data class ProfileResponse(
             val sectionId: String,
             @SerialName("section_name")
             val sectionName: String,
-            val type: String
+            val type: String,
         ) {
             @Serializable
             data class ChoiceSelection(
@@ -78,7 +78,7 @@ data class ProfileResponse(
                 val iconUrls: List<IconUrl> = emptyList(),
                 val id: String,
                 val name: String,
-                val style: String? = null
+                val style: String? = null,
             )
 
             @Serializable
@@ -86,7 +86,7 @@ data class ProfileResponse(
                 val height: Int,
                 val quality: String,
                 val url: String,
-                val width: Int
+                val width: Int,
             )
         }
 
@@ -101,19 +101,19 @@ data class ProfileResponse(
             val name: String,
             @SerialName("preview_url")
             val previewUrl: String,
-            val uri: String
+            val uri: String,
         ) {
             @Serializable
             data class Album(
                 val id: String,
                 val images: List<Image> = emptyList(),
-                val name: String
+                val name: String,
             ) {
                 @Serializable
                 data class Image(
                     val height: Int,
                     val url: String,
-                    val width: Int
+                    val width: Int,
                 )
             }
 
@@ -127,11 +127,10 @@ data class ProfileResponse(
         @Serializable
         data class UserInterests(
             @SerialName("selected_interests")
-            val selectedInterests: List<SelectedInterest> = emptyList()
+            val selectedInterests: List<SelectedInterest> = emptyList(),
         ) {
             @Serializable
             data class SelectedInterest(val id: String, val name: String)
         }
     }
 }
-

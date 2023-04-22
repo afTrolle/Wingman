@@ -1,4 +1,4 @@
-package dev.trolle.af.wingman.screen.util;
+package dev.trolle.af.wingman.screen.util
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.coroutineScope
@@ -21,13 +21,12 @@ abstract class StateScreenModel<S>(initialState: S) : ScreenModel {
 
     protected fun updateStateAndGet(update: (state: S) -> S): S =
         mutableState.updateAndGet(update)
-
 }
 
 fun ScreenModel.launch(
     context: CoroutineContext = EmptyCoroutineContext,
     start: CoroutineStart = CoroutineStart.DEFAULT,
-    block: suspend CoroutineScope.() -> Unit
+    block: suspend CoroutineScope.() -> Unit,
 ) {
     coroutineScope.launch(
         context,

@@ -20,48 +20,46 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 internal interface PersistenceService {
-    suspend fun setSessionData(sessionData: SessionData?)
-
-    val sessionDataFlow: Flow<SessionData?>
+    val sessionFlow: Flow<SessionData?>
+    val suggestionsFlow: StateFlow<Map<String, String>>
     suspend fun sessionData(): SessionData?
-    val suggestions: StateFlow<Map<String, String>>
+    suspend fun setSessionData(sessionData: SessionData?)
     fun addSuggestion(matchId: String, suggestion: String)
 }
-
-
-const val sessionDataKey = "sessionData"
-const val suggestionStoreKey = "suggestionStore"
 
 // Consider using realm or sqlDelight,
 internal fun persistenceService(
     settings: FlowSettings,
-    json: Json
+    json: Json,
 ) = object : PersistenceService {
 
-    // TODO add error handling for failure to write to persistence "out of disk space for example"
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
+
+    // Need to use locks for session and not mutable state
+    // cause update function can be called multiple times until it succeeds
+    private val sessionDataKey = "sessionData"
+    private val suggestionStoreKey = "suggestionStore"
+
+    override val sessionFlow = settingFlow<SessionData>(sessionDataKey)
+
+    override val suggestionsFlow = MutableStateFlow<Map<String, String>>(
+        getValueBlocking(suggestionStoreKey) ?: emptyMap(),
+    )
+
+    init {
+        // TODO handle error if it fails to store suggestion
+        suggestionsFlow.onEach {
+            updateSetting(suggestionStoreKey, it)
+        }.launchIn(scope)
+    }
+
+    override suspend fun sessionData(): SessionData? = sessionFlow.firstOrNull()
 
     override suspend fun setSessionData(sessionData: SessionData?) =
         updateSetting(sessionDataKey, sessionData)
 
-    // Need to use locks for session and not mutable state
-    // cause update function can be called multiple times until it succeeds
-    override val sessionDataFlow = settingFlow<SessionData>(sessionDataKey)
-    override suspend fun sessionData(): SessionData? = sessionDataFlow.firstOrNull()
-
-    override val suggestions = MutableStateFlow<Map<String, String>>(
-        getValueBlocking<Map<String, String>?>(suggestionStoreKey) ?: emptyMap()
-    )
-
     override fun addSuggestion(matchId: String, suggestion: String) {
-        suggestions.update { it.plus(matchId to suggestion) }
-    }
-
-    init {
-        // on each change update the persistence
-        suggestions.onEach {
-            updateSetting(suggestionStoreKey, it)
-        }.launchIn(scope)
+        suggestionsFlow.update { it.plus(matchId to suggestion) }
     }
 
     /*
@@ -85,5 +83,4 @@ internal fun persistenceService(
 
     private inline fun <reified T> getValueBlocking(key: String): T? =
         runBlocking { getValue(key) }
-
 }

@@ -8,7 +8,7 @@ data class RefreshTokenResponse(
     @SerialName("data")
     val `data`: Data,
     @SerialName("meta")
-    val meta: Meta? = null
+    val meta: Meta? = null,
 ) {
 
     @Serializable
@@ -16,8 +16,6 @@ data class RefreshTokenResponse(
         @SerialName("refresh_token")
         val refreshToken: String,
         @SerialName("validated")
-        val validated: Boolean? = null
+        val validated: Boolean? = null,
     )
-
 }
-

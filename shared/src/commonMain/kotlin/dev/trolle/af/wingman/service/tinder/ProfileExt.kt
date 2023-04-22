@@ -31,9 +31,8 @@ fun ProfileResponse.Profile.profileString(): String = listOfNotNull(
             append(it)
             append("\"")
         }
-    }
+    },
 ).joinToString(separator = "\n")
-
 
 private fun promptLine(line: ProfileResponse.Profile.SelectedDescriptor): String? {
     return line.prompt?.let { prompt ->

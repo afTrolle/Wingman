@@ -17,7 +17,7 @@ interface OpenAIService {
 }
 
 fun openAIService(
-    openAiApiToken: String
+    openAiApiToken: String,
 ) = object : OpenAIService {
 
     //    val text =
@@ -28,8 +28,8 @@ fun openAIService(
         OpenAIConfig(
             token = openAiApiToken,
             logLevel = LogLevel.Info,
-            logger = Logger.Default
-        )
+            logger = Logger.Default,
+        ),
     )
 
     override suspend fun prompt(
@@ -54,13 +54,11 @@ fun openAIService(
                         texts.forEach {
                             add(ChatMessage(role = ChatRole.User, content = it))
                         }
-                    }
-                )
+                    },
+                ),
             ).choices.first()
         }.onFailure {
             Napier.e("ai", it)
         }.getOrThrow()
     }
-
-
 }

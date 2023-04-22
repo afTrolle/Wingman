@@ -11,7 +11,6 @@ import dev.trolle.af.wingman.screen.util.StateScreenModel
 import dev.trolle.af.wingman.screen.util.launch
 import io.github.aakira.napier.Napier
 
-
 internal object HomeScreen : Screen {
     @Composable
     override fun Content() {
@@ -22,11 +21,11 @@ internal object HomeScreen : Screen {
 }
 
 data class HomeState(
-    val matches: List<Match> = emptyList()
+    val matches: List<Match> = emptyList(),
 )
 
 class HomeScreenModel(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
 ) : StateScreenModel<HomeState>(HomeState()) {
 
     init {
@@ -36,7 +35,6 @@ class HomeScreenModel(
             updateState { it.copy(matches = matches) }
         }
     }
-
 }
 
 data class Match(

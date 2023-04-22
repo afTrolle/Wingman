@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 fun DefaultAnimatedVisibility(
     visible: Boolean,
     modifier: Modifier = Modifier,
-    content: @Composable AnimatedVisibilityScope.() -> Unit
+    content: @Composable AnimatedVisibilityScope.() -> Unit,
 ) {
     val density = LocalDensity.current
     val durationMs = 800
@@ -29,7 +29,7 @@ fun DefaultAnimatedVisibility(
         visible = visible,
         modifier = modifier,
         enter = slideInVertically(
-            animationSpec = tween(durationMs, delayMs, EaseInOutBounce)
+            animationSpec = tween(durationMs, delayMs, EaseInOutBounce),
         ) {
             // Slide in from 40 dp from the top.
             with(density) { -40.dp.roundToPx() }
@@ -39,13 +39,13 @@ fun DefaultAnimatedVisibility(
                 delayMillis = delayMs,
             ),
             // Expand from the top.
-            expandFrom = Alignment.Top
+            expandFrom = Alignment.Top,
         ) + fadeIn(
             // Fade in with the initial alpha of 0.3f.
             animationSpec = tween(durationMs, delayMs),
-            initialAlpha = 0.3f
+            initialAlpha = 0.3f,
         ),
         exit = slideOutVertically() + shrinkVertically() + fadeOut(),
-        content = content
+        content = content,
     )
 }

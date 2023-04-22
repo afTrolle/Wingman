@@ -18,7 +18,6 @@ import com.seiko.imageloader.cache.memory.maxSizePercent
 import com.seiko.imageloader.component.setupDefaultComponents
 import okio.Path.Companion.toOkioPath
 
-
 @Composable
 fun AndroidComponents(content: @Composable () -> Unit) {
     // Turn off the decor fitting system windows, means handling insets manually
@@ -29,7 +28,7 @@ fun AndroidComponents(content: @Composable () -> Unit) {
         systemUiController.setSystemBarsColor(
             Color.Transparent,
             darkIcons = true,
-            isNavigationBarContrastEnforced = false
+            isNavigationBarContrastEnforced = false,
         )
     }
     CompositionLocalProvider(LocalImageLoader provides generateImageLoader(), content = content)
@@ -50,7 +49,7 @@ fun generateImageLoader(): ImageLoader {
             components {
                 setupDefaultComponents(
                     context,
-                    density
+                    density,
                 )
             }
             interceptor {

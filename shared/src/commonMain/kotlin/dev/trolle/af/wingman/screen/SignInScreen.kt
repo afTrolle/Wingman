@@ -33,7 +33,7 @@ data class SignInState(
 
 private fun SignInState.updatePhoneNumber(
     number: String,
-    validation: PhoneValidateService
+    validation: PhoneValidateService,
 ): SignInState {
     val filteredNumber = number.filter { it.isDigit() || it == '+' }
     val updatedIsValid = when {
@@ -55,8 +55,8 @@ internal class SignInScreenModel(
     private val phoneNumberService: PhoneNumberService,
 ) : StateScreenModel<SignInState>(
     initialState = SignInState(
-        filterInteraction = phoneNumberService.shouldFetchPhoneNumber
-    )
+        filterInteraction = phoneNumberService.shouldFetchPhoneNumber,
+    ),
 ) {
     init {
         phoneNumberService.numberUpdates.onEach { result ->
@@ -116,4 +116,3 @@ internal object SignInScreen : Screen {
         )
     }
 }
-

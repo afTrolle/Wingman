@@ -10,5 +10,3 @@ fun <T> Result<T>.throwCancellation() =
     onFailure {
         if (it is CancellationException) throw it
     }
-
-expect val isDebug: Boolean

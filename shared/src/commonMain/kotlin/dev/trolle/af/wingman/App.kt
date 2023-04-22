@@ -5,8 +5,8 @@ import androidx.compose.runtime.remember
 import cafe.adriel.voyager.navigator.CurrentScreen
 import cafe.adriel.voyager.navigator.Navigator
 import dev.trolle.af.wingman.compose.WingManTheme
-import dev.trolle.af.wingman.koin.buildKoinAppDeclaration
 import dev.trolle.af.wingman.koin.KoinApplication
+import dev.trolle.af.wingman.koin.buildKoinAppDeclaration
 import dev.trolle.af.wingman.koin.rememberKoinInject
 import dev.trolle.af.wingman.repository.UserRepository
 import dev.trolle.af.wingman.screen.HomeScreen

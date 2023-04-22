@@ -6,7 +6,6 @@ import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
 import org.koin.core.parameter.ParametersDefinition
 import org.koin.core.qualifier.Qualifier
-import kotlin.native.HidesFromObjC
 
 /*
 Copied from: https://github.com/adrielcafe/voyager/blob/main/voyager-koin/src/main/java/cafe/adriel/voyager/koin/ScreenModel.kt

@@ -5,4 +5,4 @@ interface PhoneValidateService {
     fun formatPhoneNumber(number: String): String
 }
 
-internal expect fun phoneValidateService() : PhoneValidateService
+internal expect fun phoneValidateService(): PhoneValidateService

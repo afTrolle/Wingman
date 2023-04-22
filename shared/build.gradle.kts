@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.jetbrains.compose)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.buildconfig)
+    alias(libs.plugins.ktlint)
 }
 
 kotlin {
@@ -114,8 +115,6 @@ buildConfig {
     buildConfigField("String", "OPEN_API_TOKEN", "\"$openApiKey\"")
     buildConfigField("boolean", "LOGGING_ENABLED", enableLogging)
 }
-
-
 android {
     namespace = "dev.trolle.af.wingman"
     compileSdk = libs.versions.compileSdk.get().toInt()

@@ -30,28 +30,27 @@ import dev.trolle.af.wingman.screen.SignInState
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 
-
 @Composable
 fun SignIn(
     state: SignInState,
     onPhoneNumberChange: (String) -> Unit = {},
     onSignIn: () -> Unit = {},
-    onPressInteractionConsumed: () -> Unit = {}
+    onPressInteractionConsumed: () -> Unit = {},
 ) = Scaffold { paddingValues ->
     Box(
         modifier = Modifier.fillMaxHeight()
             .padding(paddingValues)
             .systemBarsPadding()
-            .padding(horizontal = 32.dp)
+            .padding(horizontal = 32.dp),
     ) {
         Column(
             modifier = Modifier.align(Alignment.Center),
             verticalArrangement = Arrangement.spacedBy(8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             DefaultAnimatedVisibility(
                 visible = state.isLogoVisible,
-                modifier = Modifier.height(350.dp)
+                modifier = Modifier.height(350.dp),
             ) {
                 LogoWithText()
             }
@@ -64,27 +63,26 @@ fun SignIn(
                 .align(Alignment.BottomCenter),
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.caption,
-            color = MaterialTheme.colors.secondaryVariant.copy(alpha = 0.8f)
+            color = MaterialTheme.colors.secondaryVariant.copy(alpha = 0.8f),
         )
     }
 }
-
 
 @OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun LogoWithText() =
     Column(
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Image(
             painter = painterResource("logo.png"),
             contentDescription = Strings.logo_desc,
-            modifier = Modifier.size(250.dp)
+            modifier = Modifier.size(250.dp),
         )
         Text(
             text = Strings.app_name,
-            style = MaterialTheme.typography.h3
+            style = MaterialTheme.typography.h3,
         )
     }
 
@@ -93,7 +91,7 @@ private fun BottomInput(
     state: SignInState,
     onPhoneNumberChange: (String) -> Unit,
     onPressInteractionConsumed: () -> Unit,
-    onSignIn: () -> Unit
+    onSignIn: () -> Unit,
 ) = Column(
     modifier = Modifier.padding(bottom = 40.dp),
     verticalArrangement = Arrangement.spacedBy(8.dp),

@@ -17,7 +17,7 @@ internal interface NavigationService {
 
 @Composable
 internal fun NavigationService.Register(
-    navigator: Navigator
+    navigator: Navigator,
 ) {
     LaunchedEffect(navigator) {
         setNavigator(navigator)
@@ -28,7 +28,7 @@ internal fun navigationService() = object : NavigationService {
 
     private val navigatorState = MutableSharedFlow<Navigator>(
         replay = 1,
-        onBufferOverflow = DROP_OLDEST
+        onBufferOverflow = DROP_OLDEST,
     )
 
     // Caution might have race-conditions calling navigate multiple times on the same navigator object.

@@ -5,13 +5,12 @@ import dev.trolle.af.wingman.ext.runCatchingCancelable
 import dev.trolle.af.wingman.screen.Match
 import dev.trolle.af.wingman.service.OpenAIService
 import dev.trolle.af.wingman.service.PersistenceService
+import dev.trolle.af.wingman.service.tinder.TinderService
 import dev.trolle.af.wingman.service.tinder.model.MatchesResponse
 import dev.trolle.af.wingman.service.tinder.model.ProfileResponse
 import dev.trolle.af.wingman.service.tinder.profileString
-import dev.trolle.af.wingman.service.tinder.TinderService
 import io.github.aakira.napier.Napier
 import io.ktor.utils.io.errors.IOException
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.datetime.Clock
@@ -40,7 +39,8 @@ internal fun userRepository(
 
     override suspend fun signInOneTimePassword(oneTimePassword: String, phoneNumber: String) {
         val response = tinderService.refreshToken(
-            oneTimePassword = oneTimePassword, phoneNumber = phoneNumber
+            oneTimePassword = oneTimePassword,
+            phoneNumber = phoneNumber,
         )
 
         val accessResponse = tinderService.accessToken(response.data.refreshToken)
@@ -48,7 +48,7 @@ internal fun userRepository(
         setSession(
             phoneNumber = phoneNumber,
             refreshToken = refreshToken,
-            SessionData.AccessToken(token = accessResponse.data!!.apiToken)
+            SessionData.AccessToken(token = accessResponse.data!!.apiToken),
         )
 
         // User is seen as signed in after this point
@@ -56,7 +56,6 @@ internal fun userRepository(
     }
 
     private fun onSignIn() {
-
     }
 
     override suspend fun isUserSignedIn(): Boolean {
@@ -89,7 +88,7 @@ internal fun userRepository(
                 name = match.person.name ?: "",
                 age = match.person.age()?.toString() ?: "",
                 imageUrl = match.person.photos.first().url!!,
-                opener = suggestion
+                opener = suggestion,
             )
         }
     }
@@ -97,15 +96,14 @@ internal fun userRepository(
     private suspend fun getSuggestionForOpener(
         personId: String,
         myPublicProfile: ProfileResponse.Profile,
-        matchProfile: ProfileResponse.Profile
-    ) = persistenceService.suggestions.value.getOrElse(personId) {
+        matchProfile: ProfileResponse.Profile,
+    ) = persistenceService.suggestionsFlow.value.getOrElse(personId) {
         openAIService.fetchSuggestion(
             myPublicProfile,
-            matchProfile
+            matchProfile,
         )?.also { suggestion ->
             persistenceService.addSuggestion(personId, suggestion)
         } ?: ""
-
     }
 
     /*
@@ -117,15 +115,15 @@ internal fun userRepository(
     private suspend fun setSession(
         phoneNumber: String,
         refreshToken: String,
-        accessToken: SessionData.AccessToken
+        accessToken: SessionData.AccessToken,
     ) =
         sessionLock.withLock {
             persistenceService.setSessionData(
                 SessionData(
                     refreshToken = refreshToken,
                     phoneNumber = phoneNumber,
-                    accessToken = accessToken
-                )
+                    accessToken = accessToken,
+                ),
             )
         }
 
@@ -172,7 +170,7 @@ fun MatchesResponse.matchesWithNoMessages(): List<TinderMatch> = data?.matches
 
 suspend fun OpenAIService.fetchSuggestion(
     myPublicProfile: ProfileResponse.Profile,
-    matchProfile: ProfileResponse.Profile
+    matchProfile: ProfileResponse.Profile,
 ): String? {
     val context = listOfNotNull(
         buildString {
@@ -188,10 +186,10 @@ suspend fun OpenAIService.fetchSuggestion(
     val language = Locale.current.language
     val text =
         "Write an simple, short and flirty opening message that that will catch the attention of ${matchProfile.name}. " +
-                "Make sure that the message contains a fun tone, compliments the match and contains a call to action or a question than needs some reflection in the following language=$language"
+            "Make sure that the message contains a fun tone, compliments the match and contains a call to action or a question than needs some reflection in the following language=$language"
     return prompt(
         context,
-        listOf(text)
+        listOf(text),
     )?.message?.content
 }
 

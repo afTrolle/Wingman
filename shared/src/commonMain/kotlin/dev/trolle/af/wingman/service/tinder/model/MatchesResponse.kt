@@ -8,7 +8,7 @@ import kotlinx.serialization.json.JsonObject
 @Serializable
 data class MatchesResponse(
     val `data`: Data? = null,
-    val meta: Meta? = null
+    val meta: Meta? = null,
 ) {
     @Serializable
     data class Data(val matches: List<Match> = emptyList())

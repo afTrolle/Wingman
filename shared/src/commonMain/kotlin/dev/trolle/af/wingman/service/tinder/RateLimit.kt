@@ -6,11 +6,10 @@ import kotlinx.datetime.Clock
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 
-
 // General rate-limit slow-down api calls.
 // Ensure that I don't hit backend to often.
 internal class RateLimit(
-    private val timeBetweenRequests: Duration = 100.milliseconds
+    private val timeBetweenRequests: Duration = 100.milliseconds,
 ) {
     private val timeStampRef = MutableStateFlow(Clock.System.now())
 

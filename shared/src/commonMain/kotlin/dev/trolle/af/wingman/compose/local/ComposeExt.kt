@@ -17,7 +17,6 @@ expect fun Modifier.systemBarsPadding(): Modifier
 
 expect fun Modifier.imePadding(): Modifier
 
-
 @Composable
 fun Dp.toSp() = LocalDensity.current.run {
     toSp()
@@ -29,7 +28,7 @@ fun TextUnit.toDp() = LocalDensity.current.run {
 }
 
 class FilterableInteractionSource(
-    private val filter: (Interaction) -> Interaction?
+    private val filter: (Interaction) -> Interaction?,
 ) : MutableInteractionSource {
     private val mutableInteractionSource = MutableInteractionSource()
 
@@ -37,14 +36,17 @@ class FilterableInteractionSource(
 
     override suspend fun emit(interaction: Interaction) {
         val filteredInteraction = filter(interaction)
-        if (filteredInteraction != null)
+        if (filteredInteraction != null) {
             mutableInteractionSource.emit(interaction)
+        }
     }
 
     override fun tryEmit(interaction: Interaction): Boolean {
         val filteredInteraction = filter(interaction)
-        return if (filteredInteraction != null)
+        return if (filteredInteraction != null) {
             mutableInteractionSource.tryEmit(interaction)
-        else true
+        } else {
+            true
+        }
     }
 }

@@ -29,7 +29,7 @@ internal class OneTimePasswordModel(
     private val userRepository: UserRepository,
     private val navigationService: NavigationService,
 ) : StateScreenModel<OneTimePasswordState>(
-    OneTimePasswordState(phoneNumber)
+    OneTimePasswordState(phoneNumber),
 ) {
     fun onOneTimePasswordChanged(text: String) = launch {
         updateState {
@@ -40,7 +40,7 @@ internal class OneTimePasswordModel(
 
             it.copy(
                 oneTimePassword = oneTimePassword,
-                isOneTimePasswordError = isOneTimePasswordError
+                isOneTimePasswordError = isOneTimePasswordError,
             )
         }
     }
@@ -54,7 +54,7 @@ internal class OneTimePasswordModel(
             runCatchingCancelable {
                 userRepository.signInOneTimePassword(
                     oneTimePassword = state.oneTimePassword,
-                    phoneNumber = state.phoneNumber
+                    phoneNumber = state.phoneNumber,
                 )
             }.onFailure { error ->
                 Napier.e("otp", error)
@@ -69,7 +69,7 @@ internal class OneTimePasswordModel(
 }
 
 internal data class OneTimePasswordScreen(
-    val phoneNumber: String
+    val phoneNumber: String,
 ) : Screen {
     @Composable
     override fun Content() {
@@ -81,7 +81,7 @@ internal data class OneTimePasswordScreen(
         OneTimePassword(
             state,
             viewModel::onOneTimePasswordChanged,
-            viewModel::onSignIn
+            viewModel::onSignIn,
         )
     }
 }

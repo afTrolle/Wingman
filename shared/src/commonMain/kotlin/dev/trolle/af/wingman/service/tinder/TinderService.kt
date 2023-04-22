@@ -42,7 +42,7 @@ interface TinderService {
 internal fun tinderService(
     json: Json,
     rateLimiter: RateLimit = RateLimit(),
-    host: String = "https://api.gotinder.com"
+    host: String = "https://api.gotinder.com",
 ) = object : TinderService {
 
     private val client = HttpClient() {
@@ -83,7 +83,7 @@ internal fun tinderService(
 
     override suspend fun refreshToken(
         oneTimePassword: String,
-        phoneNumber: String
+        phoneNumber: String,
     ): RefreshTokenResponse {
         rateLimiter.delay()
         return client.post(host) {
@@ -107,7 +107,7 @@ internal fun tinderService(
     override suspend fun matches(token: String, count: Int): MatchesResponse =
         commonDelayedRequest(
             token = token,
-            path = "/v2/matches"
+            path = "/v2/matches",
         ) {
             parameter("count", count)
         }.body()
@@ -115,7 +115,7 @@ internal fun tinderService(
     override suspend fun profile(token: String, id: String): ProfileResponse =
         commonDelayedRequest(
             token = token,
-            path = "/user/$id"
+            path = "/user/$id",
         ).body()
 
     override suspend fun myProfile(token: String): MyProfileResponse =
@@ -138,7 +138,7 @@ internal fun tinderService(
     private suspend fun commonDelayedRequest(
         token: String,
         path: String,
-        config: HttpRequestBuilder.() -> Unit = {}
+        config: HttpRequestBuilder.() -> Unit = {},
     ): HttpResponse {
         rateLimiter.delay()
         return client.get(host) {

@@ -6,7 +6,6 @@ import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.remember
 import org.koin.core.Koin
 import org.koin.core.annotation.KoinInternalApi
-import org.koin.core.module.Module
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.koinApplication
 import org.koin.mp.KoinPlatformTools
@@ -31,7 +30,6 @@ private fun getKoinContext() = KoinPlatformTools.defaultContext().get()
 @Composable
 fun getKoin(): Koin = LocalKoinApplication.current
 
-
 /**
  * Start Koin Application from Compose
  *
@@ -44,14 +42,14 @@ fun getKoin(): Koin = LocalKoinApplication.current
 @Composable
 fun KoinApplication(
     application: KoinAppDeclaration,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     // Added remember to not recreate koin on re-composition.
     // Guessing they didn't have it in the original because it's usually is declared first
     val koinApplication = remember { koinApplication(application) }
     CompositionLocalProvider(
         LocalKoinApplication provides koinApplication.koin,
-        LocalKoinScope provides koinApplication.koin.scopeRegistry.rootScope
+        LocalKoinScope provides koinApplication.koin.scopeRegistry.rootScope,
     ) {
         content()
     }

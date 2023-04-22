@@ -11,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-
 @Composable
 fun BigButton(
     text: String,
@@ -28,7 +27,6 @@ fun BigButton(
 ) {
     Text(
         text,
-        fontSize = 18.sp
+        fontSize = 18.sp,
     )
 }
-

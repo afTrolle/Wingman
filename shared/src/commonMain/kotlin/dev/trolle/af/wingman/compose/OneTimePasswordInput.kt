@@ -24,7 +24,6 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import dev.trolle.af.wingman.compose.local.toDp
 
-
 @Composable
 fun OneTimePasswordInput(
     length: Int,
@@ -40,29 +39,27 @@ fun OneTimePasswordInput(
         modifier = modifier,
         keyboardOptions = KeyboardOptions(
             autoCorrect = false,
-            keyboardType = KeyboardType.Number
+            keyboardType = KeyboardType.Number,
         ),
         singleLine = true,
         decorationBox = {
             Row(
-                horizontalArrangement = Arrangement.spacedBy(16.dp)
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
             ) {
-
                 repeat(length) { index ->
                     val char = textFieldValue.text.getOrNull(index)?.toString() ?: ""
                     OneTimePasswordEntry(char, error)
                 }
             }
-        }
+        },
     )
 }
 
 @Composable
 private fun OneTimePasswordEntry(
     char: String,
-    error: Boolean
+    error: Boolean,
 ) {
-
     val targetColor = when {
         error -> MaterialTheme.colors.error
         char.isEmpty() -> Color.Gray.copy(alpha = .8f)
@@ -70,24 +67,24 @@ private fun OneTimePasswordEntry(
     }
 
     val color = animateColorAsState(
-        targetValue = targetColor
+        targetValue = targetColor,
     )
     val textStyle = MaterialTheme.typography.h6
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(4.dp)
+        verticalArrangement = Arrangement.spacedBy(4.dp),
     ) {
         // Char
         Text(
             text = char,
             style = textStyle,
-            color = LocalTextStyle.current.color
+            color = LocalTextStyle.current.color,
         )
         // Highlight bar
         Box(
             Modifier
                 .size(textStyle.fontSize.toDp() + 4.dp, 6.dp)
-                .background(color.value, RoundedCornerShape(4.dp))
+                .background(color.value, RoundedCornerShape(4.dp)),
         )
     }
 }

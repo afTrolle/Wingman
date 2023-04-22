@@ -7,7 +7,7 @@ import kotlinx.serialization.json.JsonObject
 @Serializable
 data class Meta(
     @SerialName("status")
-    val status: Int? = null
+    val status: Int? = null,
 )
 
 @Serializable
@@ -16,7 +16,7 @@ data class Badge(val type: String)
 @Serializable
 data class School(
     val displayed: Boolean? = null,
-    val name: String? = null
+    val name: String? = null,
 )
 
 @Serializable
@@ -47,12 +47,12 @@ data class Photo(
     @SerialName("webp_qf")
     val webpQf: List<Int?> = emptyList(),
     @SerialName("win_count")
-    val winCount: Int? = null
+    val winCount: Int? = null,
 ) {
     @Serializable
     data class ProcessedFile(
         val height: Int? = null,
         val url: String? = null,
-        val width: Int? = null
+        val width: Int? = null,
     )
 }

@@ -6,13 +6,13 @@ import kotlinx.serialization.Serializable
 @Serializable
 internal data class ApiTokenRequest(
     @SerialName("refresh_token")
-    val refreshToken: String
+    val refreshToken: String,
 )
 
 @Serializable
 internal data class OtpRequest(
     @SerialName("phone_number")
-    val phoneNumber: String
+    val phoneNumber: String,
 )
 
 @Serializable

@@ -1,9 +1,7 @@
 package dev.trolle.af.wingman.koin
 
-
 import Wingman.shared.BuildConfig
 import androidx.compose.runtime.Composable
-import dev.trolle.af.wingman.ext.isDebug
 import dev.trolle.af.wingman.repository.userRepository
 import dev.trolle.af.wingman.screen.HomeScreenModel
 import dev.trolle.af.wingman.screen.OneTimePasswordModel
@@ -33,8 +31,9 @@ internal val sharedModule: Module = module {
         }
     }
     single(createdAtStart = true) {
-        if (isDebug)
+        if (BuildConfig.LOGGING_ENABLED) {
             Napier.base(DebugAntilog())
+        }
     }
 
     // Service (dependency-less)
@@ -60,4 +59,4 @@ internal val sharedModule: Module = module {
 internal val appModule get() = listOf(platformModule, sharedModule)
 
 @Composable
-expect fun buildKoinAppDeclaration(): KoinAppDeclaration
+internal expect fun buildKoinAppDeclaration(): KoinAppDeclaration
