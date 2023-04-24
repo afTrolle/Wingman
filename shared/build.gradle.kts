@@ -1,16 +1,16 @@
-import org.jetbrains.compose.internal.utils.getLocalProperty
-
 plugins {
-    alias(libs.plugins.kotlin.multiplatform)
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.cocoapods)
-    alias(libs.plugins.jetbrains.compose)
-    alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.buildconfig)
-    alias(libs.plugins.ktlint)
+    aliasId(libs.plugins.kotlin.multiplatform)
+    aliasId(libs.plugins.android.library)
+    aliasId(libs.plugins.kotlin.cocoapods)
+    aliasId(libs.plugins.jetbrains.compose)
+    aliasId(libs.plugins.kotlin.serialization)
+    aliasId(libs.plugins.buildconfig)
+    aliasId(libs.plugins.ktlint)
 }
 
 kotlin {
+    jvmToolchain(11)
+
     android()
     iosX64()
     iosArm64()
@@ -109,12 +109,7 @@ kotlin {
         }
     }
 }
-buildConfig {
-    val openApiKey: String = project.getLocalProperty("open.api.key") ?: ""
-    val enableLogging: String by project.properties
-    buildConfigField("String", "OPEN_API_TOKEN", "\"$openApiKey\"")
-    buildConfigField("boolean", "LOGGING_ENABLED", enableLogging)
-}
+
 android {
     namespace = "dev.trolle.af.wingman"
     compileSdk = libs.versions.compileSdk.get().toInt()
@@ -128,8 +123,5 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
-    }
-    kotlin {
-        jvmToolchain(11)
     }
 }

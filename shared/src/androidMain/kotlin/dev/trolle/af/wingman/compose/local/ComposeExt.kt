@@ -11,9 +11,11 @@ import androidx.compose.ui.Modifier
 actual fun Modifier.navigationBarsPadding(): Modifier {
     return navigationBarsPadding()
 }
+
 actual fun Modifier.imePadding(): Modifier {
     return imePadding()
 }
+
 actual fun Modifier.statusBarsPadding(): Modifier {
     return statusBarsPadding()
 }
