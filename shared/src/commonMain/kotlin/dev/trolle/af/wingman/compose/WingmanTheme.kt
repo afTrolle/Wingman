@@ -21,8 +21,8 @@ object WingManThemeColors {
         primaryVariant = greenVariant,
         secondary = red,
         secondaryVariant = redVariant,
-        background = sand,
-        surface = sandSurface,
+        background = Color.White,
+        surface = Color.White,
         onPrimary = Color.White,
         onSecondary = Color.Black,
     )

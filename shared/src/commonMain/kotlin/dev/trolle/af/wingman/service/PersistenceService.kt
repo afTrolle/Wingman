@@ -4,7 +4,6 @@ import com.russhwolf.settings.coroutines.FlowSettings
 import dev.trolle.af.wingman.repository.SessionData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -33,7 +32,7 @@ internal fun persistenceService(
     json: Json,
 ) = object : PersistenceService {
 
-    private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
+    private val scope = CoroutineScope(Dispatchers.Default + SupervisorJob())
 
     // Need to use locks for session and not mutable state
     // cause update function can be called multiple times until it succeeds
