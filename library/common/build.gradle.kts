@@ -1,4 +1,7 @@
+@file:Suppress("UNUSED_VARIABLE")
+
 import dev.trolle.wingman.gradle.compose
+import org.jetbrains.compose.internal.utils.getLocalProperty
 
 plugins {
     `base-plugin`
@@ -17,7 +20,7 @@ kotlin {
     }
 }
 buildConfig {
-    val openApiKey: String = project.properties.getOrDefault("open.api.key", "").toString()
+    val openApiKey: String = project.getLocalProperty("open.api.key") ?: ""
     val enableLogging: String by project.properties
     buildConfigField("String", "OPEN_API_TOKEN", "\"$openApiKey\"")
     buildConfigField("boolean", "LOGGING_ENABLED", enableLogging)

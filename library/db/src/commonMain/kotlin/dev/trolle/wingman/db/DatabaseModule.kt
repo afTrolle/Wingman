@@ -9,4 +9,4 @@ val databaseModule = module {
     single { db(get(), get()) }
 }
 
-internal expect fun Scope.getFlowSettings() : FlowSettings
+internal expect fun Scope.getFlowSettings(): FlowSettings

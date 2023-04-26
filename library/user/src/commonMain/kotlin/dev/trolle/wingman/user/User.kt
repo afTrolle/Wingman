@@ -9,6 +9,7 @@ import dev.trolle.wingman.user.tinder.model.ProfileResponse
 import dev.trolle.wingman.user.tinder.profileString
 import io.github.aakira.napier.Napier
 import io.ktor.utils.io.errors.IOException
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.datetime.Clock
@@ -17,9 +18,9 @@ import kotlinx.datetime.yearsUntil
 import dev.trolle.wingman.user.tinder.model.Match as TinderMatch
 
 interface User {
+    val isUserSignedIn: Boolean
     suspend fun signInRequestOneTimePassword(phoneNumber: String)
     suspend fun signInOneTimePassword(oneTimePassword: String, phoneNumber: String)
-    suspend fun isUserSignedIn(): Boolean
     suspend fun getMatches(): List<Match>
 }
 
@@ -54,7 +55,10 @@ internal fun user(
     private fun onSignIn() {
     }
 
-    override suspend fun isUserSignedIn(): Boolean = database.sessionData() != null
+    override val isUserSignedIn: Boolean
+        get() = runBlocking {
+            database.sessionData() != null
+        }
 
     // TODO change this to a flow so we can stream data to ui
     override suspend fun getMatches(): List<Match> {
@@ -179,7 +183,7 @@ suspend fun AI.fetchSuggestion(
 
     val text =
         "Write an simple, short and flirty opening message that that will catch the attention of ${matchProfile.name}. " +
-                "Make sure that the message contains a fun tone, compliments the match and contains a call to action or a question than needs some reflection in the following language=en"
+            "Make sure that the message contains a fun tone, compliments the match and contains a call to action or a question than needs some reflection in the following language=en"
     return prompt(
         context,
         listOf(text),

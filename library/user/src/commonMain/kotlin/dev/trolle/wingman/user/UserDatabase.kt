@@ -31,7 +31,6 @@ internal class UserDatabase(
     }
 }
 
-
 @Serializable
 data class SessionData(
     val accessToken: AccessToken? = null,

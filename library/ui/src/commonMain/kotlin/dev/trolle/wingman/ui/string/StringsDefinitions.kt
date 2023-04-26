@@ -2,7 +2,6 @@ package dev.trolle.wingman.ui.string
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
-import androidx.compose.runtime.staticCompositionLocalOf
 import cafe.adriel.lyricist.LocalStrings
 
 data class StringsDefinition(

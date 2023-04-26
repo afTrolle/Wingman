@@ -1,3 +1,5 @@
+@file:Suppress("UNUSED_VARIABLE")
+
 plugins {
     `library-plugin`
     aliasId(libs.plugins.kotlin.serialization)

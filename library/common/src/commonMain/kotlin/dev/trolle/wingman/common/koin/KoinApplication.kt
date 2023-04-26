@@ -16,6 +16,7 @@ import org.koin.mp.KoinPlatformTools
  */
 
 val LocalKoinApplicationOrNull = compositionLocalOf { KoinPlatformTools.defaultContext().getOrNull() }
+
 @OptIn(KoinInternalApi::class)
 val LocalKoinScopeOrNull = compositionLocalOf { KoinPlatformTools.defaultContext().getOrNull()?.scopeRegistry?.rootScope }
 

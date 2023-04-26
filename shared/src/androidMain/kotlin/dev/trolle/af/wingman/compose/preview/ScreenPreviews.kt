@@ -4,18 +4,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.tooling.preview.Preview
-import dev.trolle.af.wingman.compose.Home
-import dev.trolle.af.wingman.compose.OneTimePassword
-import dev.trolle.af.wingman.compose.SignIn
-import dev.trolle.af.wingman.screen.HomeState
-import dev.trolle.af.wingman.screen.OneTimePasswordState
-import dev.trolle.af.wingman.screen.SignInState
+import dev.trolle.wingman.home.HomeState
+import dev.trolle.wingman.home.compose.Home
+import dev.trolle.wingman.sign.`in`.OneTimePasswordState
+import dev.trolle.wingman.sign.`in`.SignInState
+import dev.trolle.wingman.sign.`in`.compose.OneTimePassword
+import dev.trolle.wingman.sign.`in`.compose.SignIn
 import dev.trolle.wingman.ui.compose.PreviewDefaults
 import dev.trolle.wingman.user.model.Match
 
 @Preview
 @Composable
-fun SignInPreview() = PreviewDefaults {
+private fun SignInPreview() = PreviewDefaults {
     val (text, setText) = remember { mutableStateOf("") }
     SignIn(
         state = SignInState(

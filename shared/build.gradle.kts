@@ -1,6 +1,6 @@
+@file:Suppress("UNUSED_VARIABLE")
+
 import org.jetbrains.compose.internal.utils.getLocalProperty
-import org.jetbrains.compose.internal.utils.localPropertiesFile
-import org.jetbrains.kotlin.gradle.utils.loadPropertyFromResources
 
 plugins {
     aliasId(libs.plugins.kotlin.multiplatform)
@@ -72,6 +72,9 @@ kotlin {
                 implementation(projects.library.common)
                 implementation(projects.library.db)
                 implementation(projects.library.user)
+
+                implementation(projects.feature.signIn)
+                implementation(projects.feature.home)
             }
         }
         val commonTest by getting {
@@ -86,13 +89,6 @@ kotlin {
                 api(compose.uiTooling)
                 api(libs.androidx.core)
                 api(libs.koin.android)
-                api(libs.play.services.auth)
-                api(libs.kotlinx.coroutines.play)
-                api(libs.libphonenumber)
-                api(libs.image.loader.core)
-                api(libs.accompanist.systemuicontroller)
-                implementation(libs.settings.datastore)
-                implementation(libs.androidx.datastore.preferences)
                 implementation(libs.ktor.client.okhttp)
             }
         }

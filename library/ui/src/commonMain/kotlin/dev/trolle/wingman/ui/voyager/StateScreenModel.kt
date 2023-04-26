@@ -16,4 +16,3 @@ abstract class StateScreenModel<S>(initialState: S) : ScreenModel {
     protected fun updateStateAndGet(update: (state: S) -> S): S =
         mutableState.updateAndGet(update)
 }
-

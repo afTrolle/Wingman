@@ -1,3 +1,5 @@
+@file:Suppress("UNUSED_VARIABLE")
+
 import dev.trolle.wingman.gradle.compose
 
 plugins {
@@ -25,7 +27,6 @@ kotlin {
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
 
-//                implementation(libs.koin.core)
                 implementation(libs.image.loader.core)
                 implementation(libs.voyager.navigator)
                 implementation(libs.lyricist.library)
@@ -44,9 +45,16 @@ dependencies {
 ksp {
     arg("lyricist.internalVisibility", "true")
 }
-
+// Generated build folder will be ignored
+// Not completely sure what's going on here
+tasks.getByName("runKtlintFormatOverCommonMainSourceSet") {
+    dependsOn("kspCommonMainKotlinMetadata")
+}
+tasks.getByName("runKtlintCheckOverCommonMainSourceSet") {
+    dependsOn("kspCommonMainKotlinMetadata")
+}
 tasks.withType<org.jetbrains.kotlin.gradle.dsl.KotlinCompile<*>> {
-    if(name != "kspCommonMainKotlinMetadata") {
+    if (name != "kspCommonMainKotlinMetadata") {
         dependsOn("kspCommonMainKotlinMetadata")
     }
 }

@@ -1,6 +1,5 @@
 package dev.trolle.wingman.ai
 
-import com.aallam.openai.api.chat.ChatChoice
 import com.aallam.openai.api.chat.ChatCompletionRequest
 import com.aallam.openai.api.chat.ChatMessage
 import com.aallam.openai.api.chat.ChatRole
@@ -12,12 +11,10 @@ import com.aallam.openai.client.OpenAIConfig
 import dev.trolle.wingman.common.ext.runCatchingCancelable
 import io.github.aakira.napier.Napier
 
-
 interface AI {
     // TODO Wrap response
     suspend fun prompt(context: List<String>, texts: List<String>): String?
 }
-
 
 internal fun ai(
     openAiApiToken: String,
@@ -61,6 +58,6 @@ internal fun ai(
             ).choices.first()
         }.onFailure {
             Napier.e("ai", it)
-        }.getOrThrow()?.message?.content
+        }.getOrThrow().message?.content
     }
 }

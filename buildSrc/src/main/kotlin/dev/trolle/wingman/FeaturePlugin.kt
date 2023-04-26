@@ -39,6 +39,8 @@ class FeaturePlugin : Plugin<Project> {
                         @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                         implementation(compose.components.resources)
                         implementation(libs.image.loader.core)
+                        implementation(libs.voyager.navigator)
+                        implementation(project(":library:ui"))
                     }
                 }
                 val androidMain by getting {
@@ -135,7 +137,7 @@ class BasePlugin : Plugin<Project> {
             }
         }
         extensions.configure<BaseExtension> {
-            namespace = "dev.trolle.af.wingman.${project.name}"
+            namespace = "dev.trolle.af.wingman.${project.name.replace("-",".")}"
             compileSdkVersion(libs.versions.compileSdk.get().toInt())
             defaultConfig {
                 minSdk = libs.versions.minSdk.get().toInt()

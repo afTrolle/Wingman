@@ -7,7 +7,6 @@ import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.SerializationStrategy
 import kotlinx.serialization.json.Json
 
-
 interface Database {
     suspend fun <T> set(key: String, serializer: SerializationStrategy<T>, value: T)
     suspend fun <T> get(key: String, deserializer: DeserializationStrategy<T>): T?
@@ -34,6 +33,4 @@ internal fun db(
         settings.getStringOrNullFlow(key).mapNotNull {
             it?.let { json.decodeFromString(deserializer, it) }
         }
-
 }
-
