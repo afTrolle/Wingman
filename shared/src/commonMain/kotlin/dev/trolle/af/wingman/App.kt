@@ -10,7 +10,7 @@ import dev.trolle.wingman.home.HomeScreen
 import dev.trolle.wingman.sign.`in`.SignInScreen
 import dev.trolle.wingman.sign.`in`.service.InitPhoneNumberService
 import dev.trolle.wingman.ui.UiBase
-import dev.trolle.wingman.ui.di.UpdateStrings
+import dev.trolle.wingman.ui.UpdateStrings
 import dev.trolle.wingman.user.User
 
 @Composable

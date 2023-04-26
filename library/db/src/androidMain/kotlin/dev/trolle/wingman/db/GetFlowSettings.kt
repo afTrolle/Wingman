@@ -1,3 +1,5 @@
+@file:JvmName("GetFlowSettingsJvm.kt")
+
 package dev.trolle.wingman.db
 
 import android.content.Context

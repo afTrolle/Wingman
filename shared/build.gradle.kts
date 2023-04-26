@@ -1,14 +1,11 @@
 @file:Suppress("UNUSED_VARIABLE")
 
-import org.jetbrains.compose.internal.utils.getLocalProperty
-
 plugins {
     aliasId(libs.plugins.kotlin.multiplatform)
     aliasId(libs.plugins.android.library)
     aliasId(libs.plugins.kotlin.cocoapods)
     aliasId(libs.plugins.jetbrains.compose)
     aliasId(libs.plugins.kotlin.serialization)
-    aliasId(libs.plugins.buildconfig)
     aliasId(libs.plugins.ktlint)
 }
 
@@ -35,38 +32,16 @@ kotlin {
     }
 
     sourceSets {
-        all {
-            languageSettings {
-                optIn("com.russhwolf.settings.ExperimentalSettingsApi")
-                optIn("com.aallam.openai.api.BetaOpenAI")
-            }
-        }
         val commonMain by getting {
             dependencies {
-                // referenced from compose plugin
                 implementation(compose.runtime)
-                implementation(compose.foundation)
-                implementation(compose.material)
                 implementation(compose.ui)
-                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-                implementation(compose.components.resources)
-                implementation(libs.accompanist.systemuicontroller)
+
                 implementation(libs.voyager.navigator)
                 implementation(libs.koin.core)
-                implementation(libs.kotlinx.coroutines.core)
-                implementation(libs.kotlinx.datetime)
                 implementation(libs.kotlinx.serialization.json)
-                implementation(libs.ktor.client.core)
-                implementation(libs.ktor.client.content.negotiation)
-                implementation(libs.ktor.serialization.json)
                 implementation(libs.napier)
-                implementation(libs.settings.coroutines)
-                implementation(libs.settings.serialization)
-                implementation(libs.settings.core)
-                implementation(libs.openai.client)
-                implementation(libs.image.loader.core)
 
-                // modules/projects
                 implementation(projects.library.ui)
                 implementation(projects.library.ai)
                 implementation(projects.library.common)
@@ -77,19 +52,10 @@ kotlin {
                 implementation(projects.feature.home)
             }
         }
-        val commonTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
-            }
-        }
+        val commonTest by getting
         val androidMain by getting {
             dependencies {
-                api(libs.androidx.activity.compose)
-                api(compose.preview)
-                api(compose.uiTooling)
-                api(libs.androidx.core)
-                api(libs.koin.android)
-                implementation(libs.ktor.client.okhttp)
+                implementation(libs.koin.android)
             }
         }
         val androidUnitTest by getting
@@ -101,9 +67,6 @@ kotlin {
             iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
-            dependencies {
-                implementation(libs.ktor.client.darwin)
-            }
         }
         val iosX64Test by getting
         val iosArm64Test by getting
@@ -131,11 +94,4 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-}
-
-buildConfig {
-    val openApiKey: String = project.getLocalProperty("open.api.key") ?: ""
-    val enableLogging: String by project.properties
-    buildConfigField("String", "OPEN_API_TOKEN", "\"$openApiKey\"")
-    buildConfigField("boolean", "LOGGING_ENABLED", enableLogging)
 }

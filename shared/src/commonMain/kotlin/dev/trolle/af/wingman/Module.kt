@@ -1,6 +1,6 @@
 package dev.trolle.af.wingman
 
-import Wingman.shared.BuildConfig
+import Wingman.library.common.BuildConfig
 import androidx.compose.runtime.Composable
 import dev.trolle.wingman.ai.aiModule
 import dev.trolle.wingman.db.databaseModule

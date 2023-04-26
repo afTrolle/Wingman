@@ -37,4 +37,5 @@ android {
 dependencies {
     implementation(projects.shared)
     implementation(compose.uiTooling)
+    implementation(libs.androidx.activity.compose)
 }
