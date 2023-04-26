@@ -7,18 +7,19 @@ import cafe.adriel.voyager.core.lifecycle.LifecycleEffect
 import cafe.adriel.voyager.core.model.coroutineScope
 import cafe.adriel.voyager.core.screen.Screen
 import dev.trolle.af.wingman.compose.SignIn
-import dev.trolle.af.wingman.ext.runCatchingCancelable
+import dev.trolle.wingman.common.ext.runCatchingCancelable
 import dev.trolle.af.wingman.koin.getScreenModel
 import dev.trolle.af.wingman.repository.UserRepository
-import dev.trolle.af.wingman.resources.Strings
 import dev.trolle.af.wingman.screen.util.StateScreenModel
 import dev.trolle.af.wingman.screen.util.launch
-import dev.trolle.af.wingman.service.NavigationService
 import dev.trolle.af.wingman.service.PhoneNumberService
 import dev.trolle.af.wingman.service.PhoneValidateService
 import dev.trolle.af.wingman.service.numberUpdates
 import dev.trolle.af.wingman.service.shouldFetchPhoneNumber
+import dev.trolle.wingman.ui.Navigation
+import dev.trolle.wingman.ui.string.StringsDefinition
 import io.github.aakira.napier.Napier
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -51,8 +52,9 @@ private fun SignInState.updatePhoneNumber(
 internal class SignInScreenModel(
     private val phoneValidateService: PhoneValidateService,
     private val userRepository: UserRepository,
-    private val navigationService: NavigationService,
+    private val navigationService: Navigation,
     private val phoneNumberService: PhoneNumberService,
+    private val strings : StateFlow<StringsDefinition>,
 ) : StateScreenModel<SignInState>(
     initialState = SignInState(
         filterInteraction = phoneNumberService.shouldFetchPhoneNumber,
@@ -83,7 +85,7 @@ internal class SignInScreenModel(
                 userRepository.signInRequestOneTimePassword(state.phoneNumber)
             }.onFailure { error ->
                 Napier.e("Sign In Error", error)
-                updateState { it.copy(errorMessage = Strings.error_something_went_wrong) }
+                updateState { it.copy(errorMessage = strings.value.error_something_went_wrong) }
             }.onSuccess {
                 navigationService.open(OneTimePasswordScreen(state.phoneNumber))
             }

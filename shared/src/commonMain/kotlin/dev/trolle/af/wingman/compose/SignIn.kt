@@ -24,9 +24,11 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import dev.trolle.af.wingman.compose.local.systemBarsPadding
-import dev.trolle.af.wingman.resources.Strings
 import dev.trolle.af.wingman.screen.SignInState
+import dev.trolle.wingman.ui.compose.BigButton
+import dev.trolle.wingman.ui.compose.DefaultAnimatedVisibility
+import dev.trolle.wingman.ui.ext.systemBarsPadding
+import dev.trolle.wingman.ui.string.Strings
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 
@@ -121,13 +123,10 @@ private fun BottomInput(
     val onButtonClick = remember(state.filterInteraction) {
         if (state.filterInteraction) onPressInteractionConsumed else onSignIn
     }
-    Button(
+    BigButton(
         onClick = onButtonClick,
         modifier = Modifier.fillMaxWidth(),
         enabled = state.isButtonEnabled,
-    ) {
-        Text(
-            text = Strings.button_sign_in,
-        )
-    }
+        text = Strings.button_sign_in,
+    )
 }

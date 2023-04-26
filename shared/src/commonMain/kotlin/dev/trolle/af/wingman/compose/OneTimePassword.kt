@@ -17,11 +17,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import dev.trolle.af.wingman.compose.local.imePadding
-import dev.trolle.af.wingman.compose.local.systemBarsPadding
-import dev.trolle.af.wingman.compose.util.focusOnStart
-import dev.trolle.af.wingman.resources.Strings
+import dev.trolle.wingman.ui.modifier.focusOnStart
 import dev.trolle.af.wingman.screen.OneTimePasswordState
+import dev.trolle.wingman.ui.compose.BigButton
+import dev.trolle.wingman.ui.ext.imePadding
+import dev.trolle.wingman.ui.ext.systemBarsPadding
+import dev.trolle.wingman.ui.string.Strings
 
 @Composable
 fun OneTimePassword(

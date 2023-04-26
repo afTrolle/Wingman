@@ -9,7 +9,7 @@ import com.aallam.openai.api.logging.Logger
 import com.aallam.openai.api.model.ModelId
 import com.aallam.openai.client.OpenAI
 import com.aallam.openai.client.OpenAIConfig
-import dev.trolle.af.wingman.ext.runCatchingCancelable
+import dev.trolle.wingman.common.ext.runCatchingCancelable
 import io.github.aakira.napier.Napier
 
 interface OpenAIService {

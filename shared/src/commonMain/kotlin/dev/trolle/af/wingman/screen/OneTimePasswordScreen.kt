@@ -5,12 +5,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import cafe.adriel.voyager.core.screen.Screen
 import dev.trolle.af.wingman.compose.OneTimePassword
-import dev.trolle.af.wingman.ext.runCatchingCancelable
+import dev.trolle.wingman.common.ext.runCatchingCancelable
 import dev.trolle.af.wingman.koin.getScreenModel
 import dev.trolle.af.wingman.repository.UserRepository
 import dev.trolle.af.wingman.screen.util.StateScreenModel
 import dev.trolle.af.wingman.screen.util.launch
-import dev.trolle.af.wingman.service.NavigationService
+import dev.trolle.wingman.ui.Navigation
 import io.github.aakira.napier.Napier
 import org.koin.core.parameter.parametersOf
 
@@ -27,7 +27,7 @@ val OneTimePasswordState.isCorrectLength get() = oneTimePassword.length == oneTi
 internal class OneTimePasswordModel(
     phoneNumber: String,
     private val userRepository: UserRepository,
-    private val navigationService: NavigationService,
+    private val navigationService: Navigation,
 ) : StateScreenModel<OneTimePasswordState>(
     OneTimePasswordState(phoneNumber),
 ) {

@@ -1,3 +1,7 @@
+import org.jetbrains.compose.internal.utils.getLocalProperty
+import org.jetbrains.compose.internal.utils.localPropertiesFile
+import org.jetbrains.kotlin.gradle.utils.loadPropertyFromResources
+
 plugins {
     aliasId(libs.plugins.kotlin.multiplatform)
     aliasId(libs.plugins.android.library)
@@ -61,6 +65,10 @@ kotlin {
                 implementation(libs.settings.core)
                 implementation(libs.openai.client)
                 implementation(libs.image.loader.core)
+
+                // modules/projects
+                implementation(projects.library.ui)
+                implementation(projects.library.common)
             }
         }
         val commonTest by getting {
@@ -127,7 +135,7 @@ android {
 }
 
 buildConfig {
-    val openApiKey: String = project.properties.getOrDefault("open.api.key", "").toString()
+    val openApiKey: String = project.getLocalProperty("open.api.key") ?: ""
     val enableLogging: String by project.properties
     buildConfigField("String", "OPEN_API_TOKEN", "\"$openApiKey\"")
     buildConfigField("boolean", "LOGGING_ENABLED", enableLogging)

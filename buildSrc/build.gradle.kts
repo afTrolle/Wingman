@@ -28,6 +28,7 @@ dependencies {
     implementation(libs.gradlePlugin.jetbrains.compose)
     implementation(libs.gradlePlugin.buildconfig)
     implementation(libs.gradlePlugin.ktlint)
+    implementation(libs.gradlePlugin.google.ksp)
     // include generated from "/gradle/libs.versions.toml"
     implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
 }

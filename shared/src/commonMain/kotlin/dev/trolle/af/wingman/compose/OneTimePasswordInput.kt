@@ -22,7 +22,7 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
-import dev.trolle.af.wingman.compose.local.toDp
+import dev.trolle.wingman.ui.ext.dp
 
 @Composable
 fun OneTimePasswordInput(
@@ -83,7 +83,7 @@ private fun OneTimePasswordEntry(
         // Highlight bar
         Box(
             Modifier
-                .size(textStyle.fontSize.toDp() + 4.dp, 6.dp)
+                .size(textStyle.fontSize.dp + 4.dp, 6.dp)
                 .background(color.value, RoundedCornerShape(4.dp)),
         )
     }

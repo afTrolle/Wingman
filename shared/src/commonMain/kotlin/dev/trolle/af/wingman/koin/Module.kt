@@ -2,20 +2,25 @@ package dev.trolle.af.wingman.koin
 
 import Wingman.shared.BuildConfig
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ReadOnlyComposable
 import dev.trolle.af.wingman.repository.userRepository
 import dev.trolle.af.wingman.screen.HomeScreenModel
 import dev.trolle.af.wingman.screen.OneTimePasswordModel
 import dev.trolle.af.wingman.screen.SignInScreenModel
-import dev.trolle.af.wingman.service.navigationService
+import dev.trolle.af.wingman.service.NavigationImpl
 import dev.trolle.af.wingman.service.openAIService
 import dev.trolle.af.wingman.service.persistenceService
 import dev.trolle.af.wingman.service.phoneValidateService
 import dev.trolle.af.wingman.service.tinder.tinderService
+import dev.trolle.wingman.ui.Navigation
+import dev.trolle.wingman.ui.di.uiModule
+import dev.trolle.wingman.ui.string.StringsDefinition
 import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier
 import kotlinx.serialization.json.Json
 import org.koin.core.module.Module
 import org.koin.dsl.KoinAppDeclaration
+import org.koin.dsl.bind
 import org.koin.dsl.module
 
 // Consider chaning this into shared module and depend on each item to minimize implicit providers.
@@ -42,7 +47,7 @@ internal val sharedModule: Module = module {
         val token = BuildConfig.OPEN_API_TOKEN
         openAIService(token)
     }
-    single { navigationService() }
+    single { NavigationImpl() }.bind<Navigation>()
     single { tinderService(get()) }
 
     single { persistenceService(get(), get()) }
@@ -53,10 +58,13 @@ internal val sharedModule: Module = module {
 
     // Screen View Models
     factory { HomeScreenModel(get()) }
-    factory { SignInScreenModel(get(), get(), get(), get()) }
+    factory { SignInScreenModel(get(), get(), get(), get(), get()) }
     factory { params -> OneTimePasswordModel(params.get(), get(), get()) }
 }
-internal val appModule get() = listOf(platformModule, sharedModule)
+
+
+internal fun appModule(uiModule: Module) =
+    listOf(uiModule, platformModule, sharedModule)
 
 @Composable
 internal expect fun buildKoinAppDeclaration(): KoinAppDeclaration

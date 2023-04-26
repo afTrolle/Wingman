@@ -1,0 +1,12 @@
+package dev.trolle.wingman.common.ext
+
+import kotlinx.coroutines.CancellationException
+
+// runCatching catches coroutine cancellation, to not break structured concurrency we re-throw it
+inline fun <R> runCatchingCancelable(block: () -> R): Result<R> =
+    runCatching(block).throwCancellation()
+
+fun <T> Result<T>.throwCancellation() =
+    onFailure {
+        if (it is CancellationException) throw it
+    }

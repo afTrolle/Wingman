@@ -12,7 +12,7 @@ import androidx.compose.runtime.Composable
 import com.google.android.gms.auth.api.identity.GetPhoneNumberHintIntentRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
-import dev.trolle.af.wingman.ext.runCatchingCancelable
+import dev.trolle.wingman.common.ext.runCatchingCancelable
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.tasks.await
 

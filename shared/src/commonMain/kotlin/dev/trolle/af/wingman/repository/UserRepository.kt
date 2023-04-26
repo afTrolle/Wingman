@@ -1,7 +1,7 @@
 package dev.trolle.af.wingman.repository
 
 import androidx.compose.ui.text.intl.Locale
-import dev.trolle.af.wingman.ext.runCatchingCancelable
+import dev.trolle.wingman.common.ext.runCatchingCancelable
 import dev.trolle.af.wingman.screen.Match
 import dev.trolle.af.wingman.service.OpenAIService
 import dev.trolle.af.wingman.service.PersistenceService

@@ -2,41 +2,51 @@ package dev.trolle.af.wingman
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.CurrentScreen
-import cafe.adriel.voyager.navigator.Navigator
-import dev.trolle.af.wingman.compose.WingManTheme
-import dev.trolle.af.wingman.koin.KoinApplication
+import dev.trolle.wingman.common.koin.KoinApplication
 import dev.trolle.af.wingman.koin.buildKoinAppDeclaration
-import dev.trolle.af.wingman.koin.rememberKoinInject
+import dev.trolle.wingman.common.koin.rememberKoinInject
 import dev.trolle.af.wingman.repository.UserRepository
 import dev.trolle.af.wingman.screen.HomeScreen
 import dev.trolle.af.wingman.screen.SignInScreen
-import dev.trolle.af.wingman.service.NavigationService
+import dev.trolle.af.wingman.service.Navigation
 import dev.trolle.af.wingman.service.PhoneNumberService
-import dev.trolle.af.wingman.service.Register
+import dev.trolle.wingman.ui.UiBase
+import dev.trolle.wingman.ui.di.UpdateStrings
 import kotlinx.coroutines.runBlocking
 
 @Composable
-fun App() {
-    KoinApplication(buildKoinAppDeclaration()) {
-        WingManTheme {
-            val userRepository: UserRepository = rememberKoinInject()
-            val phoneNumberService: PhoneNumberService = rememberKoinInject()
-            phoneNumberService.Register()
-
-            val startScreen =
-                remember {
-                    runBlocking {
-                        if (userRepository.isUserSignedIn()) HomeScreen else SignInScreen
-                    }
+internal fun App() {
+    AppPlatform {
+        UiBase {
+            KoinApplication(buildKoinAppDeclaration()) {
+                UpdateStrings()
+                // TODO figure out a better pattern for this.
+                val phoneNumberService: PhoneNumberService = rememberKoinInject()
+                phoneNumberService.Register()
+                val startScreen = getStartScreen()
+                Navigation(startScreen) {
+                    CurrentScreen()
                 }
-            Navigator(startScreen) { navigator ->
-                // Store  navigator in navigation Service so screenModels can change screen
-                val navigationService: NavigationService = rememberKoinInject()
-                navigationService.Register(navigator)
-                // draw current Screen
-                CurrentScreen()
             }
         }
     }
 }
+
+// Register or Provide platform specific services
+@Composable
+internal expect fun AppPlatform(content: @Composable () -> Unit)
+
+@Composable
+private fun getStartScreen(): Screen {
+    val userRepository: UserRepository = rememberKoinInject()
+    val startScreen =
+        remember {
+            runBlocking {
+                if (userRepository.isUserSignedIn()) HomeScreen else SignInScreen
+            }
+        }
+    return startScreen
+}
+
