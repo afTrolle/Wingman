@@ -7,13 +7,13 @@ import cafe.adriel.voyager.navigator.CurrentScreen
 import dev.trolle.wingman.common.koin.KoinApplication
 import dev.trolle.af.wingman.koin.buildKoinAppDeclaration
 import dev.trolle.wingman.common.koin.rememberKoinInject
-import dev.trolle.af.wingman.repository.UserRepository
 import dev.trolle.af.wingman.screen.HomeScreen
 import dev.trolle.af.wingman.screen.SignInScreen
 import dev.trolle.af.wingman.service.Navigation
 import dev.trolle.af.wingman.service.PhoneNumberService
 import dev.trolle.wingman.ui.UiBase
 import dev.trolle.wingman.ui.di.UpdateStrings
+import dev.trolle.wingman.user.User
 import kotlinx.coroutines.runBlocking
 
 @Composable
@@ -40,7 +40,7 @@ internal expect fun AppPlatform(content: @Composable () -> Unit)
 
 @Composable
 private fun getStartScreen(): Screen {
-    val userRepository: UserRepository = rememberKoinInject()
+    val userRepository: User = rememberKoinInject()
     val startScreen =
         remember {
             runBlocking {

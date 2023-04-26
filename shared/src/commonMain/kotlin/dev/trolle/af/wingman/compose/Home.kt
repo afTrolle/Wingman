@@ -25,7 +25,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.seiko.imageloader.rememberAsyncImagePainter
 import dev.trolle.af.wingman.screen.HomeState
-import dev.trolle.af.wingman.screen.Match
+import dev.trolle.wingman.user.model.Match
 
 @Composable
 fun Home(

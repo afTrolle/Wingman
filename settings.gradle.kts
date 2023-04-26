@@ -4,6 +4,7 @@ include(":shared")
 
 include(":library:ai")
 include(":library:common")
+include(":library:db")
 include(":library:ui")
 include(":library:user")
 

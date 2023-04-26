@@ -8,16 +8,16 @@ import cafe.adriel.voyager.core.model.coroutineScope
 import cafe.adriel.voyager.core.screen.Screen
 import dev.trolle.af.wingman.compose.SignIn
 import dev.trolle.wingman.common.ext.runCatchingCancelable
-import dev.trolle.af.wingman.koin.getScreenModel
-import dev.trolle.af.wingman.repository.UserRepository
-import dev.trolle.af.wingman.screen.util.StateScreenModel
-import dev.trolle.af.wingman.screen.util.launch
+import dev.trolle.wingman.ui.voyager.StateScreenModel
 import dev.trolle.af.wingman.service.PhoneNumberService
 import dev.trolle.af.wingman.service.PhoneValidateService
 import dev.trolle.af.wingman.service.numberUpdates
 import dev.trolle.af.wingman.service.shouldFetchPhoneNumber
 import dev.trolle.wingman.ui.Navigation
+import dev.trolle.wingman.ui.ext.getScreenModel
+import dev.trolle.wingman.ui.ext.launch
 import dev.trolle.wingman.ui.string.StringsDefinition
+import dev.trolle.wingman.user.User
 import io.github.aakira.napier.Napier
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
@@ -51,7 +51,7 @@ private fun SignInState.updatePhoneNumber(
 
 internal class SignInScreenModel(
     private val phoneValidateService: PhoneValidateService,
-    private val userRepository: UserRepository,
+    private val userRepository: User,
     private val navigationService: Navigation,
     private val phoneNumberService: PhoneNumberService,
     private val strings : StateFlow<StringsDefinition>,

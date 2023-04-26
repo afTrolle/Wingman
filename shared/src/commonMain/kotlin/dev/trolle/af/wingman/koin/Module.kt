@@ -2,19 +2,15 @@ package dev.trolle.af.wingman.koin
 
 import Wingman.shared.BuildConfig
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ReadOnlyComposable
-import dev.trolle.af.wingman.repository.userRepository
 import dev.trolle.af.wingman.screen.HomeScreenModel
 import dev.trolle.af.wingman.screen.OneTimePasswordModel
 import dev.trolle.af.wingman.screen.SignInScreenModel
 import dev.trolle.af.wingman.service.NavigationImpl
-import dev.trolle.af.wingman.service.openAIService
-import dev.trolle.af.wingman.service.persistenceService
 import dev.trolle.af.wingman.service.phoneValidateService
-import dev.trolle.af.wingman.service.tinder.tinderService
+import dev.trolle.wingman.ai.aiModule
+import dev.trolle.wingman.db.databaseModule
 import dev.trolle.wingman.ui.Navigation
-import dev.trolle.wingman.ui.di.uiModule
-import dev.trolle.wingman.ui.string.StringsDefinition
+import dev.trolle.wingman.user.userModule
 import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier
 import kotlinx.serialization.json.Json
@@ -23,7 +19,7 @@ import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
-// Consider chaning this into shared module and depend on each item to minimize implicit providers.
+// Consider changing this into shared module and depend on each item to minimize implicit providers.
 // Ie, something working on android might be missing on iOS
 internal expect val platformModule: Module
 
@@ -41,20 +37,9 @@ internal val sharedModule: Module = module {
         }
     }
 
-    // Service (dependency-less)
-    single {
-        // Specified in build.gradle.kts
-        val token = BuildConfig.OPEN_API_TOKEN
-        openAIService(token)
-    }
     single { NavigationImpl() }.bind<Navigation>()
-    single { tinderService(get()) }
 
-    single { persistenceService(get(), get()) }
     single { phoneValidateService() }
-
-    // Repository (concatenate multiple services)
-    single { userRepository(get(), get(), get()) }
 
     // Screen View Models
     factory { HomeScreenModel(get()) }
@@ -64,7 +49,7 @@ internal val sharedModule: Module = module {
 
 
 internal fun appModule(uiModule: Module) =
-    listOf(uiModule, platformModule, sharedModule)
+    listOf(uiModule, platformModule, sharedModule, aiModule, databaseModule, userModule)
 
 @Composable
 internal expect fun buildKoinAppDeclaration(): KoinAppDeclaration

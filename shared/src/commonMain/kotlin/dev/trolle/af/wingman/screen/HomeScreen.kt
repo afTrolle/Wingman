@@ -5,10 +5,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import cafe.adriel.voyager.core.screen.Screen
 import dev.trolle.af.wingman.compose.Home
-import dev.trolle.af.wingman.koin.getScreenModel
-import dev.trolle.af.wingman.repository.UserRepository
-import dev.trolle.af.wingman.screen.util.StateScreenModel
-import dev.trolle.af.wingman.screen.util.launch
+import dev.trolle.wingman.ui.voyager.StateScreenModel
+import dev.trolle.wingman.ui.ext.getScreenModel
+import dev.trolle.wingman.ui.ext.launch
+import dev.trolle.wingman.user.User
+import dev.trolle.wingman.user.model.Match
 import io.github.aakira.napier.Napier
 
 internal object HomeScreen : Screen {
@@ -25,21 +26,15 @@ data class HomeState(
 )
 
 class HomeScreenModel(
-    private val userRepository: UserRepository,
+    private val user: User,
 ) : StateScreenModel<HomeState>(HomeState()) {
 
     init {
         launch {
             Napier.d { "starting work" }
-            val matches = userRepository.getMatches()
+            val matches = user.getMatches()
             updateState { it.copy(matches = matches) }
         }
     }
 }
 
-data class Match(
-    val name: String,
-    val age: String,
-    val imageUrl: String,
-    val opener: String,
-)

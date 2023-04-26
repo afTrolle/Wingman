@@ -68,7 +68,10 @@ kotlin {
 
                 // modules/projects
                 implementation(projects.library.ui)
+                implementation(projects.library.ai)
                 implementation(projects.library.common)
+                implementation(projects.library.db)
+                implementation(projects.library.user)
             }
         }
         val commonTest by getting {
