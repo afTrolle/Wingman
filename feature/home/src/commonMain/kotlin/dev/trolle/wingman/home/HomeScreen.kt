@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import cafe.adriel.voyager.core.screen.Screen
+import dev.trolle.wingman.common.ext.runCatchingCancelable
 import dev.trolle.wingman.home.compose.Home
 import dev.trolle.wingman.ui.ext.getScreenModel
 import dev.trolle.wingman.ui.ext.launch
@@ -31,9 +32,15 @@ internal class HomeScreenModel(
 
     init {
         launch {
-            Napier.d { "starting work" }
-            val matches = user.getMatches()
-            updateState { it.copy(matches = matches) }
+            runCatchingCancelable {
+                Napier.d { "starting work" }
+                val matches = user.getMatches()
+                updateState { it.copy(matches = matches) }
+            }.onFailure {
+                Napier.e(it) { "failed to fetch matches" }
+            }.onSuccess {
+                Napier.d { "fetched Matches" }
+            }
         }
     }
 }

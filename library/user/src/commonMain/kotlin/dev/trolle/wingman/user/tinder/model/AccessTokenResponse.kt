@@ -19,6 +19,6 @@ data class AccessTokenResponse(
         @SerialName("is_new_user")
         val isNewUser: Boolean?,
         @SerialName("refresh_token")
-        val refreshToken: String,
+        val refreshToken: String?,
     )
 }
