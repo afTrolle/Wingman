@@ -83,7 +83,7 @@ fun Match(match: Match) {
                 modifier = Modifier.padding(start = 8.dp, end = 8.dp, bottom = 8.dp),
                 value = match.opener,
                 readOnly = true,
-                onValueChange = { value: String -> },
+                onValueChange = { _: String -> },
                 textStyle = typography.body2,
             )
         }
