@@ -106,7 +106,7 @@ internal fun tinder(
             session.setSession(
                 SessionData(
                     phoneNumber = phoneNumber,
-                    refreshToken = response.data?.refreshToken ?: refreshToken,
+                    refreshToken = response.data.refreshToken ?: refreshToken,
                     accessToken = SessionData.AccessToken(accessToken),
                 ),
             )

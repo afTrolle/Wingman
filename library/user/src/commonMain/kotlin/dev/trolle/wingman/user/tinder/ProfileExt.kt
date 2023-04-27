@@ -13,7 +13,7 @@ fun ProfileResponse.Profile.profileString(): String = listOfNotNull(
     selectedDescriptors.takeIf { it.isNotEmpty() }?.let { selectedDescriptors ->
         buildString {
             val descriptorsByName = selectedDescriptors.groupBy { it.sectionName }
-            descriptorsByName.entries.forEachIndexed { index, it ->
+            descriptorsByName.entries.forEachIndexed { _, it ->
                 if (it.value.size > 1) appendLine("${it.key}:")
 
                 it.value.forEach {
