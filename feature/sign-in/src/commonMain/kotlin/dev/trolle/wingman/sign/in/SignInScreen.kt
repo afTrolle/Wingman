@@ -60,6 +60,7 @@ internal class SignInScreenModel(
         filterInteraction = phoneNumberService.shouldFetchPhoneNumber,
     ),
 ) {
+
     init {
         phoneNumberService.numberUpdates.onEach { result ->
             val initialPhoneNumber = result?.getOrNull() ?: ""

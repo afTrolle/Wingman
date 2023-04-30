@@ -7,6 +7,8 @@ import dev.trolle.wingman.user.tinder.model.MatchesResponse
 import dev.trolle.wingman.user.tinder.model.ProfileResponse
 import dev.trolle.wingman.user.tinder.profileString
 import io.github.aakira.napier.Napier
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
@@ -18,6 +20,7 @@ interface User {
     suspend fun signInRequestOneTimePassword(phoneNumber: String)
     suspend fun signInOneTimePassword(oneTimePassword: String, phoneNumber: String)
     suspend fun getMatches(): List<Match>
+    val matchesFlow: Flow<List<UiMatch>>
 }
 
 internal fun user(
@@ -82,6 +85,56 @@ internal fun user(
             database.addSuggestion(personId, suggestion)
         } ?: ""
     }
+
+    override val matchesFlow: Flow<List<UiMatch>> =
+        flow {
+            val myProfile = tinder.myProfile()
+            val myPublicProfile =
+                tinder.profile(myProfile.id).results ?: error("Error fetch profile")
+            val numberOfMatches = 10 // TODO Add paging
+            val response = tinder.matches(numberOfMatches)
+            val matches = response.matchesWithNoMessages()
+
+            emit(matches.toMatchInfo.toBasicMatch)
+
+            val matchesWithSuggestion = matches.map { match ->
+                val personId = match.person.id
+                val matchProfile = tinder.profile(personId).results ?: error("Error fetch profile")
+                val suggestion = getSuggestionForOpener(personId, myPublicProfile, matchProfile)
+                UiMatch.SuggestionMatch(
+                    info = match.toMatchInfo,
+                    suggestion = suggestion,
+                )
+            }
+
+            emit(matchesWithSuggestion)
+        }
+
+    private val List<TinderMatch>.toMatchInfo
+        get() = map { it.toMatchInfo }
+    private val TinderMatch.toMatchInfo
+        get() = person.run { MatchInfo(name ?: "", age()?.toString() ?: "", photos.first().url!!) }
+
+    private val List<MatchInfo>.toBasicMatch
+        get() = map { UiMatch.BasicMatch(it) }
+}
+
+data class MatchInfo(
+    val name: String,
+    val age: String,
+    val imageUrl: String,
+)
+
+sealed class UiMatch {
+    abstract val info : MatchInfo
+    data class BasicMatch(
+        override val info: MatchInfo,
+    ) : UiMatch()
+
+    data class SuggestionMatch(
+        override val info: MatchInfo,
+        val suggestion: String,
+    ) : UiMatch()
 
 }
 

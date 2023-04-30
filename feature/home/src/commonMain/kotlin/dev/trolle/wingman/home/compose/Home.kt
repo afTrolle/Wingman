@@ -1,12 +1,14 @@
 package dev.trolle.wingman.home.compose
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -20,11 +22,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.seiko.imageloader.rememberAsyncImagePainter
 import dev.trolle.wingman.home.HomeState
+import dev.trolle.wingman.user.UiMatch
 import dev.trolle.wingman.user.model.Match
 
 @Composable
@@ -45,7 +49,7 @@ fun Home(
 }
 
 @Composable
-fun Match(match: Match) {
+fun Match(match: UiMatch) {
     Column(
         Modifier.padding(vertical = 8.dp),
     ) {
@@ -53,8 +57,9 @@ fun Match(match: Match) {
             Modifier.height(96.dp)
                 .padding(horizontal = 8.dp),
         ) {
+            val info = match.info
             Image(
-                painter = rememberAsyncImagePainter(match.imageUrl),
+                painter = rememberAsyncImagePainter(info.imageUrl),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -66,12 +71,12 @@ fun Match(match: Match) {
 
             Column(Modifier.align(Alignment.Top)) {
                 Text(
-                    text = match.name,
+                    text = info.name,
                     style = typography.h4,
                     textAlign = TextAlign.Start,
                 )
                 Text(
-                    text = match.age,
+                    text = info.age,
                     style = typography.h6,
                     textAlign = TextAlign.Start,
                 )
@@ -79,9 +84,17 @@ fun Match(match: Match) {
         }
 
         Box(Modifier.padding(horizontal = 8.dp)) {
+           val suggestion =  when (match) {
+                is UiMatch.BasicMatch -> ""
+                is UiMatch.SuggestionMatch -> match.suggestion
+            }
+            val modifier =  when (match) {
+                is UiMatch.BasicMatch -> Modifier.background(Color.Black.copy(alpha = 0.5f))
+                is UiMatch.SuggestionMatch -> Modifier
+            }
             BasicTextField(
-                modifier = Modifier.padding(start = 8.dp, end = 8.dp, bottom = 8.dp),
-                value = match.opener,
+                modifier = modifier.padding(start = 8.dp, end = 8.dp, bottom = 8.dp).fillMaxWidth(),
+                value = suggestion,
                 readOnly = true,
                 onValueChange = { _: String -> },
                 textStyle = typography.body2,
