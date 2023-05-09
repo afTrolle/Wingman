@@ -1,12 +1,17 @@
 package dev.trolle.wingman.user
 
+
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.PagingSource
+import androidx.paging.PagingState
 import dev.trolle.wingman.ai.AI
 import dev.trolle.wingman.user.model.Match
 import dev.trolle.wingman.user.tinder.Tinder
 import dev.trolle.wingman.user.tinder.model.MatchesResponse
 import dev.trolle.wingman.user.tinder.model.ProfileResponse
 import dev.trolle.wingman.user.tinder.profileString
-import io.github.aakira.napier.Napier
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.runBlocking
@@ -21,13 +26,20 @@ interface User {
     suspend fun signInOneTimePassword(oneTimePassword: String, phoneNumber: String)
     suspend fun getMatches(): List<Match>
     val matchesFlow: Flow<List<UiMatch>>
+    fun matchPager(): Flow<PagingData<dev.trolle.wingman.user.tinder.model.Match>>
 }
+
 
 internal fun user(
     ai: AI,
     tinder: Tinder,
     database: UserDatabase,
 ) = object : User {
+
+    override fun matchPager() =  Pager(
+        config = PagingConfig(pageSize = 30, initialLoadSize = 30),
+        pagingSourceFactory = { MatchesPagingSource(tinder) },
+    ).flow
 
     override suspend fun signInRequestOneTimePassword(phoneNumber: String) {
         tinder.otp(phoneNumber)
@@ -47,30 +59,31 @@ internal fun user(
 
     // TODO change this to a flow so we can stream data to ui
     override suspend fun getMatches(): List<Match> {
-        val myProfile = tinder.myProfile()
-        val myPublicProfile = tinder.profile(myProfile.id).results ?: error("Error fetch profile")
-        Napier.d { "fetched profile" }
+//        val myProfile = tinder.myProfile()
+//        val myPublicProfile = tinder.profile(myProfile.id).results ?: error("Error fetch profile")
+//        Napier.d { "fetched profile" }
         // TODO add paging
-        val numberOfMatches = 10
-        val response = tinder.matches(numberOfMatches)
-        Napier.d { "fetched matches" }
-        val matches = response.matchesWithNoMessages()
-
-        return matches.map { match ->
-            val personId = match.person.id
-            Napier.d { "Handling ${match.person.name}" }
-            val matchProfile = tinder.profile(personId).results
-                ?: error("Error fetch profile")
-
-            val suggestion = getSuggestionForOpener(personId, myPublicProfile, matchProfile)
-
-            Match(
-                name = match.person.name ?: "",
-                age = match.person.age()?.toString() ?: "",
-                imageUrl = match.person.photos.first().url!!,
-                opener = suggestion,
-            )
-        }
+//        val numberOfMatches = 5
+//        val response = tinder.matches(numberOfMatches)
+//        Napier.d { "fetched matches" }
+//        val matches = response.matchesWithNoMessages()
+//
+        return emptyList()
+//        return matches.map { match ->
+//            val personId = match.person.id
+//            Napier.d { "Handling ${match.person.name}" }
+//            val matchProfile = tinder.profile(personId).results
+//                ?: error("Error fetch profile")
+//
+//            val suggestion = getSuggestionForOpener(personId, myPublicProfile, matchProfile)
+//
+//            Match(
+//                name = match.person.name ?: "",
+//                age = match.person.age()?.toString() ?: "",
+//                imageUrl = match.person.photos.first().url!!,
+//                opener = suggestion,
+//            )
+//        }
     }
 
     private suspend fun getSuggestionForOpener(
@@ -88,26 +101,27 @@ internal fun user(
 
     override val matchesFlow: Flow<List<UiMatch>> =
         flow {
-            val myProfile = tinder.myProfile()
-            val myPublicProfile =
-                tinder.profile(myProfile.id).results ?: error("Error fetch profile")
-            val numberOfMatches = 10 // TODO Add paging
-            val response = tinder.matches(numberOfMatches)
-            val matches = response.matchesWithNoMessages()
+//            val myProfile = tinder.myProfile()
+//            val myPublicProfile =
+//                tinder.profile(myProfile.id).results ?: error("Error fetch profile")
+//            val numberOfMatches = 5 // TODO Add paging
+//            val response = tinder.matches(numberOfMatches)
+//            val matches = response.matchesWithNoMessages()
 
-            emit(matches.toMatchInfo.toBasicMatch)
+//            emit(matches.toMatchInfo.toBasicMatch)
 
-            val matchesWithSuggestion = matches.map { match ->
-                val personId = match.person.id
-                val matchProfile = tinder.profile(personId).results ?: error("Error fetch profile")
-                val suggestion = getSuggestionForOpener(personId, myPublicProfile, matchProfile)
-                UiMatch.SuggestionMatch(
-                    info = match.toMatchInfo,
-                    suggestion = suggestion,
-                )
-            }
+//            val matchesWithSuggestion = matches.map { match ->
+//                val personId = match.person.id
+//                val matchProfile = tinder.profile(personId).results ?: error("Error fetch profile")
+//                val suggestion = getSuggestionForOpener(personId, myPublicProfile, matchProfile)
+//                UiMatch.SuggestionMatch(
+//                    info = match.toMatchInfo,
+//                    suggestion = suggestion,
+//                )
+//            }
 
-            emit(matchesWithSuggestion)
+            emit(emptyList())
+//            emit(matchesWithSuggestion)
         }
 
     private val List<TinderMatch>.toMatchInfo
@@ -126,7 +140,8 @@ data class MatchInfo(
 )
 
 sealed class UiMatch {
-    abstract val info : MatchInfo
+    abstract val info: MatchInfo
+
     data class BasicMatch(
         override val info: MatchInfo,
     ) : UiMatch()

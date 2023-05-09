@@ -1,105 +1,49 @@
 package dev.trolle.wingman.home.compose
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.material.Divider
-import androidx.compose.material.MaterialTheme.typography
-import androidx.compose.material.Scaffold
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
-import com.seiko.imageloader.rememberAsyncImagePainter
+import androidx.compose.ui.unit.sp
+import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
 import dev.trolle.wingman.home.HomeState
-import dev.trolle.wingman.user.UiMatch
-import dev.trolle.wingman.user.model.Match
+import dev.trolle.wingman.home.MatchItem
+
 
 @Composable
-fun Home(
-    state: HomeState,
-) = Scaffold {
-    LazyColumn(
-        contentPadding = PaddingValues(vertical = 32.dp), // TODO add systembar padding
-    ) {
-        items(
-            count = state.matches.size,
-            itemContent = { index ->
-                val match = state.matches[index]
-                Match(match)
-            },
-        )
-    }
-}
+fun Home(state: State<HomeState>, lazyPagingMatches: LazyPagingItems<MatchItem>) = Surface {
 
-@Composable
-fun Match(match: UiMatch) {
-    Column(
-        Modifier.padding(vertical = 8.dp),
-    ) {
-        Row(
-            Modifier.height(96.dp)
-                .padding(horizontal = 8.dp),
-        ) {
-            val info = match.info
-            Image(
-                painter = rememberAsyncImagePainter(info.imageUrl),
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .padding(8.dp)
-                    .fillMaxHeight()
-                    .aspectRatio(1f)
-                    .clip(RoundedCornerShape(16.dp)),
-            )
-
-            Column(Modifier.align(Alignment.Top)) {
+    LazyColumn {
+        if (lazyPagingMatches.loadState.refresh == LoadState.Loading) {
+            item {
                 Text(
-                    text = info.name,
-                    style = typography.h4,
-                    textAlign = TextAlign.Start,
-                )
-                Text(
-                    text = info.age,
-                    style = typography.h6,
-                    textAlign = TextAlign.Start,
+                    text = "Waiting for items to load from the backend",
+                    modifier = Modifier.fillMaxWidth()
+                        .wrapContentWidth(Alignment.CenterHorizontally),
                 )
             }
         }
 
-        Box(Modifier.padding(horizontal = 8.dp)) {
-           val suggestion =  when (match) {
-                is UiMatch.BasicMatch -> ""
-                is UiMatch.SuggestionMatch -> match.suggestion
-            }
-            val modifier =  when (match) {
-                is UiMatch.BasicMatch -> Modifier.background(Color.Black.copy(alpha = 0.5f))
-                is UiMatch.SuggestionMatch -> Modifier
-            }
-            BasicTextField(
-                modifier = modifier.padding(start = 8.dp, end = 8.dp, bottom = 8.dp).fillMaxWidth(),
-                value = suggestion,
-                readOnly = true,
-                onValueChange = { _: String -> },
-                textStyle = typography.body2,
-            )
+        items(count = lazyPagingMatches.itemCount) { index ->
+            val item = lazyPagingMatches[index]
+            Text("Index=$index: $item", fontSize = 20.sp)
         }
-        Divider()
+
+        if (lazyPagingMatches.loadState.append == LoadState.Loading) {
+            item {
+                CircularProgressIndicator(
+                    modifier = Modifier.fillMaxWidth()
+                        .wrapContentWidth(Alignment.CenterHorizontally),
+                )
+            }
+        }
     }
 }

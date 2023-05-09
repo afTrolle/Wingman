@@ -6,7 +6,7 @@ datetime = "0.4.0"
 serialization = "1.5.0"
 coroutines = "1.7.0-RC"
 openai = "3.1.1"
-agp = "8.0.0"
+agp = "8.0.1"
 compose = "1.4.0"
 voyager = "1.0.0-rc04"
 koin = "3.2.0"
@@ -18,6 +18,8 @@ buildconfig = "3.1.0"
 ktlint = "11.3.1"
 ksp = "1.8.20-1.0.11"
 lyricist = "1.3.0"
+paging = "3.1.1-0.2.0"
+atomicfu = "0.20.2"
 # Config
 compileSdk = "33"
 minSdk = "28"
@@ -62,6 +64,12 @@ lyricist-library = { module = "cafe.adriel.lyricist:lyricist", version.ref = "ly
 lyricist-processor = { module = "cafe.adriel.lyricist:lyricist-processor", version.ref = "lyricist" }
 lyricist-processorXml = { module = "cafe.adriel.lyricist:lyricist-processor-xml", version.ref = "lyricist" }
 
+#cash-paging-compose-common = { module = "app.cash.paging:paging-compose-common", version.ref = "paging" }
+#cash-paging-runtime-composeui ={ module = "app.cash.paging:paging-runtime-composeui", version.ref = "paging" }
+
+cash-paging-compose-common = { module = "app.cash.paging:paging-common", version.ref = "paging" }
+cash-paging-runtime-composeui ={ module = "app.cash.paging:paging-runtime", version.ref = "paging" }
+
 accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist" }
 
 libphonenumber = "com.googlecode.libphonenumber:libphonenumber:8.13.9"
@@ -81,6 +89,8 @@ gradlePlugin-kotlin-serialization = { module = "org.jetbrains.kotlin.plugin.seri
 gradlePlugin-jetbrains-compose = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "compose" }
 gradlePlugin-buildconfig = { module = "com.github.gmazzo.buildconfig:com.github.gmazzo.buildconfig.gradle.plugin", version.ref = "buildconfig" }
 gradlePlugin-ktlint = { module = "org.jlleitschuh.gradle.ktlint:org.jlleitschuh.gradle.ktlint.gradle.plugin", version.ref = "ktlint" }
+gradlePlugin-atomicfu = { module = "org.jetbrains.kotlinx:atomicfu-gradle-plugin", version.ref = "atomicfu" }
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
@@ -89,9 +99,11 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-cocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "compose" }
 buildconfig = { id = "com.github.gmazzo.buildconfig", version.ref = "buildconfig" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
+atomicfu = { id = "kotlinx-atomicfu", version.ref = "atomicfu" }
 # Custom plugins
 feature = { id = "feature-plugin" }
 library = { id = "library-plugin" }

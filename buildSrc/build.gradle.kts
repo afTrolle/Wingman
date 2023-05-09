@@ -28,6 +28,7 @@ dependencies {
     implementation(libs.gradlePlugin.buildconfig)
     implementation(libs.gradlePlugin.ktlint)
     implementation(libs.gradlePlugin.google.ksp)
+    implementation(libs.gradlePlugin.atomicfu)
     // include generated from "/gradle/libs.versions.toml"
     implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
 }

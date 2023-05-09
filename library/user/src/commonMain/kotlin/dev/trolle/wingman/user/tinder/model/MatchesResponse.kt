@@ -11,7 +11,11 @@ data class MatchesResponse(
     val meta: Meta? = null,
 ) {
     @Serializable
-    data class Data(val matches: List<Match> = emptyList())
+    data class Data(
+        val matches: List<Match> = emptyList(),
+        @SerialName("next_page_token")
+        val nextPageToken: String? = null,
+    )
 }
 
 @Serializable
@@ -58,7 +62,7 @@ data class Match(
     val likedContent: LikedContent? = null,
     @SerialName("message_count")
     val messageCount: Int,
-    val messages: List<JsonObject> = emptyList(),
+    val messages: List<Message> = emptyList(),
     val participants: List<String> = emptyList(),
     val pending: Boolean? = null,
     val person: Person,
@@ -66,6 +70,16 @@ data class Match(
     val readReceipt: ReadReceipt? = null,
     val seen: Seen? = null,
 ) {
+
+    @Serializable
+    data class Message(
+        val message: String? = null,
+        @SerialName("sent_date")
+        val sentDate: Instant? = null,
+        val to: String? = null,
+        val from: String? = null,
+    )
+
     @Serializable
     data class LikedContent(
         @SerialName("by_closer")

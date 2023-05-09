@@ -18,6 +18,9 @@ kotlin {
                 implementation(libs.ktor.serialization.json)
                 implementation(libs.kotlinx.serialization.json)
 
+                implementation(projects.library.paging.pagingCompose)
+                implementation(projects.library.paging.pagingCommon)
+
                 implementation(projects.library.db)
                 implementation(projects.library.ai)
             }

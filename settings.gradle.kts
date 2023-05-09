@@ -8,6 +8,11 @@ include(":library:db")
 include(":library:ui")
 include(":library:user")
 
+// Remove modules when paging 3 has compose multiplatform support
+// Check https://github.com/androidx/androidx/pulls?q=+is%3Apr+author%3Aveyndan+
+include(":library:paging:paging-common")
+include(":library:paging:paging-compose")
+
 include(":feature:home")
 include(":feature:settings")
 include(":feature:sign-in")

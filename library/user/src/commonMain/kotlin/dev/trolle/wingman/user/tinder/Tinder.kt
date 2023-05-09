@@ -9,6 +9,7 @@ import dev.trolle.wingman.user.tinder.model.OtpRequest
 import dev.trolle.wingman.user.tinder.model.ProfileResponse
 import dev.trolle.wingman.user.tinder.model.RefreshApiTokenRequest
 import dev.trolle.wingman.user.tinder.model.RefreshTokenResponse
+import io.github.aakira.napier.Napier
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.HttpRequestRetry
@@ -21,6 +22,7 @@ import io.ktor.client.request.parameter
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.client.statement.HttpResponse
+import io.ktor.client.statement.bodyAsText
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import io.ktor.http.path
@@ -35,7 +37,7 @@ import kotlinx.serialization.json.Json
 interface Tinder {
     suspend fun otp(phoneNumber: String)
     suspend fun refreshToken(oneTimePassword: String, phoneNumber: String): RefreshTokenResponse
-    suspend fun matches(count: Int): MatchesResponse
+    suspend fun matches(count: Int, pageToken: String?): MatchesResponse
     suspend fun profile(id: String): ProfileResponse
     suspend fun myProfile(): MyProfileResponse
 
@@ -123,12 +125,18 @@ internal fun tinder(
         return result.body()
     }
 
-    override suspend fun matches(count: Int): MatchesResponse = session.withSession { token ->
+    override suspend fun matches(
+        count: Int,
+        pageToken: String?,
+    ): MatchesResponse = session.withSession { token ->
         commonDelayedRequest(
             token = token,
             path = "/v2/matches",
         ) {
             parameter("count", count)
+            pageToken?.let { token ->
+                parameter("page_token", token)
+            }
         }.body()
     }
 
