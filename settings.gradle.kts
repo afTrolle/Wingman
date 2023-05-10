@@ -13,6 +13,9 @@ include(":library:user")
 include(":library:paging:paging-common")
 include(":library:paging:paging-compose")
 
+include(":library:accompanist:placeholder")
+include(":library:accompanist:placeholder-material")
+
 include(":feature:home")
 include(":feature:settings")
 include(":feature:sign-in")

@@ -36,6 +36,7 @@ class FeaturePlugin : Plugin<Project> {
                         implementation(compose.foundation)
                         implementation(compose.material)
                         implementation(compose.ui)
+                        implementation(compose.materialIconsExtended)
                         @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                         implementation(compose.components.resources)
                         implementation(libs.image.loader.core)

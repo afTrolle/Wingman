@@ -5,6 +5,7 @@ import androidx.paging.PagingState
 import dev.trolle.wingman.user.tinder.Tinder
 import dev.trolle.wingman.user.tinder.model.Match
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.delay
 
 
 class MatchesPagingSource(
@@ -22,6 +23,7 @@ class MatchesPagingSource(
         return try {
             require(params.loadSize < 100) { "Require less than 100 items" }
             val nextPageToken = params.key
+            delay(2000)
             val response = backend.matches(params.loadSize, nextPageToken)
 
             val updatedPageToken = response.data?.nextPageToken
@@ -36,7 +38,7 @@ class MatchesPagingSource(
         } catch (e: Exception) {
             when (e) {
                 is CancellationException -> throw e
-                else -> PagingSource.LoadResult.Error(e)
+                else -> LoadResult.Error(e)
             }
         }
     }

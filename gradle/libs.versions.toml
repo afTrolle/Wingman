@@ -8,7 +8,7 @@ coroutines = "1.7.0-RC"
 openai = "3.1.1"
 agp = "8.0.1"
 compose = "1.4.0"
-voyager = "1.0.0-rc04"
+voyager = "1.0.0-rc06"
 koin = "3.2.0"
 accompanist = "0.30.1"
 napier = "2.6.1"
@@ -34,6 +34,7 @@ kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serializa
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
 kotlinx-coroutines-play = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "coroutines" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+kotlinx-atomicfu = "org.jetbrains.kotlinx:atomicfu:0.20.2"
 
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
@@ -44,6 +45,7 @@ ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negoti
 
 voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
 voyager-transitions = { module = "cafe.adriel.voyager:voyager-transitions", version.ref = "voyager" }
+voyager-tab = { module = "cafe.adriel.voyager:voyager-tab-navigator", version.ref = "voyager" }
 
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
@@ -54,6 +56,7 @@ androidx-activity-compose = "androidx.activity:activity-compose:1.6.1"
 androidx-appcompat = "androidx.appcompat:appcompat:1.6.1"
 androidx-core = "androidx.core:core-ktx:1.9.0"
 androidx-datastore-preferences = "androidx.datastore:datastore-preferences:1.0.0"
+androidx-annotation = "androidx.annotation:annotation:1.7.0-alpha02"
 
 settings-coroutines = { module = "com.russhwolf:multiplatform-settings-coroutines", version.ref = "settings" }
 settings-datastore = { module = "com.russhwolf:multiplatform-settings-datastore", version.ref = "settings" }
@@ -64,14 +67,12 @@ lyricist-library = { module = "cafe.adriel.lyricist:lyricist", version.ref = "ly
 lyricist-processor = { module = "cafe.adriel.lyricist:lyricist-processor", version.ref = "lyricist" }
 lyricist-processorXml = { module = "cafe.adriel.lyricist:lyricist-processor-xml", version.ref = "lyricist" }
 
-#cash-paging-compose-common = { module = "app.cash.paging:paging-compose-common", version.ref = "paging" }
-#cash-paging-runtime-composeui ={ module = "app.cash.paging:paging-runtime-composeui", version.ref = "paging" }
-
 cash-paging-compose-common = { module = "app.cash.paging:paging-common", version.ref = "paging" }
 cash-paging-runtime-composeui ={ module = "app.cash.paging:paging-runtime", version.ref = "paging" }
 
 accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist" }
 
+stately = "co.touchlab:stately-concurrent-collections:2.0.0-rc1"
 libphonenumber = "com.googlecode.libphonenumber:libphonenumber:8.13.9"
 play-services-auth = "com.google.android.gms:play-services-auth:20.5.0"
 napier = { module = "io.github.aakira:napier", version.ref = "napier" }

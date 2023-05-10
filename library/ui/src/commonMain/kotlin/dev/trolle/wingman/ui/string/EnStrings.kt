@@ -15,5 +15,8 @@ internal val EnStrings = StringsDefinition(
     button_sign_in = "Sign in",
     logo_desc = "app logo",
     error_something_went_wrong = "Something went wrong",
-    settings_description = "user settings"
+    settings_description = "user settings",
+    home_tab = "Home",
+    bio_tab = "Bio",
+    profile_tab = "Profile",
 )

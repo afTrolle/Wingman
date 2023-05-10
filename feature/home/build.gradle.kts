@@ -11,10 +11,7 @@ kotlin {
                 implementation(projects.library.user)
                 implementation(projects.library.paging.pagingCompose)
                 implementation(projects.library.paging.pagingCommon)
-            }
-        }
-        val androidMain by getting {
-            dependencies {
+                implementation(libs.voyager.tab)
             }
         }
     }

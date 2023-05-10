@@ -15,7 +15,10 @@ data class StringsDefinition(
     val button_sign_in: String,
     val logo_desc: String,
     val error_something_went_wrong: String,
-    val settings_description: String
+    val settings_description: String,
+    val home_tab : String,
+    val bio_tab : String,
+    val profile_tab : String,
 )
 
 val Strings
