@@ -20,6 +20,7 @@ import androidx.annotation.FloatRange
 import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.InfiniteRepeatableSpec
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ReadOnlyComposable
 import com.google.accompanist.placeholder.PlaceholderDefaults
 import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.fade
@@ -54,6 +55,7 @@ fun PlaceholderHighlight.Companion.fade(
  * @param progressForMaxAlpha The progress where the shimmer should be at it's peak opacity.
  * Defaults to 0.6f.
  */
+@ReadOnlyComposable
 @Composable
 fun PlaceholderHighlight.Companion.shimmer(
     animationSpec: InfiniteRepeatableSpec<Float> = PlaceholderDefaults.shimmerAnimationSpec,

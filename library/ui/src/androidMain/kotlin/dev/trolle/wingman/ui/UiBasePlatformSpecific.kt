@@ -14,6 +14,8 @@ import androidx.core.view.WindowCompat
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.seiko.imageloader.ImageLoader
 import com.seiko.imageloader.LocalImageLoader
+import com.seiko.imageloader.cache.disk.DiskCache
+import com.seiko.imageloader.cache.memory.MemoryCache
 import com.seiko.imageloader.cache.memory.maxSizePercent
 import com.seiko.imageloader.component.setupDefaultComponents
 import okio.Path.Companion.toOkioPath
@@ -46,11 +48,23 @@ private fun Context.getActivity(): ComponentActivity? = when (this) {
     else -> null
 }
 
+
 @Composable
 fun generateImageLoader(): ImageLoader {
     val context = LocalContext.current.applicationContext
     val density = LocalDensity.current
-    return remember(context, density) {
+    val cache = remember {
+        MemoryCache {
+            maxSizePercent(context, 0.50)
+        }
+    }
+    val diskCache = remember {
+        DiskCache {
+            directory(context.cacheDir.resolve("image_cache").toOkioPath())
+            maxSizeBytes(256L * 1024 * 1024) // 128MB
+        }
+    }
+    return remember(density) {
         ImageLoader {
             components {
                 setupDefaultComponents(
@@ -58,17 +72,12 @@ fun generateImageLoader(): ImageLoader {
                     density,
                 )
             }
-
+            this.options.allowInexactSize =true
             interceptor {
-                memoryCacheConfig {
-                    // Set the max size to 25% of the app's available memory.
-                    maxSizePercent(context, 0.25)
-                }
-                diskCacheConfig {
-                    directory(context.cacheDir.resolve("image_cache").toOkioPath())
-                    maxSizeBytes(128L * 1024 * 1024) // 128MB
-                }
+                memoryCache { cache }
+                diskCache { diskCache }
             }
         }
     }
 }
+

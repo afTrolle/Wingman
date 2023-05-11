@@ -25,8 +25,9 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.util.lerp
 import kotlin.math.max
+import kotlin.math.roundToInt
+import kotlin.math.roundToLong
 
 /**
  * A class which provides a brush to paint placeholder based on progress.
@@ -146,4 +147,26 @@ private data class Shimmer(
             )
         }
     }
+}
+
+
+/**
+ * Linearly interpolate between [start] and [stop] with [fraction] fraction between them.
+ */
+fun lerp(start: Float, stop: Float, fraction: Float): Float {
+    return (1 - fraction) * start + fraction * stop
+}
+
+/**
+ * Linearly interpolate between [start] and [stop] with [fraction] fraction between them.
+ */
+fun lerp(start: Int, stop: Int, fraction: Float): Int {
+    return start + ((stop - start) * fraction.toDouble()).roundToInt()
+}
+
+/**
+ * Linearly interpolate between [start] and [stop] with [fraction] fraction between them.
+ */
+fun lerp(start: Long, stop: Long, fraction: Float): Long {
+    return start + ((stop - start) * fraction.toDouble()).roundToLong()
 }

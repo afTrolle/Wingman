@@ -22,6 +22,7 @@ import androidx.compose.animation.core.spring
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.contentColorFor
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Color
@@ -70,6 +71,7 @@ fun PlaceholderDefaults.fadeHighlightColor(
  * `MaterialTheme.colors.surface`.
  * @param alpha The alpha component to set on [backgroundColor]. Defaults to `0.75f`.
  */
+@ReadOnlyComposable
 @Composable
 fun PlaceholderDefaults.shimmerHighlightColor(
     backgroundColor: Color = MaterialTheme.colors.surface,

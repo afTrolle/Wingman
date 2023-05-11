@@ -11,6 +11,8 @@ kotlin {
                 implementation(projects.library.user)
                 implementation(projects.library.paging.pagingCompose)
                 implementation(projects.library.paging.pagingCommon)
+                implementation(projects.library.accompanist.placeholderMaterial)
+                implementation(projects.library.accompanist.placeholder)
                 implementation(libs.voyager.tab)
             }
         }

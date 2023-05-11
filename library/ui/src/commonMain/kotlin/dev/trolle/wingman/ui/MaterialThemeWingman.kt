@@ -45,7 +45,7 @@ object MaterialThemeWingman {
             background = Color.White,
             surface = Color.White,
             onPrimary = Color.White,
-            onSecondary = Color.Black,
+            onSecondary = Color.White,
         )
     }
 }
