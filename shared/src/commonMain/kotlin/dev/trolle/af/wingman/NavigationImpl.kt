@@ -8,7 +8,7 @@ import cafe.adriel.voyager.navigator.NavigatorContent
 import cafe.adriel.voyager.navigator.NavigatorDisposeBehavior
 import cafe.adriel.voyager.navigator.OnBackPressed
 import dev.trolle.wingman.common.koin.rememberKoinInject
-import dev.trolle.wingman.home.HomeScreen
+import dev.trolle.wingman.home.compose.screen.home.HomeScreen
 import dev.trolle.wingman.ui.Navigation
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow

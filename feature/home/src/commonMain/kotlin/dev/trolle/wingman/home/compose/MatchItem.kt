@@ -24,32 +24,34 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.FilterQuality
+import androidx.compose.ui.graphics.FilterQuality.Companion.Medium
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.material.placeholder
 import com.google.accompanist.placeholder.material.shimmer
 import com.seiko.imageloader.rememberAsyncImagePainter
+import dev.trolle.wingman.home.compose.screen.home.MatchItem
 import dev.trolle.wingman.ui.MaterialThemeWingman
 
 @Composable
-fun MatchItem(item: MatchItem? = null) {
+fun MatchItem(
+    item: MatchItem? = null,
+    modifier: Modifier = Modifier,
+) {
     val isVisible = item != null
     val highlight = PlaceholderHighlight.shimmer()
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp),
+        modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        // Very janky
-        val image = item?.image?.let { rememberAsyncImagePainter(it, filterQuality = FilterQuality.None) } ?: rememberVectorPainter(
-            image = Icons.Default.Person,
-        )
+        val realImage = item?.image?.let { rememberAsyncImagePainter(it, filterQuality = Medium) }
+        val placeholder = rememberVectorPainter(image = Icons.Default.Person)
+
         Image(
-            painter = image,
+            painter = realImage ?: placeholder,
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier
@@ -77,6 +79,7 @@ fun MatchItem(item: MatchItem? = null) {
                         .fillMaxWidth(if (isVisible) 1f else 0.2f)
                         .placeholder(!isVisible, highlight = highlight),
                     text = item?.latestMessage ?: "",
+                    overflow = TextOverflow.Ellipsis,
                     style = MaterialThemeWingman.typography.subtitle2,
                     maxLines = 1,
                 )

@@ -6,14 +6,12 @@ import kotlinx.coroutines.flow.StateFlow
 import org.koin.core.scope.Scope
 
 
-internal actual fun Scope.phoneNumberService(): PhoneNumberService {
-    return object : PhoneNumberService {
+internal actual fun Scope.phoneNumberService(): PhoneNumberService = object : PhoneNumberService {
 
-        override val phoneNumber: StateFlow<Result<String?>?> = MutableStateFlow(Result.success(null))
+    override val phoneNumber: StateFlow<Result<String?>?> = MutableStateFlow(Result.success(null))
 
-        @Composable
-        override fun Register() = Unit
+    @Composable
+    override fun Register() = Unit
 
-        override suspend fun getPhoneNumber() = Unit
-    }
+    override suspend fun getPhoneNumber() = Unit
 }

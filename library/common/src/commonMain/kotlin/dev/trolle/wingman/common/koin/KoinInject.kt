@@ -1,6 +1,7 @@
 package dev.trolle.wingman.common.koin
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.remember
 import org.koin.core.parameter.ParametersDefinition
 import org.koin.core.qualifier.Qualifier

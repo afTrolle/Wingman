@@ -1,4 +1,4 @@
-package dev.trolle.wingman.home.compose
+package dev.trolle.wingman.home.compose.custom
 
 import androidx.compose.runtime.Composable
 import cafe.adriel.voyager.navigator.tab.Tab

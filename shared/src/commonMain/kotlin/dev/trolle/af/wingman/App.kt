@@ -6,7 +6,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.CurrentScreen
 import dev.trolle.wingman.common.koin.KoinApplication
 import dev.trolle.wingman.common.koin.rememberKoinInject
-import dev.trolle.wingman.home.HomeScreen
+import dev.trolle.wingman.home.compose.screen.home.HomeScreen
 import dev.trolle.wingman.sign.`in`.SignInScreen
 import dev.trolle.wingman.sign.`in`.service.InitPhoneNumberService
 import dev.trolle.wingman.ui.UiBase

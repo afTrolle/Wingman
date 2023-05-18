@@ -1,17 +1,14 @@
 package dev.trolle.wingman.home.preview
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.paging.PagingData
-import androidx.paging.compose.collectAsLazyPagingItems
-import dev.trolle.wingman.home.compose.Home
-import dev.trolle.wingman.home.compose.HomeState
+import androidx.compose.ui.unit.dp
 import dev.trolle.wingman.home.compose.MatchItem
+import dev.trolle.wingman.home.compose.screen.home.MatchItem
 import dev.trolle.wingman.ui.compose.PreviewDefaults
-import kotlinx.coroutines.flow.flowOf
 
 private val item = MatchItem(
     id = "1",
@@ -23,35 +20,12 @@ private val item = MatchItem(
 )
 
 @Preview(
-    showSystemUi = true,
-    showBackground = true,
-)
-@Composable
-fun HomePreview() = PreviewDefaults {
-    val state = remember {
-        mutableStateOf(HomeState(1))
-    }
-
-    val temp = remember {
-        flowOf(
-            PagingData.from(
-                data = listOf(item, item),
-            ),
-        )
-    }
-    val lazyItems = temp.collectAsLazyPagingItems()
-
-    Home(state = state, lazyItems)
-}
-
-
-@Preview(
     showBackground = true,
 )
 @Composable
 fun MatchItemPreview() = PreviewDefaults {
     Surface {
-        MatchItem(item)
+        MatchItem(item, Modifier.padding(16.dp))
     }
 }
 
@@ -59,6 +33,6 @@ fun MatchItemPreview() = PreviewDefaults {
 @Composable
 fun MatchItemLoadingPreview() = PreviewDefaults {
     Surface {
-        MatchItem(null)
+        MatchItem(null, Modifier.padding(16.dp))
     }
 }

@@ -37,7 +37,7 @@ internal fun user(
 ) = object : User {
 
     override fun matchPager() = Pager(
-        config = PagingConfig(pageSize = 30, initialLoadSize = 30),
+        config = PagingConfig(pageSize = 50, initialLoadSize = 50),
         pagingSourceFactory = { MatchesPagingSource(tinder) },
     ).flow
 

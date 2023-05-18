@@ -2,6 +2,7 @@
 
 package dev.trolle.wingman.home.compose
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -13,7 +14,6 @@ import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -22,10 +22,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
+import dev.trolle.wingman.home.compose.screen.home.LocalTabPaddingValues
+import dev.trolle.wingman.home.compose.screen.home.MatchItem
 import dev.trolle.wingman.ui.ext.statusBarsPadding
 
 @Composable
-fun Home(state: State<HomeState>, lazyPagingMatches: LazyPagingItems<MatchItem>) {
+fun Home(
+    lazyPagingMatches: LazyPagingItems<MatchItem>,
+    onMatchItem: (MatchItem?) -> Unit = {},
+) {
     val padding = LocalTabPaddingValues.current
     Surface {
         PullToRefreshBox(lazyPagingMatches) {
@@ -35,20 +40,25 @@ fun Home(state: State<HomeState>, lazyPagingMatches: LazyPagingItems<MatchItem>)
                 item {
                     // Append so first item is bellow status-bar
                     // Not sure but content padding didn't work for this task.
-                    // TODO fix this into a nice header
                     Box(Modifier.statusBarsPadding()) {}
                 }
 
-                // TODO figure out a header.
-
                 items(count = lazyPagingMatches.itemCount) { index ->
                     val item = lazyPagingMatches[index]
-                    MatchItem(item)
-                    Divider(modifier = Modifier.padding(end= 48.dp))
+                    MatchItem(
+                        item,
+                        Modifier
+                            .clickable { onMatchItem(item) }
+                            .padding(horizontal = 32.dp, vertical = 16.dp),
+                    )
+                    Divider(modifier = Modifier.padding(end = 48.dp))
                 }
 
                 if (lazyPagingMatches.loadState.append == LoadState.Loading) item {
-                    MatchItem(null)
+                    MatchItem(
+                        null,
+                        modifier = Modifier.padding(horizontal = 32.dp, vertical = 16.dp),
+                    )
                 }
             }
         }

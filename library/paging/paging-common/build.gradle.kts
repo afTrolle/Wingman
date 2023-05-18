@@ -13,8 +13,12 @@ kotlin {
                 implementation(libs.androidx.annotation)
                 implementation(libs.kotlinx.coroutines.core)
                 implementation(libs.kotlinx.atomicfu)
-                implementation(libs.stately.common)
                 implementation(libs.stately.collection)
+            }
+        }
+        val iosMain by getting {
+            dependencies {
+                implementation(libs.stately.common)
             }
         }
     }
