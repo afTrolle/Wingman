@@ -13,7 +13,8 @@ kotlin {
                 implementation(libs.androidx.annotation)
                 implementation(libs.kotlinx.coroutines.core)
                 implementation(libs.kotlinx.atomicfu)
-                implementation(libs.stately)
+                implementation(libs.stately.common)
+                implementation(libs.stately.collection)
             }
         }
     }

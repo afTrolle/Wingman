@@ -15,7 +15,7 @@ class MatchesPagingSource(
     override fun getRefreshKey(state: PagingState<String, Match>): String? {
         // Not sure If we should support refresh could be better to just return null always here.
         return state.anchorPosition?.let {
-            state.closestPageToPosition(it)?.prevKey as String?
+            state.closestPageToPosition(it)?.prevKey
         }
     }
 

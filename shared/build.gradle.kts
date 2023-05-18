@@ -1,5 +1,7 @@
 @file:Suppress("UNUSED_VARIABLE")
 
+import dev.trolle.wingman.gradle.libs
+
 plugins {
     aliasId(libs.plugins.kotlin.multiplatform)
     aliasId(libs.plugins.android.library)
