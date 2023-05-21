@@ -8,6 +8,7 @@ import androidx.paging.map
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.coroutineScope
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.core.screen.ScreenKey
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.trolle.wingman.home.compose.Home
@@ -30,6 +31,9 @@ import kotlinx.coroutines.flow.onEach
 import kotlin.time.Duration.Companion.milliseconds
 
 object HomeTab : CustomTab {
+
+    override val key: ScreenKey  = "MainHomeScreenTab"
+
     @Composable
     override fun Content() {
         // Tabs are nested, using parent to retain viewModel state
@@ -37,7 +41,6 @@ object HomeTab : CustomTab {
         val parentScreen = LocalNavigator.currentOrThrow.parentScreenOrThrow
         val viewModel = parentScreen.getScreenModel<HomeScreenModel>()
         val lazyPagingMatches = viewModel.matches.collectAsLazyPagingItems()
-
         Home(
             lazyPagingMatches,
             viewModel::onMatchItem,

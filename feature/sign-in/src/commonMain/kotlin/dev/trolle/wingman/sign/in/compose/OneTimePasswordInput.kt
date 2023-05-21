@@ -10,9 +10,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.LocalTextStyle
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -61,15 +61,15 @@ private fun OneTimePasswordEntry(
     error: Boolean,
 ) {
     val targetColor = when {
-        error -> MaterialTheme.colors.error
+        error -> MaterialTheme.colorScheme.error
         char.isEmpty() -> Color.Gray.copy(alpha = .8f)
-        else -> MaterialTheme.colors.primary.copy(.8f)
+        else -> MaterialTheme.colorScheme.primary.copy(.8f)
     }
 
     val color = animateColorAsState(
         targetValue = targetColor,
     )
-    val textStyle = MaterialTheme.typography.h6
+    val textStyle = MaterialTheme.typography.titleMedium
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(4.dp),

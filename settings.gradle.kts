@@ -13,6 +13,8 @@ include(":library:user")
 include(":library:paging:paging-common")
 include(":library:paging:paging-compose")
 
+include(":library:pull-to-refresh")
+
 include(":library:accompanist:placeholder")
 include(":library:accompanist:placeholder-material")
 

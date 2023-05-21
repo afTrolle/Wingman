@@ -10,10 +10,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -31,43 +32,46 @@ import dev.trolle.wingman.ui.string.Strings
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 
+
 @Composable
 fun SignIn(
     state: SignInState,
     onPhoneNumberChange: (String) -> Unit = {},
     onSignIn: () -> Unit = {},
     onPressInteractionConsumed: () -> Unit = {},
-) = Scaffold { paddingValues ->
-    Box(
-        modifier = Modifier.fillMaxHeight()
-            .padding(paddingValues)
-            .systemBarsPadding()
-            .padding(horizontal = 32.dp),
-    ) {
-        Column(
-            modifier = Modifier.align(Alignment.Center),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
+    ) =
+    @OptIn(ExperimentalMaterial3Api::class)
+    Scaffold { paddingValues ->
+        Box(
+            modifier = Modifier.fillMaxHeight()
+                .padding(paddingValues)
+                .systemBarsPadding()
+                .padding(horizontal = 32.dp),
         ) {
-            DefaultAnimatedVisibility(
-                visible = state.isLogoVisible,
-                modifier = Modifier.height(350.dp),
+            Column(
+                modifier = Modifier.align(Alignment.Center),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                LogoWithText()
+                DefaultAnimatedVisibility(
+                    visible = state.isLogoVisible,
+                    modifier = Modifier.height(350.dp),
+                ) {
+                    LogoWithText()
+                }
+                BottomInput(state, onPhoneNumberChange, onPressInteractionConsumed, onSignIn)
             }
-            BottomInput(state, onPhoneNumberChange, onPressInteractionConsumed, onSignIn)
-        }
 
-        Text(
-            text = Strings.disclaimer,
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)
-                .align(Alignment.BottomCenter),
-            textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.caption,
-            color = MaterialTheme.colors.secondaryVariant.copy(alpha = 0.8f),
-        )
+            Text(
+                text = Strings.disclaimer,
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)
+                    .align(Alignment.BottomCenter),
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.tertiary,
+            )
+        }
     }
-}
 
 @OptIn(ExperimentalResourceApi::class)
 @Composable
@@ -83,9 +87,10 @@ private fun LogoWithText() =
         )
         Text(
             text = Strings.app_name,
-            style = MaterialTheme.typography.h3,
+            style = MaterialTheme.typography.displayMedium,
         )
     }
+
 
 @Composable
 private fun BottomInput(
@@ -98,7 +103,7 @@ private fun BottomInput(
     verticalArrangement = Arrangement.spacedBy(8.dp),
 ) {
     val focusManager = LocalFocusManager.current
-
+    @OptIn(ExperimentalMaterial3Api::class)
     TextField(
         value = state.phoneNumber,
         isError = state.isValid?.not() ?: false,

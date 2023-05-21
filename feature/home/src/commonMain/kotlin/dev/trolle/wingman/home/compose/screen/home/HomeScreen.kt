@@ -2,16 +2,17 @@ package dev.trolle.wingman.home.compose.screen.home
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.ContentAlpha
-import androidx.compose.material.Icon
-import androidx.compose.material.LocalContentColor
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
+import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
@@ -22,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.core.screen.ScreenKey
 import cafe.adriel.voyager.navigator.tab.CurrentTab
 import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
@@ -31,6 +33,10 @@ import dev.trolle.wingman.ui.ext.navigationBarsPadding
 import dev.trolle.wingman.ui.string.Strings
 
 object HomeScreen : Screen {
+
+    override val key: ScreenKey  = "MainHomeScreen"
+
+    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
         TabNavigator(HomeTab) {
@@ -73,17 +79,17 @@ private fun RowScope.TabNavigationItem(
         derivedStateOf { tabNavigator.current == tab }
     }
     val painter = rememberVectorPainter(icon)
-    val selectedContentColor = LocalContentColor.current
-    val unselectedContentColor =
-        selectedContentColor.copy(alpha = if (enabled) ContentAlpha.medium else ContentAlpha.disabled)
-    BottomNavigationItem(
+//    val selectedContentColor = LocalContentColor.current
+//    val unselectedContentColor = selectedContentColor.copy(alpha = if (enabled) ContentAlpha.medium else ContentAlpha.disabled)
+
+    NavigationBarItem(
         enabled = enabled,
         selected = isCurrentTab,
         onClick = { tabNavigator.current = tab },
         icon = { Icon(painter = painter, contentDescription = name) },
         alwaysShowLabel = false,
         label = { Text(name) },
-        selectedContentColor = selectedContentColor,
-        unselectedContentColor = unselectedContentColor,
+//        selectedContentColor = selectedContentColor,
+//        unselectedContentColor = unselectedContentColor,
     )
 }

@@ -50,7 +50,9 @@ internal class NavigationImpl : Navigation {
 @Composable
 internal fun Navigation(
     screen: Screen,
-    disposeBehavior: NavigatorDisposeBehavior = NavigatorDisposeBehavior(),
+    disposeBehavior: NavigatorDisposeBehavior = NavigatorDisposeBehavior(
+        disposeNestedNavigators = false,
+    ),
     onBackPressed: OnBackPressed = { true },
     content: NavigatorContent = { },
 ) {

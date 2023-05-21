@@ -11,11 +11,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.ContentAlpha
-import androidx.compose.material.Icon
-import androidx.compose.material.LocalContentAlpha
-import androidx.compose.material.Text
-import androidx.compose.material.contentColorFor
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
+import androidx.compose.material3.contentColorFor
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Mail
 import androidx.compose.material.icons.filled.Person
@@ -70,20 +68,21 @@ fun MatchItem(
                     .fillMaxWidth(if (isVisible) 1f else 0.5f)
                     .placeholder(!isVisible, highlight = highlight),
                 text = item?.name ?: "",
-                style = MaterialThemeWingman.typography.h6,
+                style = MaterialThemeWingman.typography.titleLarge,
                 maxLines = 1,
             )
-            CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+
+//            CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                 Text(
                     modifier = Modifier
                         .fillMaxWidth(if (isVisible) 1f else 0.2f)
                         .placeholder(!isVisible, highlight = highlight),
                     text = item?.latestMessage ?: "",
                     overflow = TextOverflow.Ellipsis,
-                    style = MaterialThemeWingman.typography.subtitle2,
+                    style = MaterialThemeWingman.typography.titleSmall,
                     maxLines = 1,
                 )
-            }
+//            }
         }
 
         if (item?.latestMessageReceived == true) {
@@ -93,13 +92,13 @@ fun MatchItem(
                     modifier = Modifier
                         .size(22.dp)
                         .background(
-                            MaterialThemeWingman.colors.secondary,
+                            MaterialThemeWingman.colorScheme.secondary,
                             RoundedCornerShape(16.dp),
                         )
                         .padding(3.dp),
                     painter = painter,
                     contentDescription = null,
-                    tint = contentColorFor(backgroundColor = MaterialThemeWingman.colors.secondary),
+                    tint = contentColorFor(backgroundColor = MaterialThemeWingman.colorScheme.secondary),
                 )
             }
         }

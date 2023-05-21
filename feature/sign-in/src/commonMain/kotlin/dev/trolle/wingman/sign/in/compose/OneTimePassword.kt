@@ -1,3 +1,5 @@
+
+
 package dev.trolle.wingman.sign.`in`.compose
 
 import androidx.compose.foundation.layout.Arrangement
@@ -9,9 +11,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,6 +33,7 @@ fun OneTimePassword(
     onOneTimePasswordChanged: (String) -> Unit = {},
     onSignIn: () -> Unit = {},
 ) {
+    @OptIn(ExperimentalMaterial3Api::class)
     Scaffold { paddingValues ->
         Box(
             Modifier.systemBarsPadding()
@@ -45,14 +49,14 @@ fun OneTimePassword(
                 Text(
                     text = Strings.enterOneTimePassword,
                     textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.h4,
+                    style = MaterialTheme.typography.headlineSmall,
                 )
                 Spacer(Modifier.height(44.dp))
                 Text(
                     modifier = Modifier.padding(horizontal = 16.dp),
                     text = Strings.one_time_password_help,
                     textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.caption,
+                    style = MaterialTheme.typography.headlineLarge,
                 )
                 Spacer(Modifier.height(32.dp))
                 OneTimePasswordInput(
@@ -65,7 +69,7 @@ fun OneTimePassword(
                 Text(
                     text = Strings.phoneNumberSentTo(oneTimePasswordState.phoneNumber),
                     modifier = Modifier.padding(top = 12.dp, bottom = 16.dp),
-                    style = MaterialTheme.typography.caption,
+                    style = MaterialTheme.typography.bodySmall,
                     textAlign = TextAlign.Center,
                 )
             }
