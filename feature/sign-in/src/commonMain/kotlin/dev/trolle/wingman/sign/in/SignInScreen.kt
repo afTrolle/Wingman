@@ -13,13 +13,12 @@ import dev.trolle.wingman.sign.`in`.service.PhoneValidateService
 import dev.trolle.wingman.sign.`in`.service.numberUpdates
 import dev.trolle.wingman.sign.`in`.service.shouldFetchPhoneNumber
 import dev.trolle.wingman.ui.Navigation
+import dev.trolle.wingman.ui.StringsContainer
 import dev.trolle.wingman.ui.ext.getScreenModel
 import dev.trolle.wingman.ui.ext.launch
-import dev.trolle.wingman.ui.string.StringsDefinition
 import dev.trolle.wingman.ui.voyager.StateScreenModel
 import dev.trolle.wingman.user.User
 import io.github.aakira.napier.Napier
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -54,7 +53,7 @@ internal class SignInScreenModel(
     private val userRepository: User,
     private val navigationService: Navigation,
     private val phoneNumberService: PhoneNumberService,
-    private val strings: StateFlow<StringsDefinition>,
+    private val stringsContainer: StringsContainer,
 ) : StateScreenModel<SignInState>(
     initialState = SignInState(
         filterInteraction = phoneNumberService.shouldFetchPhoneNumber,
@@ -86,7 +85,7 @@ internal class SignInScreenModel(
                 userRepository.signInRequestOneTimePassword(state.phoneNumber)
             }.onFailure { error ->
                 Napier.e("Sign In Error", error)
-                updateState { it.copy(errorMessage = strings.value.error_something_went_wrong) }
+                updateState { it.copy(errorMessage = stringsContainer.strings.error_something_went_wrong) }
             }.onSuccess {
                 navigationService.open(OneTimePasswordScreen(state.phoneNumber))
             }

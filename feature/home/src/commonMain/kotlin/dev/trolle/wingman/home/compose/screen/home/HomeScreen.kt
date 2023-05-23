@@ -2,24 +2,24 @@ package dev.trolle.wingman.home.compose.screen.home
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import cafe.adriel.voyager.core.screen.Screen
@@ -28,13 +28,11 @@ import cafe.adriel.voyager.navigator.tab.CurrentTab
 import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabNavigator
-import dev.trolle.wingman.home.compose.custom.CustomBottomNavigation
-import dev.trolle.wingman.ui.ext.navigationBarsPadding
 import dev.trolle.wingman.ui.string.Strings
 
 object HomeScreen : Screen {
 
-    override val key: ScreenKey  = "MainHomeScreen"
+    override val key: ScreenKey = "MainHomeScreen"
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
@@ -47,9 +45,7 @@ object HomeScreen : Screen {
                     }
                 },
                 bottomBar = {
-                    CustomBottomNavigation(
-                        rowModifier = Modifier.navigationBarsPadding(),
-                    ) {
+                    BottomAppBar {
                         TabNavigationItem(true, HomeTab, Strings.home_tab, Icons.Default.Home)
                         TabNavigationItem(false, BioTab, Strings.bio_tab, Icons.Default.Description)
                         TabNavigationItem(
@@ -79,8 +75,9 @@ private fun RowScope.TabNavigationItem(
         derivedStateOf { tabNavigator.current == tab }
     }
     val painter = rememberVectorPainter(icon)
-//    val selectedContentColor = LocalContentColor.current
-//    val unselectedContentColor = selectedContentColor.copy(alpha = if (enabled) ContentAlpha.medium else ContentAlpha.disabled)
+    val unselectedContentColor = MaterialTheme.colorScheme.onSurfaceVariant.let { color ->
+        if (enabled) color else color.copy(DisabledAlpha)
+    }
 
     NavigationBarItem(
         enabled = enabled,
@@ -89,7 +86,11 @@ private fun RowScope.TabNavigationItem(
         icon = { Icon(painter = painter, contentDescription = name) },
         alwaysShowLabel = false,
         label = { Text(name) },
-//        selectedContentColor = selectedContentColor,
-//        unselectedContentColor = unselectedContentColor,
-    )
+        colors = NavigationBarItemDefaults.colors(
+            unselectedIconColor = unselectedContentColor,
+            unselectedTextColor = unselectedContentColor,
+        ),
+        )
 }
+
+internal const val DisabledAlpha = 0.38f

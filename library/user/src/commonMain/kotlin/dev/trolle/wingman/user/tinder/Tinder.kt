@@ -9,7 +9,6 @@ import dev.trolle.wingman.user.tinder.model.OtpRequest
 import dev.trolle.wingman.user.tinder.model.ProfileResponse
 import dev.trolle.wingman.user.tinder.model.RefreshApiTokenRequest
 import dev.trolle.wingman.user.tinder.model.RefreshTokenResponse
-import io.github.aakira.napier.Napier
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.HttpRequestRetry
@@ -21,14 +20,15 @@ import io.ktor.client.request.header
 import io.ktor.client.request.parameter
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
-import io.ktor.client.statement.HttpResponse
-import io.ktor.client.statement.bodyAsText
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import io.ktor.http.path
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.utils.io.errors.IOException
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
+import kotlinx.coroutines.withContext
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
@@ -137,21 +137,21 @@ internal fun tinder(
             pageToken?.let { token ->
                 parameter("page_token", token)
             }
-        }.body()
+        }
     }
 
     override suspend fun profile(id: String): ProfileResponse = session.withSession { token ->
         commonDelayedRequest(
             token = token,
             path = "/user/$id",
-        ).body()
+        )
     }
 
     override suspend fun myProfile(): MyProfileResponse = session.withSession { token ->
         commonDelayedRequest(
             token = token,
             path = "/profile",
-        ).body()
+        )
     }
 
     override suspend fun isSignedIn(): Boolean = session.isSignedIn()
@@ -166,15 +166,17 @@ internal fun tinder(
         contentType(ContentType.Application.Json)
     }
 
-    private suspend fun commonDelayedRequest(
+    private suspend inline fun <reified T> commonDelayedRequest(
         token: String,
         path: String,
-        config: HttpRequestBuilder.() -> Unit = {},
-    ): HttpResponse {
-        rateLimiter.delay()
-        return client.get(host) {
-            commonRequestConfig(authToken = token, path = path)
-            config()
+        crossinline config: HttpRequestBuilder.() -> Unit = {},
+    ): T {
+        return withContext(Dispatchers.IO) {
+            rateLimiter.delay()
+            client.get(host) {
+                commonRequestConfig(authToken = token, path = path)
+                config()
+            }.body()
         }
     }
 }

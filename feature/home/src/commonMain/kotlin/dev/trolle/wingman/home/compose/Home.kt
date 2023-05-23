@@ -40,7 +40,6 @@ fun Home(
                     // Not sure but content padding didn't work for this task.
                     Box(Modifier.statusBarsPadding()) {}
                 }
-
                 items(count = lazyPagingMatches.itemCount) { index ->
                     val item = lazyPagingMatches[index]
                     MatchItem(

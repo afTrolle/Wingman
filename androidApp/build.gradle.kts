@@ -37,5 +37,8 @@ android {
 dependencies {
     implementation(projects.shared)
     implementation(compose.uiTooling)
+    implementation(compose.material3)
+    implementation("com.google.android.material:material:1.9.0")
+    implementation("androidx.core:core-splashscreen:1.0.1")
     implementation(libs.androidx.activity.compose)
 }

@@ -1,26 +1,34 @@
 package dev.trolle.wingman.ui
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import dev.trolle.wingman.common.koin.rememberKoinInjectOrNull
-import dev.trolle.wingman.ui.string.LocalStrings
+import androidx.compose.ui.text.intl.Locale
+import cafe.adriel.lyricist.LanguageTag
+import cafe.adriel.lyricist.Strings
+import dev.trolle.wingman.ui.string.Locales
 import dev.trolle.wingman.ui.string.StringsDefinition
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import org.koin.dsl.bind
 import org.koin.dsl.module
 
-fun uiModule(
-    initialStrings: StringsDefinition,
-) = module {
-    single { MutableStateFlow(initialStrings) }.bind<StateFlow<StringsDefinition>>()
+val uiModule = module {
+    single { StringsContainer() }
 }
 
-@Composable
-fun UpdateStrings() {
-    val stringsFlow = rememberKoinInjectOrNull<MutableStateFlow<StringsDefinition>>()
-    val strings = LocalStrings.current
-    LaunchedEffect(strings) {
-        stringsFlow?.emit(strings)
+class StringsContainer {
+    private val translations = Strings
+
+    // NOTE don't hold reference
+    val strings: StringsDefinition
+        get() {
+            val languageTag = Locale.current.toLanguageTag()
+            return translations[languageTag]
+                ?: translations[languageTag.fallback]
+                ?: translations[defaultLanguageTag]
+                ?: error("Strings for language tag $languageTag not found")
+        }
+
+    private val LanguageTag.fallback: LanguageTag
+        get() = split(LANGUAGE_TAG_SEPARATOR).first()
+
+    companion object {
+        private const val LANGUAGE_TAG_SEPARATOR = '-'
+        private const val defaultLanguageTag: LanguageTag = Locales.EN
     }
 }

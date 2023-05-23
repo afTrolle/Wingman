@@ -7,6 +7,7 @@ import dev.trolle.wingman.db.databaseModule
 import dev.trolle.wingman.home.homeModule
 import dev.trolle.wingman.sign.`in`.signInModule
 import dev.trolle.wingman.ui.Navigation
+import dev.trolle.wingman.ui.uiModule
 import dev.trolle.wingman.user.userModule
 import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier
@@ -31,7 +32,7 @@ internal val sharedModule: Module = module {
     single { NavigationImpl() }.bind<Navigation>()
 }
 
-internal fun appModule(uiModule: Module) =
+internal val appModule =
     listOf(
         uiModule,
         sharedModule,

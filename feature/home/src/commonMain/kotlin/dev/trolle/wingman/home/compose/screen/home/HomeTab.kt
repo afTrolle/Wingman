@@ -20,14 +20,18 @@ import dev.trolle.wingman.ui.ext.parentScreenOrThrow
 import dev.trolle.wingman.user.User
 import dev.trolle.wingman.user.age
 import dev.trolle.wingman.user.tinder.model.Match
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.IO
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.plus
 import kotlin.time.Duration.Companion.milliseconds
 
 object HomeTab : CustomTab {
@@ -71,7 +75,7 @@ internal class HomeScreenModel(
     init {
         openScreen.debounce(100.milliseconds).onEach {
             navigation.open(it)
-        }.launchIn(coroutineScope)
+        }.launchIn(coroutineScope + Dispatchers.Default)
     }
 
     fun onMatchItem(matchItem: MatchItem?) {
@@ -80,8 +84,7 @@ internal class HomeScreenModel(
     }
 
     val matches: Flow<PagingData<MatchItem>> =
-        user.matchPager().cachedIn(coroutineScope)
-            .map { it.map { match -> match.toMatchItem() } }
+        user.matchPager().map { it.map { match -> match.toMatchItem() } }.flowOn(Dispatchers.Default).cachedIn(coroutineScope)
 }
 
 

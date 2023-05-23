@@ -14,11 +14,10 @@ import org.koin.dsl.KoinAppDeclaration
 @Composable
 internal actual fun buildKoinAppDeclaration(): KoinAppDeclaration {
     val context: Context = LocalContext.current.applicationContext
-    val strings = LocalStrings.current
     return remember(context) {
         {
             androidContext(context)
-            modules(appModule(uiModule(strings)))
+            modules(appModule)
         }
     }
 }

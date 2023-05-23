@@ -10,15 +10,12 @@ import dev.trolle.wingman.home.compose.screen.home.HomeScreen
 import dev.trolle.wingman.sign.`in`.SignInScreen
 import dev.trolle.wingman.sign.`in`.service.InitPhoneNumberService
 import dev.trolle.wingman.ui.UiBase
-import dev.trolle.wingman.ui.UpdateStrings
 import dev.trolle.wingman.user.User
 
 @Composable
 internal fun App() {
     UiBase {
         KoinApplication(buildKoinAppDeclaration()) {
-            // TODO figure out a better pattern for this.
-            UpdateStrings()
             InitPhoneNumberService()
             Navigation(startScreen) {
                 CurrentScreen()

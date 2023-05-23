@@ -34,7 +34,6 @@ fun CustomBottomNavigation(
         Row(
             rowModifier
                 .fillMaxWidth()
-                .height(56.dp)
                 .selectableGroup(),
             horizontalArrangement = Arrangement.SpaceBetween,
             content = content
