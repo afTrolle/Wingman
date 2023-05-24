@@ -1,7 +1,22 @@
 package dev.trolle.wingman.ui
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.ProvidableCompositionLocal
+import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.layout.layout
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.intl.Locale
 import cafe.adriel.lyricist.Lyricist
 import cafe.adriel.lyricist.ProvideStrings
@@ -9,10 +24,19 @@ import cafe.adriel.lyricist.Strings
 import dev.trolle.wingman.ui.string.Locales
 
 @Composable
-fun UiBase(isPreview: Boolean = false, content: @Composable () -> Unit) {
+fun UiBase(
+    isPreview: Boolean = false,
+    defaultSizeClass: WindowSizeClass = WindowSizeClass(
+        widthSizeClass = WindowWidthSizeClass.Compact,
+        heightSizeClass = WindowHeightSizeClass.Compact,
+    ),
+    content: @Composable () -> Unit
+) {
     MaterialThemeWingman {
         CustomProvideStrings {
-            UiBasePlatformSpecific(isPreview = isPreview, content = content)
+            ProvideWindowSizeClass(isPreview, defaultSizeClass) {
+                UiBasePlatformSpecific(isPreview = isPreview, content = content)
+            }
         }
     }
 }
@@ -35,3 +59,44 @@ fun CustomProvideStrings(
 }
 
 
+// This might cause a bit of flickering.
+val LocalWindowSizeClass: ProvidableCompositionLocal<WindowSizeClass> =
+    compositionLocalOf { error("Require  ProvideWindowSizeClass to be called") }
+
+// This is quite the hack, "work-around".
+// Couldn't find a nice way to figure out screen size from compose multiplatform.
+// So relative low in the root of the view I setup this to check what the max size can be. as a side composable.
+// The Use providable to set WindowSizeClass that can be fetched from other views
+@Composable
+fun ProvideWindowSizeClass(
+    isPreview: Boolean,
+    defaultSizeClass: WindowSizeClass = WindowSizeClass(
+        widthSizeClass = WindowWidthSizeClass.Compact,
+        heightSizeClass = WindowHeightSizeClass.Compact,
+    ),
+    content: @Composable () -> Unit,
+) {
+    Box {
+        val state = rememberSaveable { mutableStateOf(defaultSizeClass) }
+        if (!isPreview) {
+            BoxWithConstraints(Modifier.fillMaxSize()) {
+                val density = LocalDensity.current
+                val sizeClass = remember(maxHeight, maxWidth) {
+                    val size =
+                        with(density) { Size(width = maxWidth.toPx(), height = maxHeight.toPx()) }
+                    WindowSizeClass.calculateFromSize(
+                        size = size,
+                        density = density,
+                    )
+                }
+                state.value = sizeClass
+            }
+        }
+        // This means though that if on config change for example then we will need to fire one extra composition.
+        // So we are going to be one composition behind.
+        val windowSizeClass = state.value
+        CompositionLocalProvider(LocalWindowSizeClass provides windowSizeClass) {
+            content()
+        }
+    }
+}

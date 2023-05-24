@@ -1,6 +1,8 @@
 package dev.trolle.wingman.home.compose.screen.home
 
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Description
@@ -12,8 +14,13 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
+import androidx.compose.material3.NavigationRail
+import androidx.compose.material3.NavigationRailItem
+import androidx.compose.material3.NavigationRailItemColors
+import androidx.compose.material3.NavigationRailItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
@@ -28,6 +35,7 @@ import cafe.adriel.voyager.navigator.tab.CurrentTab
 import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabNavigator
+import dev.trolle.wingman.ui.LocalWindowSizeClass
 import dev.trolle.wingman.ui.string.Strings
 
 object HomeScreen : Screen {
@@ -40,21 +48,48 @@ object HomeScreen : Screen {
         TabNavigator(HomeTab) {
             Scaffold(
                 content = { paddingValues ->
+                   val size =  LocalWindowSizeClass.current.widthSizeClass
+                    Row {
+                    if (size != WindowWidthSizeClass.Compact) {
+                        NavigationRail {
+                            RailNavigationItem(true, HomeTab, Strings.home_tab, Icons.Default.Home)
+                            RailNavigationItem(
+                                false,
+                                BioTab,
+                                Strings.bio_tab,
+                                Icons.Default.Description,
+                            )
+                            RailNavigationItem(
+                                true,
+                                ProfileTab,
+                                Strings.profile_tab,
+                                Icons.Default.Person,
+                            )
+                        }
+                    }
                     CompositionLocalProvider(LocalTabPaddingValues provides paddingValues) {
                         CurrentTab()
                     }
+                    }
                 },
                 bottomBar = {
-                    BottomAppBar {
-                        TabNavigationItem(true, HomeTab, Strings.home_tab, Icons.Default.Home)
-                        TabNavigationItem(false, BioTab, Strings.bio_tab, Icons.Default.Description)
-                        TabNavigationItem(
-                            true,
-                            ProfileTab,
-                            Strings.profile_tab,
-                            Icons.Default.Person,
-                        )
-                    }
+                    val size = LocalWindowSizeClass.current
+                    if (size.widthSizeClass == WindowWidthSizeClass.Compact)
+                        BottomAppBar {
+                            TabNavigationItem(true, HomeTab, Strings.home_tab, Icons.Default.Home)
+                            TabNavigationItem(
+                                false,
+                                BioTab,
+                                Strings.bio_tab,
+                                Icons.Default.Description,
+                            )
+                            TabNavigationItem(
+                                true,
+                                ProfileTab,
+                                Strings.profile_tab,
+                                Icons.Default.Person,
+                            )
+                        }
                 },
             )
         }
@@ -87,6 +122,37 @@ private fun RowScope.TabNavigationItem(
         alwaysShowLabel = false,
         label = { Text(name) },
         colors = NavigationBarItemDefaults.colors(
+            unselectedIconColor = unselectedContentColor,
+            unselectedTextColor = unselectedContentColor,
+        ),
+    )
+}
+
+
+@Composable
+private fun ColumnScope.RailNavigationItem(
+    enabled: Boolean,
+    tab: Tab,
+    name: String,
+    icon: ImageVector,
+) {
+    val tabNavigator = LocalTabNavigator.current
+    val isCurrentTab by remember(tabNavigator) {
+        derivedStateOf { tabNavigator.current == tab }
+    }
+    val painter = rememberVectorPainter(icon)
+    val unselectedContentColor = MaterialTheme.colorScheme.onSurfaceVariant.let { color ->
+        if (enabled) color else color.copy(DisabledAlpha)
+    }
+
+    NavigationRailItem(
+        enabled = enabled,
+        selected = isCurrentTab,
+        onClick = { tabNavigator.current = tab },
+        icon = { Icon(painter = painter, contentDescription = name) },
+        alwaysShowLabel = false,
+        label = { Text(name) },
+        colors =  NavigationRailItemDefaults.colors(
             unselectedIconColor = unselectedContentColor,
             unselectedTextColor = unselectedContentColor,
         ),
