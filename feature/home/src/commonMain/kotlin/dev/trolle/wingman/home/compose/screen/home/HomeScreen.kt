@@ -90,7 +90,7 @@ private fun RowScope.TabNavigationItem(
             unselectedIconColor = unselectedContentColor,
             unselectedTextColor = unselectedContentColor,
         ),
-        )
+    )
 }
 
 internal const val DisabledAlpha = 0.38f

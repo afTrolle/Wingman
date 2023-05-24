@@ -16,8 +16,8 @@
 
 package androidx.paging.compose
 
-import androidx.paging.PagingConfig
 import androidx.compose.foundation.lazy.grid.LazyGridScope
+import androidx.paging.PagingConfig
 import kotlin.jvm.JvmSuppressWildcards
 
 /**

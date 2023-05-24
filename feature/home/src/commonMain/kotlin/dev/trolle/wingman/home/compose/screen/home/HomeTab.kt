@@ -16,6 +16,7 @@ import dev.trolle.wingman.home.compose.custom.CustomTab
 import dev.trolle.wingman.home.compose.screen.prompt.PromptScreen
 import dev.trolle.wingman.ui.Navigation
 import dev.trolle.wingman.ui.ext.getScreenModel
+import dev.trolle.wingman.ui.ext.parentOrThrow
 import dev.trolle.wingman.ui.ext.parentScreenOrThrow
 import dev.trolle.wingman.user.User
 import dev.trolle.wingman.user.age
@@ -40,10 +41,7 @@ object HomeTab : CustomTab {
 
     @Composable
     override fun Content() {
-        // Tabs are nested, using parent to retain viewModel state
-        // Note that this means that the view model can be shared between tabs
-        val parentScreen = LocalNavigator.currentOrThrow.parentScreenOrThrow
-        val viewModel = parentScreen.getScreenModel<HomeScreenModel>()
+        val viewModel = getScreenModel<HomeScreenModel>()
         val lazyPagingMatches = viewModel.matches.collectAsLazyPagingItems()
         Home(
             lazyPagingMatches,
@@ -61,7 +59,6 @@ data class MatchItem(
     val latestMessageReceived: Boolean? = null,
 )
 
-@OptIn(FlowPreview::class)
 internal class HomeScreenModel(
     user: User,
     private val navigation: Navigation,
@@ -73,6 +70,7 @@ internal class HomeScreenModel(
     )
 
     init {
+        @OptIn(FlowPreview::class)
         openScreen.debounce(100.milliseconds).onEach {
             navigation.open(it)
         }.launchIn(coroutineScope + Dispatchers.Default)
