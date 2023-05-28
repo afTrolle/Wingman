@@ -1,9 +1,13 @@
+@file:OptIn(ExperimentalLayoutApi::class)
+
 package dev.trolle.wingman.signin
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
@@ -28,6 +32,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import dev.trolle.wingman.ui.LocalWindowSizeClass
 import dev.trolle.wingman.ui.MaterialThemeWingman
+import dev.trolle.wingman.ui.ext.imePadding
 import dev.trolle.wingman.ui.ext.painterResource
 import dev.trolle.wingman.ui.string.Strings
 
@@ -107,7 +112,7 @@ private val innerPaneModifier = Modifier.fillMaxSize().padding(16.dp)
 fun Pane(
     modifier: Modifier = paneModifier,
     innerModifier: Modifier = innerPaneModifier,
-    content: @Composable () -> Unit,
+    content: @Composable BoxScope.() -> Unit,
 ) {
     Surface(
         shape = MaterialThemeWingman.shapes.extraLarge,
@@ -129,7 +134,6 @@ fun SignInLimitedHeight(
     text: String = "",
     isError: Boolean? = null,
     captureFocus: Boolean = true,
-    requestFocus: Boolean = false,
     isSignInEnabled: Boolean = true,
     onChange: (String) -> Unit = {},
     onSignIn: () -> Unit = {},
@@ -153,7 +157,7 @@ fun SignInLimitedHeight(
             modifier = Modifier.weight(1f),
         ) {
             Login(
-                modifier = Modifier.widthIn(max = 500.dp),
+                modifier = Modifier.widthIn(max = 500.dp).imePadding(),
                 text = text,
                 isError = isError,
                 isSignInEnabled = isSignInEnabled,
@@ -182,9 +186,10 @@ fun SignInNotLimitedHeight(
     horizontalAlignment = Alignment.CenterHorizontally,
     verticalArrangement = Arrangement.SpaceAround,
 ) {
-    Spacer(modifier = Modifier.weight(1f))
+    val spacerModifier = Modifier.weight(1f)
+    Spacer(modifier = spacerModifier)
     Logo()
-    Spacer(modifier = Modifier.weight(1f))
+    Spacer(modifier = spacerModifier)
     Login(
         modifier = Modifier.widthIn(max = 350.dp),
         text = text,
@@ -196,7 +201,7 @@ fun SignInNotLimitedHeight(
         onFocusCaptured = onFocusCaptured,
         requestFocusModifier = requestFocusModifier,
     )
-    Spacer(modifier = Modifier.weight(1f))
+    Spacer(modifier = spacerModifier)
     Disclaimer(Modifier.padding(bottom = 16.dp))
 }
 
@@ -242,7 +247,8 @@ fun Login(
     verticalArrangement = Arrangement.spacedBy(12.dp),
 ) {
     OutlinedTextField(
-        modifier = Modifier.fillMaxWidth().captureFocus(captureFocus, onFocusCaptured).then(requestFocusModifier),
+        modifier = Modifier.fillMaxWidth().captureFocus(captureFocus, onFocusCaptured)
+            .then(requestFocusModifier),
         value = text,
         onValueChange = onChange,
         isError = isError ?: false,

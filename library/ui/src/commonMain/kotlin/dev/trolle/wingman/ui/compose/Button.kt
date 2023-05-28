@@ -1,15 +1,12 @@
 package dev.trolle.wingman.ui.compose
 
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.Button
+import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import dev.trolle.wingman.ui.MaterialThemeWingman
 
 @Composable
 fun BigButton(
@@ -17,16 +14,11 @@ fun BigButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-) = Button(
+) = FilledTonalButton(
+    modifier = modifier.defaultMinSize(minHeight = 52.dp),
     onClick = onClick,
-    modifier = modifier.fillMaxWidth(),
     enabled = enabled,
-    interactionSource = interactionSource,
-    contentPadding = PaddingValues(horizontal = 4.dp),
+    shape = MaterialThemeWingman.shapes.large,
 ) {
-    Text(
-        text,
-        fontSize = 18.sp,
-    )
+    Text(text = text)
 }
