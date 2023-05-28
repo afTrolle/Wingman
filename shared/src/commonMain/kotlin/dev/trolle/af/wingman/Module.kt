@@ -5,7 +5,7 @@ import androidx.compose.runtime.Composable
 import dev.trolle.wingman.ai.aiModule
 import dev.trolle.wingman.db.databaseModule
 import dev.trolle.wingman.home.homeModule
-import dev.trolle.wingman.sign.`in`.signInModule
+import dev.trolle.wingman.signin.signInModule
 import dev.trolle.wingman.ui.Navigation
 import dev.trolle.wingman.ui.uiModule
 import dev.trolle.wingman.user.userModule

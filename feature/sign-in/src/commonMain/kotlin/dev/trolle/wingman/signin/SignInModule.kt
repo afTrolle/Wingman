@@ -1,7 +1,7 @@
-package dev.trolle.wingman.sign.`in`
+package dev.trolle.wingman.signin
 
-import dev.trolle.wingman.sign.`in`.service.phoneNumberService
-import dev.trolle.wingman.sign.`in`.service.phoneValidateService
+import dev.trolle.wingman.signin.service.phoneNumberService
+import dev.trolle.wingman.signin.service.phoneValidateService
 import org.koin.dsl.module
 
 val signInModule = module {

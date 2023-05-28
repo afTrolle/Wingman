@@ -1,11 +1,11 @@
-package dev.trolle.wingman.sign.`in`
+package dev.trolle.wingman.signin
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import cafe.adriel.voyager.core.screen.Screen
 import dev.trolle.wingman.common.ext.runCatchingCancelable
-import dev.trolle.wingman.sign.`in`.compose.OneTimePassword
+import dev.trolle.wingman.signin.compose.OneTimePassword
 import dev.trolle.wingman.ui.Navigation
 import dev.trolle.wingman.ui.ext.getScreenModel
 import dev.trolle.wingman.ui.ext.launch
@@ -77,7 +77,7 @@ internal data class OneTimePasswordScreen(
         val viewModel = getScreenModel<OneTimePasswordModel>() {
             parametersOf(phoneNumber)
         }
-        val state by viewModel.state.collectAsState()
+        val state by viewModel.state
         OneTimePassword(
             state,
             viewModel::onOneTimePasswordChanged,

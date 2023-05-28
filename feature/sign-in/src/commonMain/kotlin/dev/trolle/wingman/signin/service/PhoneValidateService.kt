@@ -1,4 +1,4 @@
-package dev.trolle.wingman.sign.`in`.service
+package dev.trolle.wingman.signin.service
 
 interface PhoneValidateService {
     fun isPhoneNumberValid(number: String): Boolean

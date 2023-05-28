@@ -130,7 +130,7 @@ private fun RowScope.TabNavigationItem(
 
 
 @Composable
-private fun ColumnScope.RailNavigationItem(
+private fun RailNavigationItem(
     enabled: Boolean,
     tab: Tab,
     name: String,

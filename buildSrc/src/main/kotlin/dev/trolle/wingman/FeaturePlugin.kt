@@ -95,7 +95,7 @@ class BasePlugin : Plugin<Project> {
             alias(libs.plugins.ktlint)
         }
         extensions.configure<KotlinMultiplatformExtension> {
-            jvmToolchain(11)
+            jvmToolchain(17)
 
             android()
             iosX64()
@@ -144,8 +144,8 @@ class BasePlugin : Plugin<Project> {
                 minSdk = libs.versions.minSdk.get().toInt()
             }
             compileOptions {
-                sourceCompatibility = JavaVersion.VERSION_11
-                targetCompatibility = JavaVersion.VERSION_11
+                sourceCompatibility = JavaVersion.VERSION_17
+                targetCompatibility = JavaVersion.VERSION_17
             }
         }
 

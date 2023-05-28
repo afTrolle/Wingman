@@ -15,7 +15,7 @@ data class PromptScreen(val personId: String) : Screen {
     @Composable
     override fun Content() {
         val viewModel = getScreenModel<PromptViewModel>()
-        val state by viewModel.state.collectAsState()
+//        val state by viewModel.state.collectAsState()
 
 //        Prompt(state)
     }

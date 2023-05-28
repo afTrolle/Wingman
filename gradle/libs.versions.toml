@@ -6,7 +6,7 @@ datetime = "0.4.0"
 serialization = "1.5.1"
 coroutines = "1.7.1"
 openai = "3.2.4"
-agp = "8.0.1"
+agp = "8.0.2"
 compose = "1.4.0"
 voyager = "1.0.0-rc06"
 koin = "3.4.0"
@@ -53,7 +53,7 @@ koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-compose = "io.insert-koin:koin-compose:1.0.1"
 
-androidx-activity-compose = "androidx.activity:activity-compose:1.7.1"
+androidx-activity-compose = "androidx.activity:activity-compose:1.7.2"
 androidx-appcompat = "androidx.appcompat:appcompat:1.6.1"
 androidx-core = "androidx.core:core-ktx:1.10.1"
 androidx-datastore-preferences = "androidx.datastore:datastore-preferences:1.0.0"

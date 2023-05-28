@@ -1,6 +1,6 @@
 
 
-package dev.trolle.wingman.sign.`in`.compose
+package dev.trolle.wingman.signin.compose
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -20,7 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import dev.trolle.wingman.sign.`in`.OneTimePasswordState
+import dev.trolle.wingman.signin.OneTimePasswordState
 import dev.trolle.wingman.ui.compose.BigButton
 import dev.trolle.wingman.ui.ext.imePadding
 import dev.trolle.wingman.ui.ext.systemBarsPadding

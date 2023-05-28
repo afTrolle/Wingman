@@ -8,13 +8,12 @@ import dev.trolle.wingman.ui.UiBase
 
 @Composable
 fun PreviewDefaults(
-    defaultSizeClass: WindowSizeClass = WindowSizeClass(
-        widthSizeClass = WindowWidthSizeClass.Compact,
-        heightSizeClass = WindowHeightSizeClass.Compact,
-    ),
-    content: @Composable () -> Unit) =
+    widthSizeClass: WindowWidthSizeClass = WindowWidthSizeClass.Compact,
+    heightSizeClass: WindowHeightSizeClass = WindowHeightSizeClass.Medium,
+    content: @Composable () -> Unit,
+) =
     UiBase(
         isPreview = true,
-        defaultSizeClass = defaultSizeClass,
+        defaultSizeClass = WindowSizeClass(widthSizeClass, heightSizeClass),
         content,
     )

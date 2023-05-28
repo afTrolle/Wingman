@@ -1,4 +1,4 @@
-package dev.trolle.wingman.sign.`in`.compose
+package dev.trolle.wingman.signin.compose
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background

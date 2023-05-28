@@ -17,6 +17,10 @@ kotlin {
                 implementation(libs.kotlinx.coroutines.play)
                 implementation(libs.libphonenumber)
                 implementation(libs.androidx.activity.compose)
+                implementation(compose.foundation)
+                implementation(compose.preview)
+                implementation(compose.material3)
+                implementation(compose.ui)
             }
         }
     }

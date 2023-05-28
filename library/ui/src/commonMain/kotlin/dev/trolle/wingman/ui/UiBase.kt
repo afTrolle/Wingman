@@ -61,7 +61,10 @@ fun CustomProvideStrings(
 
 // This might cause a bit of flickering.
 val LocalWindowSizeClass: ProvidableCompositionLocal<WindowSizeClass> =
-    compositionLocalOf { error("Require  ProvideWindowSizeClass to be called") }
+    compositionLocalOf { WindowSizeClass(
+        widthSizeClass = WindowWidthSizeClass.Compact,
+        heightSizeClass = WindowHeightSizeClass.Medium,
+    ) }
 
 // This is quite the hack, "work-around".
 // Couldn't find a nice way to figure out screen size from compose multiplatform.
@@ -72,7 +75,7 @@ fun ProvideWindowSizeClass(
     isPreview: Boolean,
     defaultSizeClass: WindowSizeClass = WindowSizeClass(
         widthSizeClass = WindowWidthSizeClass.Compact,
-        heightSizeClass = WindowHeightSizeClass.Compact,
+        heightSizeClass = WindowHeightSizeClass.Medium,
     ),
     content: @Composable () -> Unit,
 ) {

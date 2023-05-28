@@ -1,6 +1,7 @@
 @file:Suppress("UNUSED_VARIABLE")
 
 import dev.trolle.wingman.gradle.compose
+import dev.trolle.wingman.gradle.libs
 
 plugins {
     `library-plugin`
@@ -61,4 +62,8 @@ tasks.withType<org.jetbrains.kotlin.gradle.dsl.KotlinCompile<*>> {
     if (name != "kspCommonMainKotlinMetadata") {
         dependsOn("kspCommonMainKotlinMetadata")
     }
+}
+
+android {
+    sourceSets["main"].res.srcDir("src/commonMain/resources")
 }
