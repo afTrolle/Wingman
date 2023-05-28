@@ -3,6 +3,7 @@ package dev.trolle.wingman.home.compose
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -30,10 +31,8 @@ fun Home(
     onMatchItem: (MatchItem?) -> Unit = {},
 ) {
     val padding = LocalTabPaddingValues.current
-    Surface {
         PullToRefreshBox(lazyPagingMatches) {
             LazyColumn(
-                contentPadding = padding,
             ) {
                 item {
                     // Append so first item is bellow status-bar
@@ -59,7 +58,6 @@ fun Home(
                 }
             }
         }
-    }
 }
 
 @Composable

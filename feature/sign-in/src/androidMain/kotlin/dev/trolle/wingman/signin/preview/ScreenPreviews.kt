@@ -5,8 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.tooling.preview.Preview
 import dev.trolle.wingman.signin.OneTimePasswordState
-import dev.trolle.wingman.signin.SignIn
 import dev.trolle.wingman.signin.compose.OneTimePassword
+import dev.trolle.wingman.signin.compose.SignIn
 import dev.trolle.wingman.ui.compose.PreviewDefaults
 
 @Preview

@@ -37,8 +37,6 @@ import kotlin.time.Duration.Companion.milliseconds
 
 object HomeTab : CustomTab {
 
-    override val key: ScreenKey  = "MainHomeScreenTab"
-
     @Composable
     override fun Content() {
         val viewModel = getScreenModel<HomeScreenModel>()

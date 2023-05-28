@@ -5,7 +5,7 @@ import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Devices.FOLDABLE
 import androidx.compose.ui.tooling.preview.Preview
-import dev.trolle.wingman.signin.SignIn
+import dev.trolle.wingman.signin.compose.SignIn
 import dev.trolle.wingman.ui.compose.PreviewDefaults
 
 @Preview(showSystemUi = true, showBackground = true)

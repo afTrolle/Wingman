@@ -33,20 +33,18 @@ import androidx.compose.ui.layout.boundsInRoot
 import androidx.compose.ui.layout.findRootCoordinates
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInRoot
-import androidx.compose.ui.layout.positionInWindow
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import dev.trolle.wingman.signin.OneTimePasswordState
-import dev.trolle.wingman.signin.Pane
-import dev.trolle.wingman.ui.LocalWindowSizeClass
+import dev.trolle.wingman.ui.compose.Pane
 import dev.trolle.wingman.ui.MaterialThemeWingman
 import dev.trolle.wingman.ui.compose.BigButton
 import dev.trolle.wingman.ui.ext.imePadding
 import dev.trolle.wingman.ui.string.Strings
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun OneTimePassword(
     oneTimePasswordState: OneTimePasswordState,
@@ -56,16 +54,8 @@ fun OneTimePassword(
     containerColor = MaterialThemeWingman.colorScheme.secondaryContainer,
     contentColor = MaterialThemeWingman.colorScheme.onSurface,
 ) { paddingValues ->
-    val height = LocalWindowSizeClass.current.heightSizeClass
-   val verticalPadding =  if (height <= WindowHeightSizeClass.Compact) {
-        4.dp
-    } else {
-        16.dp
-    }
     Pane(
-        Modifier
-            .padding(paddingValues)
-            .padding(horizontal = 16.dp, vertical = verticalPadding),
+        Modifier.padding(paddingValues)
     ) {
         val listState = rememberLazyListState()
         val density = LocalDensity.current
