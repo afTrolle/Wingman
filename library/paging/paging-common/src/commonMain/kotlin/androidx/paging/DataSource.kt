@@ -18,8 +18,8 @@ package androidx.paging
 
 import androidx.annotation.AnyThread
 import androidx.annotation.VisibleForTesting
-import androidx.annotation.WorkerThread
-import androidx.arch.core.util.Function
+//import androidx.annotation.WorkerThread
+import utilsa.Function
 import androidx.paging.PagingSource.LoadResult.Page.Companion.COUNT_UNDEFINED
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -116,7 +116,7 @@ internal constructor(internal val type: KeyType) {
      * @return `true` if the data source is invalid, and can no longer be queried for data.
      */
     public open val isInvalid: Boolean
-        @WorkerThread
+//        @WorkerThread
         get() = invalidateCallbackTracker.invalid
 
     /**

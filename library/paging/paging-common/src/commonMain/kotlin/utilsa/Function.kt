@@ -1,4 +1,4 @@
-package androidx.arch.core.util
+package utilsa
 /*
  * Copyright 2018 The Android Open Source Project
  *

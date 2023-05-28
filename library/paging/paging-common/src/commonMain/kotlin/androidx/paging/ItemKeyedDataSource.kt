@@ -17,7 +17,7 @@
 package androidx.paging
 
 import androidx.annotation.VisibleForTesting
-import androidx.arch.core.util.Function
+import utilsa.Function
 import androidx.paging.DataSource.KeyType.ITEM_KEYED
 import kotlinx.coroutines.CancellableContinuation
 import kotlinx.coroutines.suspendCancellableCoroutine

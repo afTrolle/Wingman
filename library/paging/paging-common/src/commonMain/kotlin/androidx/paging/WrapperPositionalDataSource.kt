@@ -16,7 +16,7 @@
 
 package androidx.paging
 
-import androidx.arch.core.util.Function
+import utilsa.Function
 
 @Suppress("DEPRECATION")
 internal class WrapperPositionalDataSource<A : Any, B : Any>(

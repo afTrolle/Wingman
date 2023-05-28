@@ -16,7 +16,7 @@
 
 package androidx.paging
 
-import androidx.arch.core.util.Function
+import utilsa.Function
 import androidx.paging.internal.IdentityHashMap
 import kotlinx.atomicfu.locks.SynchronizedObject
 import kotlinx.atomicfu.locks.synchronized

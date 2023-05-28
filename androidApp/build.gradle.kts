@@ -18,6 +18,19 @@ android {
     buildFeatures {
         compose = true
     }
+    buildTypes {
+        getByName("release") {
+            signingConfig = signingConfigs.getByName("debug")
+        }
+        release {
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
+    }
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -40,5 +53,7 @@ dependencies {
     implementation(compose.material3)
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.core:core-splashscreen:1.0.1")
+    implementation ("org.conscrypt:conscrypt-android:2.2.1") // used for proguard
+    implementation("org.slf4j:slf4j-simple:2.0.6")
     implementation(libs.androidx.activity.compose)
 }

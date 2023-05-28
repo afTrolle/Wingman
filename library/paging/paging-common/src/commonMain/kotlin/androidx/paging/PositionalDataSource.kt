@@ -18,8 +18,8 @@ package androidx.paging
 
 import androidx.annotation.RestrictTo
 import androidx.annotation.VisibleForTesting
-import androidx.annotation.WorkerThread
-import androidx.arch.core.util.Function
+//import androidx.annotation.WorkerThread
+import utilsa.Function
 import androidx.paging.DataSource.KeyType.POSITIONAL
 import androidx.paging.PagingSource.LoadResult.Page.Companion.COUNT_UNDEFINED
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -462,7 +462,7 @@ public abstract class PositionalDataSource<T : Any> : DataSource<Int, T>(POSITIO
      * @param callback Callback that receives initial load data, including position and total data
      * set size.
      */
-    @WorkerThread
+//    @WorkerThread
     public abstract fun loadInitial(params: LoadInitialParams, callback: LoadInitialCallback<T>)
 
     /**
@@ -477,7 +477,7 @@ public abstract class PositionalDataSource<T : Any> : DataSource<Int, T>(POSITIO
      * @param params Parameters for load, including start position and load size.
      * @param callback Callback that receives loaded data.
      */
-    @WorkerThread
+//    @WorkerThread
     public abstract fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<T>)
 
     @Suppress("RedundantVisibilityModifier") // Metalava doesn't inherit visibility properly.
