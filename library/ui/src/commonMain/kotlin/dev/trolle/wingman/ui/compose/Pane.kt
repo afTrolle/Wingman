@@ -10,6 +10,7 @@ import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
 import dev.trolle.wingman.ui.LocalWindowSizeClass
@@ -23,6 +24,7 @@ fun Pane(
     modifier: Modifier = paneModifier,
     innerModifier: Modifier = innerPaneModifier,
     shape: Shape = MaterialThemeWingman.shapes.extraLarge,
+    containerColor : Color = MaterialThemeWingman.colorScheme.surface,
     cutout: Boolean = false,
     content: @Composable BoxScope.() -> Unit,
 ) {
@@ -37,7 +39,7 @@ fun Pane(
 
     Surface(
         shape = shape,
-        color = MaterialThemeWingman.colorScheme.secondaryContainer,
+        color = containerColor,
         modifier = shapePadding,
         content = {
             Box(

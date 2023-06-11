@@ -176,7 +176,6 @@ private fun RailNavigationItem(
         alwaysShowLabel = false,
         label = { Text(name) },
         colors = NavigationRailItemDefaults.colors(
-            indicatorColor = MaterialTheme.colorScheme.surface,
             unselectedIconColor = unselectedContentColor,
             unselectedTextColor = unselectedContentColor,
         ),

@@ -5,14 +5,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.tooling.preview.Preview
 import dev.trolle.wingman.signin.OneTimePasswordState
-import dev.trolle.wingman.signin.compose.OneTimePassword
-import dev.trolle.wingman.signin.compose.SignIn
+import dev.trolle.wingman.signin.compose.OneTimePasswordLayout
+import dev.trolle.wingman.signin.compose.SignInLayout
 import dev.trolle.wingman.ui.compose.PreviewDefaults
 
 @Preview
 @Composable
 private fun SignInPreview() = PreviewDefaults {
-    SignIn()
+    SignInLayout()
 }
 
 @Preview
@@ -25,7 +25,7 @@ fun OneTimePasswordPreview() = PreviewDefaults {
         phoneNumber = "+46720208",
         oneTimePassword = oneTimePassword,
     )
-    OneTimePassword(
+    OneTimePasswordLayout(
         oneTimePasswordState = state,
         onOneTimePasswordChanged = setOneTimePassword,
     )

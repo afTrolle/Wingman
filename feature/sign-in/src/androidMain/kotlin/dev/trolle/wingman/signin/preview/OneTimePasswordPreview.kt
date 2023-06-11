@@ -8,7 +8,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import dev.trolle.wingman.signin.OneTimePasswordState
-import dev.trolle.wingman.signin.compose.OneTimePassword
+import dev.trolle.wingman.signin.compose.OneTimePasswordLayout
 import dev.trolle.wingman.ui.compose.PreviewDefaults
 
 val state = OneTimePasswordState(
@@ -28,7 +28,7 @@ private fun OneTimePreview() = PreviewDefaults {
          )
     }
     val state = mutableState.value
-    OneTimePassword(
+    OneTimePasswordLayout(
         oneTimePasswordState = state,
         onOneTimePasswordChanged = {
             mutableState.value = state.copy(
@@ -41,7 +41,7 @@ private fun OneTimePreview() = PreviewDefaults {
 @Preview(showSystemUi = true, showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun OneTimePreviewDarkMode() = PreviewDefaults {
-    OneTimePassword(
+    OneTimePasswordLayout(
         oneTimePasswordState = state,
     )
 }
@@ -49,7 +49,7 @@ private fun OneTimePreviewDarkMode() = PreviewDefaults {
 @Preview(showSystemUi = true, showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES, device = Devices.FOLDABLE)
 @Composable
 private fun OneTimePreviewFoldable() = PreviewDefaults {
-    OneTimePassword(
+    OneTimePasswordLayout(
         oneTimePasswordState = state,
     )
 }
@@ -57,7 +57,7 @@ private fun OneTimePreviewFoldable() = PreviewDefaults {
 @Preview(showSystemUi = true, showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES, device = "spec:width=411dp,height=891dp,dpi=420,isRound=false,chinSize=0dp,orientation=landscape")
 @Composable
 private fun OneTimePreviewFoldableLandscape() = PreviewDefaults(heightSizeClass = WindowHeightSizeClass.Compact) {
-    OneTimePassword(
+    OneTimePasswordLayout(
         oneTimePasswordState = state,
     )
 }

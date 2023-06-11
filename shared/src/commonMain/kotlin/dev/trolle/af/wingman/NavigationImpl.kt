@@ -9,6 +9,7 @@ import cafe.adriel.voyager.navigator.NavigatorDisposeBehavior
 import cafe.adriel.voyager.navigator.OnBackPressed
 import dev.trolle.wingman.common.koin.rememberKoinInject
 import dev.trolle.wingman.home.compose.screen.home.HomeScreen
+import dev.trolle.wingman.signin.OneTimePasswordScreen
 import dev.trolle.wingman.ui.Navigation
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -45,11 +46,15 @@ internal class NavigationImpl : Navigation {
     override suspend fun openHomeScreen() {
         replaceAll(HomeScreen)
     }
+
+    override suspend fun openOTP(phoneNumber: String) {
+        replaceAll(OneTimePasswordScreen(phoneNumber))
+    }
 }
 
 @Composable
 internal fun Navigation(
-    screen: Screen,
+    screen: List<Screen>,
     disposeBehavior: NavigatorDisposeBehavior = NavigatorDisposeBehavior(
         disposeNestedNavigators = false,
     ),

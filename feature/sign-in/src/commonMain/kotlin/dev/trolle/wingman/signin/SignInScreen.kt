@@ -5,7 +5,7 @@ import androidx.compose.runtime.getValue
 import cafe.adriel.voyager.core.model.coroutineScope
 import cafe.adriel.voyager.core.screen.Screen
 import dev.trolle.wingman.common.ext.runCatchingCancelable
-import dev.trolle.wingman.signin.compose.SignIn
+import dev.trolle.wingman.signin.compose.SignInLayout
 import dev.trolle.wingman.signin.service.PhoneNumberService
 import dev.trolle.wingman.signin.service.PhoneValidateService
 import dev.trolle.wingman.ui.Navigation
@@ -95,7 +95,7 @@ object SignInScreen : Screen {
     override fun Content() {
         val viewModel = getScreenModel<SignInScreenModel>()
         val state by viewModel.state
-        SignIn(
+        SignInLayout(
             text = state.phoneNumber,
             isError = state.isError,
             isSignInEnabled = state.isButtonEnabled,

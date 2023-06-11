@@ -9,4 +9,5 @@ interface Navigation {
 
     // Feature Entrypoint
     suspend fun openHomeScreen()
+    suspend fun openOTP(phoneNumber: String)
 }

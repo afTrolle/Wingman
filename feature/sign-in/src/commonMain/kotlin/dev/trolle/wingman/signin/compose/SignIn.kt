@@ -34,7 +34,7 @@ import dev.trolle.wingman.ui.string.Strings
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SignIn(
+fun SignInLayout(
     text: String = "",
     isError: Boolean? = null,
     captureFocus: Boolean = true,
@@ -45,12 +45,14 @@ fun SignIn(
     onFocusCaptured: () -> Unit = { },
 ) = Scaffold(
     containerColor = MaterialThemeWingman.colorScheme.secondaryContainer,
-    contentColor = MaterialThemeWingman.colorScheme.onSurface,
 ) {
     val requestFocusModifier = Modifier.requestFocus(requestFocus)
     LayoutOnDifferentHeight(
         upTo = {
-            Pane(Modifier.padding(it)) {
+            Pane(
+                Modifier.padding(it),
+                containerColor = MaterialThemeWingman.colorScheme.surface,
+            ) {
                 SignInLimitedHeight(
                     text = text,
                     isError = isError,
@@ -64,7 +66,10 @@ fun SignIn(
             }
         },
         over = {
-            Pane(Modifier.padding(it)) {
+            Pane(
+                Modifier.padding(it),
+                containerColor = MaterialThemeWingman.colorScheme.surface,
+            ) {
                 SignInNotLimitedHeight(
                     text = text,
                     isError = isError,
