@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package tinder.shared;
+
+import "google/protobuf/timestamp.proto";
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.model.shared";
+
+message MetaProto {
+    google.protobuf.Timestamp upstream_time = 1;
+    google.protobuf.Timestamp start_time = 2;
+}

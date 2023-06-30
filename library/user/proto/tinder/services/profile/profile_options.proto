@@ -1,0 +1,2101 @@
+syntax = "proto3";
+
+package com.tinder.profile.data;
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+
+option java_multiple_files = true;
+option optimize_for = LITE_RUNTIME;
+option java_package = "com.tinder.profile.data.generated.proto";
+
+message ProfileMeterValue {
+    ProfileMeter value = 1;
+}
+
+message ProfileMeter {
+    double percent_achieved = 1;
+    repeated ProfileMeterComponent incomplete_components = 2;
+}
+
+message ProfileMeterComponents {
+    repeated ProfileMeterComponent profile_meter_components = 1;
+}
+
+message ProfileMeterComponent {
+    google.protobuf.StringValue display_text = 2;
+    google.protobuf.StringValue pill_text = 3;
+    bool red_dot = 4;
+    ProfileMeterKey profile_meter_key = 5;
+    
+    reserved 1, "key";
+}
+
+message ProfileMeterKey {
+    Key key = 1;
+    enum Key {
+        UNKNOWN = 0;
+        BIO = 1;
+        COMPANY = 2;
+        DESCRIPTORS = 3;
+        INSTAGRAM = 4;
+        JOB_TITLE = 5;
+        LIVING_IN = 6;
+        PASSIONS = 7;
+        PHOTOS = 8;
+        SCHOOL = 9;
+        SEXUAL_ORIENTATION = 10;
+        SPOTIFY_ANTHEM = 11;
+        TOP_SPOTIFY_ARTIST = 12;
+        MEDIA = 13;
+        PROMPTS = 14;
+    }
+    
+    google.protobuf.StringValue section_id = 2;
+}
+
+message InstagramValue {
+    Instagram value = 1;
+}
+
+message Instagram {
+    string user_name = 1;
+    string profile_picture_url = 2;
+    int32 media_count = 3;
+    google.protobuf.Int64Value last_fetched_time = 4;
+    bool should_reauthenticate = 5;
+    bool is_final_message = 6;
+    
+    repeated Photo photos = 7;
+    message Photo {
+        string link = 1;
+        int64 timestamp_millis = 2;
+        string thumbnail = 3;
+        string image = 4;
+    }
+}
+
+message SpotifySettingsValue {
+    SpotifySettings value = 1;
+}
+
+message SpotifySettings {
+    bool is_connected = 1;
+    repeated SpotifyArtist top_artists = 2;
+    SpotifyTrack theme_track = 3;
+    google.protobuf.StringValue user_name = 4;
+    
+    UserType user_type = 5;
+    enum UserType {
+        UNKNOWN = 0;
+        PREMIUM = 1;
+        FREE = 2;
+        OPEN = 3;
+    }
+    
+    google.protobuf.Int64Value last_updated = 6;
+}
+
+message SpotifyArtist {
+    string id = 1;
+    string name = 2;
+    bool is_selected = 3;
+    SpotifyTrack top_track = 4;
+}
+
+message SpotifyTrack {
+    string id = 1;
+    string name = 2;
+    bool is_playable = 3;
+    int32 popularity = 4;
+    string uri = 5;
+    
+    repeated Artist artists = 6;
+    message Artist {
+        string id = 1;
+        string name = 2;
+    }
+    
+    google.protobuf.StringValue preview_url = 7;
+    google.protobuf.StringValue artwork_url = 8;
+}
+
+message OnlinePresenceSettingsValue {
+    OnlinePresenceSettings value = 1;
+}
+
+message OnlinePresenceSettings {
+    bool is_user_presence_enabled = 1;
+}
+
+message FirstMoveSettingsValue {
+    FirstMoveSettings value = 1;
+}
+
+message FirstMoveSettings {
+    bool is_first_move_enabled = 1;
+    google.protobuf.Int64Value updated_at = 2;
+}
+
+message SexualOrientationSettingsValue {
+    SexualOrientationSettings value = 1;
+}
+
+message SexualOrientationSettings {
+    bool show_orientation_on_profile = 1;
+}
+
+message MiscMerchandisingValue {
+    MiscMerchandising value = 1;
+}
+
+message MiscMerchandising {
+    repeated SubscriptionCard subscription_card_ordering = 1;
+    repeated ControllaCarouselPanel controlla_carousel_ordering = 2;
+    SubscriptionCard subscription_landing_card = 3;
+    SubscriptionExpirationBanner subscription_expiration_banner = 4;
+}
+
+message SubscriptionExpirationBanner {
+    string heading = 1;
+    string description = 2;
+}
+
+message WebProfileSettingsValue {
+    WebProfileSettings value = 1;
+}
+
+message WebProfileSettings {
+    google.protobuf.StringValue user_name = 1;
+}
+
+message ReadReceiptsStatusValue {
+    ReadReceiptsStatus value = 1;
+}
+
+message ReadReceiptsStatus {
+    int32 internal_remaining = 1;
+    int32 purchased_remaining = 2;
+    int32 total_remaining = 3;
+}
+
+message GenderSettingsValue {
+    GenderSettings value = 1;
+}
+
+message GenderSettings {
+    bool show_gender_on_profile = 1;
+}
+
+message BumperStickersValue {
+    BumperStickers value = 1;
+}
+
+message BumperStickers {
+    bool is_bumper_stickers_enabled = 1;
+    repeated BumperSticker bumper_stickers = 2;
+}
+
+message BumperSticker {
+    string id = 1;
+    bool is_enabled = 2;
+    string title = 3;
+    google.protobuf.StringValue url = 4;
+    google.protobuf.StringValue action_url = 5;
+}
+
+message EmailSettingsValue {
+    EmailSettings value = 1;
+}
+
+message EmailSettings {
+    google.protobuf.StringValue email_address = 1;
+    
+    repeated Option options = 2;
+    message Option {
+        Type type = 1;
+        enum Type {
+            NEW_MATCHES = 0;
+            NEW_MESSAGES = 1;
+            PROMOTIONS = 2;
+        }
+        
+        bool is_enabled = 2;
+    }
+}
+
+message BouncerBypassStatusValue {
+    BouncerBypassStatus value = 1;
+}
+
+message BouncerBypassStatus {
+    int32 total_bypass_remaining = 1;
+    int32 purchased_bypass_remaining = 2;
+    int32 internal_bypass_remaining = 3;
+    int32 allotment_bypass_remaining = 4;
+    bool is_user_bounced = 5;
+}
+
+message CoinStatusValue {
+    CoinStatus value = 1;
+}
+
+message CoinStatus {
+    int32 purchased_coins_remaining = 1;
+    int32 internal_coins_remaining = 2;
+    int32 allotment_coins_remaining = 3;
+    int32 earned_coins_remaining = 4;
+    int32 gifted_coins_remaining = 5;
+    int32 total_coins_remaining = 6;
+    google.protobuf.StringValue lottie_animation_url = 7;
+}
+
+message InAppCurrencyExpirationDataValue {
+    InAppCurrencyExpirationData value = 1;
+}
+
+message InAppCurrencyExpirationData {
+    int64 total_expiring_coins = 1;
+    int64 total_non_expiring_coins = 2;
+    
+    repeated ExpiringDates expiring_dates = 3;
+    message ExpiringDates {
+        int64 date_in_millis = 1;
+        int64 coins = 2;
+    }
+    
+    Summary summary = 4;
+    message Summary {
+        oneof type {
+            ExactCoinsExpiring exact_coins_expiring = 1;
+            MinimumCoinsExpiring minimum_coins_expiring = 2;
+        }
+        
+        message ExactCoinsExpiring {
+            int64 date_in_millis = 1;
+            int64 sum_of_coins_expiring = 2;
+        }
+        
+        message MinimumCoinsExpiring {
+            int64 date_in_millis = 1;
+            int64 sum_of_coins_expiring = 2;
+        }
+    }
+}
+
+message SyncSwipeSettingsValue {
+    SyncSwipeSettings value = 1;
+}
+
+message SyncSwipeSettings {
+    bool is_sync_swipe_enabled = 1;
+}
+
+message ComplianceValue {
+    Compliance value = 1;
+}
+
+message Compliance {
+    bool is_third_party_data_collection_enabled = 1;
+}
+
+message LikeStatusValue {
+    LikeStatus value = 1;
+}
+
+message LikeStatus {
+    int32 likes_remaining_percent = 1;
+    int64 rate_limited_until_millis = 2;
+    int32 ads_remaining = 3;
+}
+
+message MessageControlsValue {
+    MessageControls value = 1;
+}
+
+message MessageControls {
+    bool is_request_verification_enabled = 1;
+}
+
+message PhotosProcessingValue {
+    PhotosProcessing value = 1;
+}
+
+message PhotosProcessing {
+    bool are_processing = 1;
+}
+
+message AccountValue {
+    Account value = 1;
+}
+
+message Account {
+    google.protobuf.StringValue account_email = 1;
+    bool is_account_email_verified = 2;
+    google.protobuf.StringValue to_be_verified_email = 3;
+    google.protobuf.StringValue account_phone_number = 4;
+    bool is_apple_account_linked = 5;
+    bool is_facebook_account_linked = 6;
+    bool is_line_account_linked = 7;
+    bool is_google_account_linked = 8;
+}
+
+message BoostSettingsValue {
+    reserved 1, "value";
+}
+
+message BoostSettings {
+    int32 remaining = 1;
+    int32 boost_refresh_amount = 2;
+    int32 boost_refresh_interval = 3;
+    
+    Unit boost_refresh_interval_unit = 4;
+    enum Unit {
+        SECOND = 0;
+        DAY = 1;
+        WEEK = 2;
+        MONTH = 3;
+    }
+    
+    int64 reset_at = 5;
+    int64 duration = 6;
+    int64 expire_at = 7;
+    string id = 8;
+    double multiplier = 9;
+    
+    BoostType boost_type = 10;
+    enum BoostType {
+        BOOST = 0;
+        SUPER_BOOST = 1;
+        PRIMETIME_BOOST = 2;
+    }
+    
+    int32 likes_received = 11;
+    bool pre_blur = 12;
+    repeated Photo photos = 13;
+    bool is_boost_ended = 14;
+    int64 result_viewed_at = 15;
+    int32 consumed_from = 16;
+    
+    repeated CompoundBoost compound_boost = 17;
+    message CompoundBoost {
+        int32 quantity = 1;
+        int64 duration = 2;
+    }
+}
+
+message BoostDetailsValue {
+    BoostDetails value = 1;
+}
+
+message BoostDetails {
+    int32 remaining = 1;
+    int32 boost_refresh_amount = 2;
+    int32 boost_refresh_interval = 3;
+    
+    Unit boost_refresh_interval_unit = 4;
+    enum Unit {
+        SECOND = 0;
+        DAY = 1;
+        WEEK = 2;
+        MONTH = 3;
+    }
+    
+    int64 reset_at = 5;
+    int64 duration = 6;
+    int64 expire_at = 7;
+    string id = 8;
+    double multiplier = 9;
+    
+    BoostType boost_type = 10;
+    enum BoostType {
+        BOOST = 0;
+        SUPER_BOOST = 1;
+        PRIMETIME_BOOST = 2;
+    }
+    
+    int32 likes_received = 11;
+    bool pre_blur = 12;
+    bool has_photos = 13;
+    bool is_boost_ended = 14;
+    int64 result_viewed_at = 15;
+    int32 consumed_from = 16;
+    
+    repeated CompoundBoost compound_boost = 17;
+    message CompoundBoost {
+        int32 quantity = 1;
+        int64 duration = 2;
+    }
+}
+
+message Photo {
+    string url = 1;
+    
+    repeated Render renders = 2;
+    message Render {
+        int32 width = 1;
+        int32 height = 2;
+        string url = 3;
+    }
+    
+    string id = 3;
+    
+    repeated Video videos = 4;
+    message Video {
+        int32 width = 1;
+        int32 height = 2;
+        string url = 3;
+        int64 durationMs = 4;
+    }
+    
+    bool isOnlyVisibleToMatches = 5;
+    MediaTemplate mediaTemplate = 6;
+    
+    CropInfo cropInfo = 7;
+    message CropInfo {
+        Coordinates userCustomizedCoordinates = 1;
+        message Coordinates {
+            google.protobuf.DoubleValue xOffsetPercentage = 1;
+            google.protobuf.DoubleValue yOffsetPercentage = 2;
+            google.protobuf.DoubleValue widthPercentage = 3;
+            google.protobuf.DoubleValue heightPercentage = 4;
+        }
+        
+        Coordinates autoGeneratedCoordinates = 2;
+        google.protobuf.Int32Value facesCount = 3;
+    }
+    
+    repeated Asset assets = 8;
+    message Asset {
+        Type type = 1;
+        enum Type {
+            PHOTO = 0;
+            LOOP = 1;
+            SHORT_VIDEO = 2;
+        }
+        
+        string url = 2;
+        int32 width = 3;
+        int32 height = 4;
+        bool hasAudio = 5;
+    }
+    
+    bool isSelfieVerified = 9;
+    google.protobuf.StringValue replacedMediaId = 10;
+}
+
+message TextPrompt {
+    string id = 1;
+    string version = 2;
+    google.protobuf.StringValue answer = 3;
+    string campaignId = 4;
+    google.protobuf.StringValue backgroundImageUrl = 5;
+    repeated string gradient = 6;
+    string promptTitle = 7;
+}
+
+message PhotoPrompt {
+    string id = 1;
+    string version = 2;
+    google.protobuf.StringValue answer = 3;
+    string campaignId = 4;
+    string promptTitle = 5;
+}
+
+message MemePrompt {
+    string id = 1;
+    string version = 2;
+    string campaignId = 3;
+    string promptTitle = 4;
+}
+
+message Prompt {
+    oneof type {
+        TextPrompt textPrompt = 1;
+        PhotoPrompt photoPrompt = 2;
+        MemePrompt memePrompt = 3;
+    }
+}
+
+message MediaTemplate {
+    oneof type {
+        Prompt prompt = 1;
+    }
+}
+
+message SubscriptionsValue {
+    Subscriptions value = 1;
+}
+
+message Subscriptions {
+    repeated Subscription subscriptions = 1;
+}
+
+message SubscriptionValue {
+    Subscription value = 2;
+    
+    reserved 1;
+}
+
+message Subscription {
+    string product_id = 1;
+    int32 terms = 5;
+    
+    Platform platform = 6;
+    enum Platform {
+        ANDROID = 0;
+        ANDROID_CREDIT_CARD = 1;
+        IOS = 2;
+        TEST = 3;
+        WEB = 4;
+        ANDROID_BRAINTREE_PAYPAL = 5;
+        WEB_BRAINTREE_PAYPAL = 6;
+    }
+    
+    Status status = 7;
+    enum Status {
+        UNKNOWN = 0;
+        SUCCESS = 1;
+        FAILED = 2;
+    }
+    
+    string purchase_id = 8;
+    string restore_token = 9;
+    int64 expire_date = 10;
+    bool is_auto_renewing = 11;
+    Offerings.ProductType product_type = 12;
+    TimeUnit termsUnit = 13;
+    google.protobuf.StringValue offer_id = 14;
+    
+    reserved 2, 3, 4;
+}
+
+message SwipeNoteStatusValue {
+    SwipeNoteStatus value = 1;
+}
+
+message SwipeNoteStatus {
+    int32 remaining = 1;
+}
+
+message PicksSettingsValue {
+    PicksSettings value = 1;
+}
+
+message PicksSettings {
+    bool discoverability_enabled = 1;
+}
+
+message OfferingsValue {
+    Offerings value = 1;
+}
+
+message Offerings {
+    repeated ProductTypeOfferMapEntry product_map_entries = 1;
+    
+    message Offer {
+        PurchaseType purchase_type = 1;
+        repeated ProductOffer product_offers = 2;
+        Merchandising merchandising = 3;
+    }
+    
+    enum ProductType {
+        UNKNOWN_PRODUCT = 0;
+        PLUS = 1;
+        GOLD = 2;
+        PLATINUM = 3;
+        TOP_PICKS = 4;
+        SUPERLIKE = 5;
+        SWIPENOTE = 6;
+        BOOST = 7;
+        SUPER_BOOST = 8;
+        READ_RECEIPTS = 9;
+        BOUNCER_BYPASS = 10;
+        COINS = 11;
+        BOOST_SUBSCRIPTION = 12;
+        PRIMETIME_BOOST = 13;
+    }
+    
+    enum PurchaseType {
+        CONSUMABLE = 0;
+        SUBSCRIPTION = 1;
+    }
+}
+
+message ProductTypeOfferMapEntry {
+    Offerings.ProductType key = 1;
+    Offerings.Offer value = 2;
+}
+
+message ProductOffer {
+    oneof type {
+        DefaultOffer default_offer = 1;
+        DiscountOffer discount_offer = 2;
+        SubOffer sub_offer = 3;
+        IntroPriceOffer intro_price_offer = 4;
+    }
+    
+    message RefreshInterval {
+        int32 interval = 1;
+        TimeUnit unit = 2;
+    }
+}
+
+message DefaultOffer {
+    Offerings.ProductType product_type = 1;
+    int32 amount = 2;
+    google.protobuf.Int64Value duration = 3;
+    repeated string tags = 4;
+    repeated PaymentMethod payment_methods = 5;
+    google.protobuf.StringValue icon_url = 6;
+    ProductOffer.RefreshInterval refresh_interval = 7;
+}
+
+message DiscountOffer {
+    Offerings.ProductType product_type = 1;
+    int32 amount = 2;
+    google.protobuf.Int64Value duration = 3;
+    repeated string tags = 4;
+    repeated PaymentMethod payment_methods = 5;
+    google.protobuf.StringValue icon_url = 6;
+    string rule_id = 7;
+    google.protobuf.Int64Value expires_at = 8;
+    string original_product_id = 9;
+    ProductOffer.RefreshInterval refresh_interval = 10;
+}
+
+message SubOffer {
+    Offerings.ProductType product_type = 1;
+    int32 amount = 2;
+    google.protobuf.Int64Value duration = 3;
+    repeated string tags = 4;
+    repeated PaymentMethod payment_methods = 5;
+    google.protobuf.StringValue icon_url = 6;
+    double discount_percentage = 7;
+    string original_product_id = 8;
+    string rule_id = 9;
+    string discount_id = 10;
+    int64 discount_duration = 11;
+    string discount_duration_unit = 12;
+    string sub_offer_type = 13;
+    string sub_offer_id = 14;
+    google.protobuf.Int64Value expires_at = 15;
+    google.protobuf.Int64Value viewed_at = 16;
+    string nonce = 17;
+    string timestamp = 18;
+    string signature = 19;
+    string hashed_uid = 20;
+    int64 reminder_offset = 21;
+    ProductOffer.RefreshInterval refresh_interval = 22;
+    string discount_type = 23;
+    google.protobuf.Int32Value offer_duration_millis = 24;
+}
+
+message IntroPriceOffer {
+    Offerings.ProductType product_type = 1;
+    int32 amount = 2;
+    google.protobuf.Int64Value duration = 3;
+    repeated string tags = 4;
+    repeated PaymentMethod payment_methods = 5;
+    google.protobuf.StringValue icon_url = 6;
+    double discount_percentage = 7;
+    int64 intro_price_duration = 8;
+    string original_product_id = 9;
+    string campaign = 10;
+    string campaign_variant_name = 11;
+    int64 reminder_offset = 12;
+    google.protobuf.Int64Value expires_at = 13;
+    ProductOffer.RefreshInterval refresh_interval = 14;
+    google.protobuf.Int32Value offer_duration_millis = 15;
+}
+
+message PaymentMethod {
+    oneof type {
+        GooglePlay google_play = 1;
+        CreditCard credit_card = 2;
+        InAppCurrency in_app_currency = 3;
+        PayPal paypal = 4;
+    }
+    
+    message GooglePlay {
+        string sku_id = 1;
+        google.protobuf.StringValue offer_id = 2;
+    }
+    
+    message CreditCard {
+        string sku_id = 1;
+        bool require_zip = 2;
+        bool is_vat_tax = 3;
+        double tax_rate = 4;
+        string currency = 5;
+        double price = 6;
+        double discount = 7;
+        bool is_brazil_cpf_required = 8;
+        google.protobuf.StringValue offer_id = 9;
+    }
+    
+    message InAppCurrency {
+        string sku_id = 1;
+        int64 coins = 2;
+    }
+    
+    message PayPal {
+        string sku_id = 1;
+        bool require_zip = 2;
+        bool is_vat_tax = 3;
+        double tax_rate = 4;
+        string currency = 5;
+        double price = 6;
+        double discount = 7;
+        string merchant_account_id = 8;
+    }
+}
+
+message PaywallsValue {
+    Paywalls value = 1;
+}
+
+message Paywalls {
+    repeated Paywall values = 1;
+}
+
+message Paywall {
+    string instance_id = 1;
+    string template_id = 2;
+    Offerings.ProductType product_type = 3;
+    string entrypoint = 4;
+    
+    Template template = 5;
+    message Template {
+        oneof type {
+            Carousel carousel = 1;
+            ThreeSku three_sku = 2;
+            CarouselWithStickyUpsell carousel_with_sticky_upsell = 3;
+            CarouselSubscription carousel_subscription = 4;
+            CarouselSubscriptionV2 carousel_subscription_V2 = 5;
+            CarouselConsumable carousel_consumable = 6;
+        }
+        
+        message Carousel {
+            HeroImageV1 hero_image = 1;
+            string title = 2;
+            string body = 3;
+            string discount_tag = 4;
+            
+            repeated Upsell upsells = 5;
+            message Upsell {
+                string title = 1;
+                string subtitle = 2;
+                Offerings.ProductType product_type = 3;
+            }
+            
+            string template_uuid = 6;
+        }
+        
+        message CarouselWithStickyUpsell {
+            HeroImageV1 hero_image = 1;
+            string title = 2;
+            string body = 3;
+            string discount_tag = 4;
+            
+            PrimaryUpsell primary_upsell = 5;
+            message PrimaryUpsell {
+                oneof type {
+                    ValidPrimaryUpsell valid = 1;
+                    InvalidPrimaryUpsell invalid = 2;
+                }
+                
+                message ValidPrimaryUpsell {
+                    string title = 1;
+                    string subtitle = 2;
+                    string deeplink = 3;
+                    string image_url = 4;
+                    Offerings.ProductType product_type = 5;
+                    string border_color = 6;
+                    string header_background_color = 7;
+                    Button button = 8;
+                    IconUrl image_url_v2 = 9;
+                    PaywallColor border_color_v2 = 10;
+                    PaywallColor header_background_color_v2 = 11;
+                }
+                
+                message InvalidPrimaryUpsell {
+                    
+                }
+            }
+            
+            SecondaryUpsell secondary_upsell = 6;
+            message SecondaryUpsell {
+                oneof type {
+                    ValidSecondaryUpsell valid = 1;
+                    InvalidSecondaryUpsell invalid = 2;
+                }
+                
+                message ValidSecondaryUpsell {
+                    string title = 1;
+                    string subtitle = 2;
+                    string card_header = 3;
+                    HeroImageV1 hero_image = 4;
+                    string deeplink = 5;
+                    string image_url = 6;
+                    Offerings.ProductType product_type = 7;
+                    string border_color = 8;
+                    string description = 9;
+                    Button button = 10;
+                    bool has_hero_image = 11;
+                    HeroImageV2 hero_image_v2 = 12;
+                    IconUrl image_url_v2 = 13;
+                    PaywallColor border_color_v2 = 14;
+                }
+                
+                message InvalidSecondaryUpsell {
+                    
+                }
+            }
+            
+            string template_uuid = 7;
+            HeroImageV2 hero_image_v2 = 8;
+            
+            Version version = 9;
+            enum Version {
+                V1 = 0;
+                V2 = 1;
+            }
+            
+            message Button {
+                string text = 1;
+                string text_color = 2;
+                string border_color = 3;
+                BackgroundV1 background = 4;
+                PaywallColor text_color_v2 = 5;
+                PaywallColor border_color_v2 = 6;
+                BackgroundV2 background_v2 = 7;
+            }
+            
+            message IconUrl {
+                string default = 1;
+                string dark = 2;
+            }
+        }
+        
+        message CarouselSubscription {
+            string template_uuid = 1;
+            
+            GradientHeaderWithImage header = 2;
+            message GradientHeaderWithImage {
+                BackgroundV1 background = 1;
+                string borderColor = 2;
+                string iconUrl = 3;
+            }
+            
+            FeatureTypeBasedTitle featureTypeBasedTitle = 3;
+            message FeatureTypeBasedTitle {
+                map<string, string> featureTypeTitleTextMapping = 1;
+                string textColor = 2;
+            }
+            
+            SkuCard skuCard = 4;
+            message SkuCard {
+                CardBorderColor cardBorderColor = 1;
+                string merchandisingTextColor = 2;
+                CardIconUrl cardIconUrl = 3;
+            }
+            
+            string discountTag = 5;
+            string disclosureText = 6;
+            
+            Button button = 7;
+            message Button {
+                string text = 1;
+                string textColor = 2;
+                BackgroundV1 background = 3;
+            }
+            
+            AllotmentDisclosure allotmentDisclosure = 8;
+            message AllotmentDisclosure {
+                Boost boost = 1;
+                message Boost {
+                    google.protobuf.StringValue weeklySub = 1;
+                }
+            }
+            
+            CarouselVersion version = 9;
+            
+            message CardBorderColor {
+                string selected = 1;
+                string unselected = 2;
+            }
+            
+            message CardIconUrl {
+                string newSubIconUrl = 1;
+                string upgradeIconUrl = 2;
+            }
+        }
+        
+        message CarouselSubscriptionV2 {
+            string template_uuid = 1;
+            
+            GradientHeaderWithImage header = 2;
+            message GradientHeaderWithImage {
+                BackgroundV2 background = 1;
+                PaywallColor borderColor = 2;
+                IconUrl iconUrl = 4;
+                
+                reserved 3;
+            }
+            
+            FeatureTypeBasedTitle featureTypeBasedTitle = 3;
+            message FeatureTypeBasedTitle {
+                map<string, string> featureTypeTitleTextMapping = 1;
+                PaywallColor textColor = 2;
+            }
+            
+            SkuCard skuCard = 4;
+            message SkuCard {
+                CardBorderColor cardBorderColor = 1;
+                PaywallColor merchandisingTextColor = 2;
+                CardIconUrl cardIconUrl = 3;
+            }
+            
+            string discountTag = 5;
+            string disclosureText = 6;
+            
+            Button button = 7;
+            message Button {
+                string text = 1;
+                PaywallColor textColor = 2;
+                BackgroundV2 background = 3;
+            }
+            
+            AllotmentDisclosure allotmentDisclosure = 8;
+            message AllotmentDisclosure {
+                Boost boost = 1;
+                message Boost {
+                    google.protobuf.StringValue weeklySub = 1;
+                }
+            }
+            
+            CarouselVersion version = 9;
+            
+            message CardBorderColor {
+                PaywallColor selected = 1;
+                PaywallColor unselected = 2;
+            }
+            
+            message CardIconUrl {
+                IconUrl newSubIconUrl = 3;
+                IconUrl upgradeIconUrl = 4;
+                
+                reserved 1, 2;
+            }
+            
+            message IconUrl {
+                string default = 1;
+                string dark = 2;
+            }
+        }
+        
+        message CarouselConsumable {
+            string template_uuid = 1;
+            
+            GradientHeaderWithImageAndTitle header = 2;
+            message GradientHeaderWithImageAndTitle {
+                BackgroundV2 background = 1;
+                IconUrl iconUrl = 2;
+                string title = 3;
+            }
+            
+            FeatureTypeBasedTitle featureTypeBasedTitle = 3;
+            message FeatureTypeBasedTitle {
+                map<string, string> featureTypeTitleTextMapping = 1;
+                PaywallColor textColor = 2;
+            }
+            
+            SkuCard skuCard = 4;
+            message SkuCard {
+                PaywallColor cardBorderColor = 1;
+                PaywallColor merchandisingTextColor = 2;
+                
+                Button button = 3;
+                message Button {
+                    string text = 1;
+                    PaywallColor textColor = 2;
+                    BackgroundV2 background = 3;
+                }
+            }
+            
+            string discountTag = 5;
+            string disclosureText = 6;
+            
+            PrimaryUpsell primaryUpsell = 7;
+            message PrimaryUpsell {
+                string deeplink = 1;
+                Offerings.ProductType product_type = 2;
+                
+                Body body = 3;
+                message Body {
+                    string text = 1;
+                    PaywallColor textColor = 2;
+                    BackgroundV2 background = 3;
+                }
+                
+                IconUrl iconUrl = 4;
+                PaywallColor borderColor = 5;
+                
+                Header header = 6;
+                message Header {
+                    string text = 1;
+                    PaywallColor textColor = 2;
+                    BackgroundV2 background = 3;
+                }
+                
+                Button button = 7;
+                message Button {
+                    string text = 1;
+                    PaywallColor textColor = 2;
+                    BackgroundV2 background = 3;
+                    PaywallColor borderColor = 4;
+                }
+            }
+            
+            message IconUrl {
+                string default = 1;
+                string dark = 2;
+            }
+        }
+        
+        message BackgroundV2 {
+            oneof type {
+                Gradient gradient = 1;
+                Solid solid = 2;
+            }
+            
+            message Gradient {
+                string token = 1;
+                string fallbackToken = 2;
+            }
+            
+            message Solid {
+                string token = 1;
+                string fallbackToken = 2;
+            }
+        }
+        
+        message PaywallColor {
+            oneof type {
+                Solid solid = 1;
+            }
+            
+            message Solid {
+                string token = 1;
+                string fallbackToken = 2;
+            }
+        }
+        
+        message ThreeSku {
+            HeroImageV1 hero_image = 1;
+            string title = 2;
+            string body = 3;
+            string discount_tag = 4;
+            
+            repeated Upsell upsells = 5;
+            message Upsell {
+                string title = 1;
+                string subtitle = 2;
+                Offerings.ProductType product_type = 3;
+                string image_url = 4;
+                string deeplink = 5;
+                string border_color = 6;
+                BackgroundV1 background = 7;
+            }
+            
+            string template_uuid = 6;
+        }
+        
+        message HeroImageV1 {
+            string url = 1;
+            string kind = 2;
+        }
+        
+        message HeroImageV2 {
+            IconUrl iconUrl = 1;
+            message IconUrl {
+                string default = 1;
+                string dark = 2;
+            }
+            
+            string kind = 2;
+        }
+        
+        message BackgroundV1 {
+            oneof type {
+                Solid solid = 1;
+                Gradient gradient = 2;
+            }
+            
+            message Solid {
+                string color = 1;
+            }
+            
+            message Gradient {
+                double degree = 1;
+                
+                repeated GradientInfo gradientInfo = 2;
+                message GradientInfo {
+                    string color = 1;
+                    double position = 3;
+                    
+                    reserved 2;
+                }
+            }
+        }
+        
+        enum CarouselVersion {
+            V1_HEX = 0;
+            V2_TOKENS = 1;
+        }
+    }
+}
+
+message Merchandising {
+    repeated FeatureTypeMerchandiseMapEntry feature_map_entries = 1;
+    
+    repeated FeatureType carousel_ordering = 2;
+    enum FeatureType {
+        UNKNOWN_TYPE = 0;
+        BOOST = 1;
+        BOUNCER_BYPASS = 2;
+        COIN = 3;
+        CONTROL_WHO_SEES_YOU = 4;
+        CONTROL_WHO_YOU_SEE = 5;
+        HIDE_ADS = 6;
+        HIDE_AGE = 7;
+        HIDE_DISTANCE = 8;
+        LIKE = 9;
+        LIKES_YOU = 10;
+        LIKES_YOU_FILTERS = 11;
+        MY_LIKES_LOOKBACK = 12;
+        REWIND = 13;
+        PASSPORT = 14;
+        PRIORITY_LIKES = 15;
+        PRIORITY_MESSAGES = 16;
+        READ_RECEIPT = 17;
+        SUBSCRIPTION = 18;
+        SUPER_BOOST = 19;
+        SUPER_BOOST_ALC_ACCESS = 20;
+        SUPER_LIKE = 21;
+        SUPER_LIKE_ATTACH_MESSAGE = 22;
+        TOP_PICKS = 23;
+        TOP_PICKS_ALC_ACCESS = 24;
+        UPSELL_FEATURES = 25;
+        HIDE_AGE_AND_DISTANCE_FEATURES = 26;
+        DISCOVERY_PREFERENCES = 27;
+        PRIMETIME_BOOST = 28;
+    }
+    
+    repeated FeatureType plus_screen_ordering = 3;
+    Offerings.ProductType upsell_type = 4;
+    SubscriptionMerchandising subscription_merchandising = 5;
+    GoldUpsell gold_upsell = 6;
+}
+
+message FeatureTypeMerchandiseMapEntry {
+    Merchandising.FeatureType key = 1;
+    Merchandise value = 2;
+}
+
+message Merchandise {
+    oneof type {
+        RenewableMerchandise renewable_merchandise = 1;
+        NonRenewableMerchandise nonRenewable_merchandise = 2;
+        UnlimitedMerchandise unlimited_merchandise = 3;
+    }
+}
+
+message RenewableMerchandise {
+    int32 balance = 1;
+    int32 refresh_interval = 2;
+    TimeUnit refresh_interval_unit = 3;
+}
+
+message NonRenewableMerchandise {
+    google.protobuf.Int64Value duration = 1;
+    Offerings.ProductType upsell_type = 2;
+}
+
+message UnlimitedMerchandise {
+    google.protobuf.Int64Value duration = 1;
+}
+
+message GoldUpsell {
+    repeated string upsell_skus = 1;
+    string upsell_layout = 2;
+}
+
+message SubscriptionMerchandising {
+    string cta_button_text = 1;
+    repeated SubscriptionMerchandisingSection sections = 2;
+    bool termed = 3;
+}
+
+message SubscriptionMerchandisingSection {
+    SubscriptionMerchandisingSectionType type = 1;
+    string heading = 2;
+    repeated SubscriptionBenefit benefits = 3;
+}
+
+message SubscriptionBenefit {
+    string key = 1;
+    string heading = 2;
+    google.protobuf.StringValue description = 3;
+    bool included_in_subscription = 4;
+    google.protobuf.StringValue deeplink = 5;
+}
+
+message PlusControlSettingsValue {
+    PlusControlSettings value = 1;
+}
+
+message PlusControlSettings {
+    bool hide_ads = 1;
+    bool hide_age = 2;
+    bool hide_distance = 3;
+    
+    DiscoverableParty discoverableParty = 4;
+    enum DiscoverableParty {
+        EVERYONE = 0;
+        LIKED = 1;
+    }
+    
+    Blend blend = 5;
+    enum Blend {
+        OPTIMAL = 0;
+        POPULARITY = 1;
+        DISTANCE = 2;
+        RECENT_ACTIVITY = 3;
+    }
+}
+
+message BillingInformationValue {
+    BillingInformation value = 1;
+}
+
+message BillingInformation {
+    string email = 1;
+    string zip = 2;
+    bool has_credit_card_on_file = 3;
+    
+    repeated CreditCardType creditCardType = 4;
+    enum CreditCardType {
+        VISA = 0;
+        MASTERCARD = 1;
+        AMERICAN_EXPRESS = 2;
+        DINERS = 3;
+        JCB = 4;
+        DISCOVER = 5;
+        CARTE_BANCAIRE = 6;
+        BANCONTACT = 7;
+        BANK_AXEPT = 8;
+        DANKORT = 9;
+        UNION_PAY = 10;
+        MAESTRO = 11;
+        HIPER = 12;
+        HIPER_CARD = 13;
+    }
+    
+    bool is_brazil_cpf_required = 5;
+}
+
+message MessageConsentsValue {
+    MessageConsents value = 1;
+}
+
+message MessageConsents {
+    repeated MessageConsent consents = 1;
+}
+
+message MessageConsent {
+    string code = 1;
+    google.protobuf.StringValue category_code = 2;
+    google.protobuf.StringValue title = 3;
+}
+
+message AccountInformationValue {
+    AccountInformation value = 1;
+}
+
+message AccountInformation {
+    int64 created_time = 1;
+    google.protobuf.Int64Value ping_time = 2;
+    google.protobuf.StringValue phone_number = 3;
+    bool is_photo_processing = 4;
+}
+
+message GlobalModeSettingsValue {
+    GlobalModeSettings value = 1;
+}
+
+message GlobalModeSettings {
+    bool is_enabled = 1;
+    string display_language = 2;
+    
+    repeated LanguagePreference language_preferences = 3;
+    message LanguagePreference {
+        string language = 1;
+        bool is_selected = 2;
+    }
+}
+
+message UserInterestsValue {
+    UserInterests value = 1;
+}
+
+message UserInterests {
+    int32 min_interests = 1;
+    int32 max_interests = 2;
+    repeated UserInterest selected_interests = 3;
+    repeated UserInterest available_interests = 4;
+}
+
+message UserInterest {
+    string id = 1;
+    string name = 2;
+}
+
+message ExperiencesSettingsValue {
+    ExperiencesSettings value = 1;
+}
+
+message ExperiencesSettings {
+    google.protobuf.BoolValue show_experiences = 1;
+    
+    CompletedStories completed_stories = 2;
+    message CompletedStories {
+        repeated string stories = 1;
+    }
+    
+    ExperienceSeries experiences_series = 3;
+}
+
+message ExperienceSeries {
+    Series series = 1;
+    message Series {
+        string name = 1;
+        repeated Episode episodes = 2;
+    }
+    
+    message Episode {
+        int32 episode_number = 1;
+        Ending ending = 2;
+        repeated Decision decisions = 3;
+    }
+    
+    message Ending {
+        string title = 1;
+        string ending_type = 2;
+        google.protobuf.StringValue image_url = 3;
+        google.protobuf.BoolValue is_mutual = 4;
+        google.protobuf.StringValue summary_text = 5;
+    }
+    
+    message Decision {
+        string text = 1;
+        string alternate_text = 2;
+        google.protobuf.BoolValue is_mutual = 3;
+    }
+}
+
+message TinderUTranscriptValue {
+    TinderUTranscript value = 1;
+}
+
+message TinderUTranscript {
+    TinderUStatus status = 1;
+    enum TinderUStatus {
+        NONE = 0;
+        INELIGIBLE = 1;
+        ALLOWLISTED = 2;
+        LIKELY = 3;
+        WAITING_VERIFY = 4;
+        VERIFIED = 5;
+        VERIFIED_OPT_OUT = 6;
+        POSSIBLE = 7;
+        WAITLISTED = 8;
+    }
+    
+    School school = 2;
+    message School {
+        string id = 1;
+        string name = 2;
+        google.protobuf.StringValue card_name = 3;
+        google.protobuf.StringValue primary_color = 4;
+        google.protobuf.StringValue secondary_color = 5;
+        google.protobuf.StringValue text_color = 6;
+    }
+    
+    google.protobuf.StringValue email = 3;
+    
+    EmailValidation email_validation = 4;
+    message EmailValidation {
+        repeated string domains = 1;
+        repeated string blocklist = 2;
+    }
+    
+    Rivalry rivalry = 5;
+    message Rivalry {
+        google.protobuf.BoolValue is_enabled = 1;
+        google.protobuf.BoolValue is_eligible = 2;
+        google.protobuf.Int64Value expiration_date = 3;
+    }
+}
+
+message FeatureAccessStatusValue {
+    FeatureAccessStatus value = 1;
+}
+
+message FeatureAccessStatus {
+    Allowance likes_you = 1;
+    message Allowance {
+        oneof type {
+            google.protobuf.Empty unlimited = 1;
+            Limited limited = 2;
+            google.protobuf.Empty unspecified = 3;
+        }
+    }
+    
+    Allowance passport = 2;
+    Allowance card_stack_preference = 3;
+    Allowance primetime_boost = 4;
+    
+    message Limited {
+        int32 amount = 1;
+    }
+}
+
+message CardStackPreferenceStatusValue {
+    CardStackPreferenceStatus value = 1;
+}
+
+message CardStackPreferenceStatus {
+    int32 number_of_photos = 1;
+    bool has_bio = 2;
+    repeated string interest_ids = 3;
+    
+    repeated Descriptor descriptors = 4;
+    message Descriptor {
+        string id = 1;
+        repeated string choice_ids = 2;
+    }
+}
+
+message RelationshipIntentValue {
+    RelationshipIntent value = 1;
+}
+
+message RelationshipIntent {
+    string id = 1;
+    string name = 2;
+    google.protobuf.StringValue imageUrl = 3;
+}
+
+message ProfileFreebieValue {
+    ProfileFreebie value = 1;
+}
+
+message ProfileFreebie {
+    int32 photos_count = 1;
+    bool bio_required = 2;
+    repeated int32 show_modal_swipe_counts = 3;
+    int32 expires_in_seconds = 4;
+}
+
+message OnboardingValue {
+    Onboarding value = 1;
+}
+
+message Onboarding {
+    repeated Tutorial tutorials = 1;
+    message Tutorial {
+        repeated Asset assets = 1;
+        message Asset {
+            Type type = 1;
+            enum Type {
+                NONE = 0;
+                IMAGE = 1;
+                VIDEO = 2;
+                RECS_CARD = 3;
+            }
+            
+            string url = 2;
+            int32 age = 4;
+            int32 mutualsCount = 5;
+            
+            oneof _name {
+                string name = 3;
+            }
+        }
+        
+        Name name = 2;
+        enum Name {
+            NONE = 0;
+            TOP_PICKS_INTRO = 1;
+            TOP_PICKS_INTRO_V3 = 2;
+            TINDER_U_INTRO = 3;
+            MATCHES_SELF_ARCHIVE = 4;
+            MATCHES_AUTO_ARCHIVE = 5;
+            IN_APP_CURRENCY_INTRO = 6;
+            MUTUALS_INTROS = 7;
+        }
+    }
+}
+
+message TopPhotoSettingsValue {
+    TopPhotoSettings value = 1;
+}
+
+message TopPhotoSettings {
+    string top_photo_id = 1;
+}
+
+message SmartPhotoSettingsValue {
+    SmartPhotoSettings value = 1;
+}
+
+message SmartPhotoSettings {
+    bool enabled = 1;
+}
+
+message SuperlikeStatusValue {
+    SuperlikeStatus value = 1;
+}
+
+message SuperlikeStatus {
+    bool has_super_likes = 1;
+    int64 millis_until_reset_date = 2;
+    int32 remaining_count = 3;
+    google.protobuf.Int64Value resetDateInMillis = 4;
+    int32 refresh_amount = 5;
+    
+    TimeInterval refresh_interval = 6;
+    message TimeInterval {
+        int32 length = 1;
+        TimeUnit unit = 2;
+    }
+}
+
+message DiscoverySettingsValue {
+    DiscoverySettings value = 1;
+}
+
+message DiscoverySettings {
+    int32 minAgeFilter = 1;
+    int32 maxAgeFilter = 2;
+    bool isDiscoverable = 3;
+    int32 distanceFilter = 4;
+    bool showSameOrientationFirst = 5;
+    bool shouldShowSameOrientationOption = 6;
+    google.protobuf.BoolValue isAgeDealBreaker = 7;
+    google.protobuf.BoolValue isDistanceDealBreaker = 8;
+    
+    GenderFilter genderFilter = 9;
+    enum GenderFilter {
+        MALE = 0;
+        FEMALE = 1;
+        BOTH = 2;
+    }
+}
+
+message CampaignSettingsValue {
+    CampaignSettings value = 1;
+}
+
+message CampaignSettings {
+    repeated CampaignRegistration campaign_registrations = 1;
+}
+
+message CampaignRegistration {
+    Campaign campaign = 1;
+    Event selected_event = 2;
+    int64 expiration_date = 3;
+    bool enabled = 4;
+    string settings_header = 5;
+}
+
+message Campaign {
+    string campaign_name = 1;
+    string campaign_id = 2;
+    string campaign_description = 3;
+    google.protobuf.StringValue one_link_id = 4;
+    repeated Event events = 5;
+    
+    Template template = 6;
+    enum Template {
+        LIST = 0;
+        CONFIRM = 1;
+        OPT_IN_ONLY = 2;
+        UNKNOWN = 3;
+    }
+    
+    google.protobuf.StringValue list_header = 7;
+    int64 expiration_date_ms = 8;
+    
+    Assets assets = 9;
+    message Assets {
+        repeated string background_colors = 1;
+        google.protobuf.StringValue background_image_url = 2;
+        string badge_url = 3;
+        google.protobuf.StringValue sponsor_logo_url = 4;
+        string text_color = 5;
+        string title_image_url = 6;
+        string action_button_color = 7;
+        string action_button_text_color = 8;
+        google.protobuf.StringValue cta_button_text = 9;
+        google.protobuf.StringValue dismiss_button_text = 10;
+    }
+}
+
+message Event {
+    string event_name = 1;
+    string event_id = 2;
+    google.protobuf.StringValue badge_url = 3;
+}
+
+message TutorialsValue {
+    Tutorials value = 1;
+}
+
+message Tutorials {
+    repeated string tutorials = 1;
+}
+
+message MatchmakerSettingsValue {
+    MatchmakerSettings value = 1;
+}
+
+message MatchmakerSettings {
+    bool mm_enabled = 1;
+}
+
+message SparksQuizzesValue {
+    SparksQuizzes value = 1;
+}
+
+message SparksQuizzes {
+    repeated SparksQuiz sparks_quizzes = 1;
+}
+
+message SparksQuiz {
+    string section_id = 1;
+    string section_name = 2;
+    repeated SparksQuizItem quizzes = 3;
+}
+
+message SparksQuizItem {
+    string id = 1;
+    string name = 2;
+    repeated string answers = 3;
+}
+
+message IdValue {
+    Id value = 1;
+}
+
+message Id {
+    string id = 1;
+}
+
+message UserValue {
+    User value = 1;
+}
+
+message User {
+    string id = 1;
+    repeated Badge badges = 2;
+    google.protobuf.StringValue bio = 3;
+    google.protobuf.Int64Value birth_date = 4;
+    Gender gender = 5;
+    string name = 6;
+    repeated Photo photos = 7;
+    repeated Job jobs = 8;
+    repeated School schools = 9;
+    City city = 10;
+    repeated SexualOrientation sexual_orientations = 11;
+}
+
+message Badge {
+    Type type = 1;
+    enum Type {
+        VERIFIED = 0;
+        SELFIE_IN_REVIEW = 1;
+        SELFIE_NOT_VERIFIED = 2;
+        NOONLIGHT_PROTECTED = 3;
+        DEFAULT = 4;
+    }
+    
+    string description = 2;
+    string color = 3;
+}
+
+message Gender {
+    Value value = 1;
+    enum Value {
+        MALE = 0;
+        FEMALE = 1;
+        UNKNOWN = 2;
+    }
+    
+    google.protobuf.StringValue custom_gender = 2;
+}
+
+message Job {
+    google.protobuf.StringValue company_id = 1;
+    google.protobuf.StringValue company_name = 2;
+    bool is_company_displayed = 3;
+    google.protobuf.StringValue title_id = 4;
+    google.protobuf.StringValue title_name = 5;
+    bool is_title_displayed = 6;
+}
+
+message School {
+    string name = 1;
+    google.protobuf.StringValue id = 2;
+    bool is_displayed = 3;
+}
+
+message City {
+    string name = 1;
+    google.protobuf.StringValue region = 2;
+}
+
+message SexualOrientation {
+    string id = 1;
+    string name = 2;
+}
+
+message UserProfileDescriptorValue {
+    UserProfileDescriptor value = 1;
+}
+
+message UserProfileDescriptor {
+    repeated ProfileDescriptor.Selected selected_descriptors = 1;
+    repeated ProfileDescriptorSection descriptor_sections = 2;
+}
+
+message ProfileDescriptorSection {
+    ProfileDescriptor.SectionInfo section_info = 1;
+    repeated ProfileDescriptor.Available descriptors = 2;
+}
+
+message ProfileDescriptor {
+    string id = 1;
+    string name = 2;
+    string iconUrl = 3;
+    
+    SelectionType selection_type = 4;
+    enum SelectionType {
+        SINGLE = 0;
+        MULTI = 1;
+        MEASUREMENT = 2;
+    }
+    
+    string prompt = 5;
+    
+    SectionInfo section_info = 6;
+    message SectionInfo {
+        string section_id = 1;
+        string section_name = 2;
+    }
+    
+    message Available {
+        string id = 1;
+        string name = 2;
+        string icon_url = 3;
+        SelectionType selection_type = 4;
+        string prompt = 5;
+        SectionInfo section_info = 6;
+        repeated Choice choices = 7;
+        MeasurableDetails measurable_detail = 8;
+        string background_text = 9;
+    }
+    
+    message Selected {
+        string id = 1;
+        string name = 2;
+        string icon_url = 3;
+        SelectionType selection_type = 4;
+        string prompt = 5;
+        SectionInfo section_info = 6;
+        Visibility visibility = 7;
+        repeated Choice selected_choices = 8;
+        MeasurableSelection measurable_selection = 9;
+    }
+    
+    message MeasurableDetails {
+        int32 min = 1;
+        int32 max = 2;
+        string unitOfMeasure = 3;
+    }
+    
+    message MeasurableSelection {
+        int32 value = 1;
+        string unit_of_measure = 2;
+    }
+    
+    message Choice {
+        string id = 1;
+        string name = 2;
+        google.protobuf.StringValue image_url = 3;
+    }
+    
+    enum Visibility {
+        PUBLIC = 0;
+        MATCHES_ONLY = 1;
+    }
+}
+
+message UserProfilePromptValue {
+    UserProfilePrompt value = 1;
+}
+
+message UserProfilePrompt {
+    string sectionName = 1;
+    repeated ProfilePrompt prompts = 2;
+    int32 maxPrompts = 3;
+}
+
+message ProfilePrompt {
+    string id = 1;
+    string questionText = 2;
+    string answerText = 3;
+    string imageUrl = 4;
+}
+
+message UserProfilePollValue {
+    UserProfilePoll value = 1;
+}
+
+message UserProfilePoll {
+    string sectionName = 1;
+    repeated ProfilePoll polls = 2;
+    int32 maxPolls = 3;
+}
+
+message ProfilePoll {
+    string id = 1;
+    string questionId = 2;
+    string questionText = 3;
+    string imageUrl = 4;
+    repeated ProfilePollChoice choices = 5;
+}
+
+message ProfilePollChoice {
+    string id = 1;
+    string text = 2;
+}
+
+message ProfileMediaValue {
+    ProfileMediaValues value = 1;
+}
+
+message ProfileMediaValues {
+    repeated ProfileMedia profile_media = 1;
+}
+
+message ProfileMedia {
+    oneof type {
+        LocalProfilePhoto local_profile_photo = 1;
+        LocalProfilePhotoPendingUpload local_profile_photo_pending_upload = 2;
+        RemoteProfilePhoto remote_profile_photo = 3;
+        PendingFacebookPhoto pending_facebook_photo = 4;
+        LocalLoopVideo local_loop_video = 5;
+        LocalShortVideo local_short_video = 6;
+        RemoteLoopVideo remote_loop_video = 7;
+        RemoteShortVideo remote_short_video = 8;
+    }
+    
+    message LocalProfilePhoto {
+        string id = 1;
+        string image_uri = 2;
+        bool is_selfie_verified = 3;
+        AddMediaLaunchSource launch_source = 4;
+        bool is_first_media = 5;
+        bool is_primary_media = 6;
+        MediaType media_type = 7;
+        int32 order_index = 8;
+    }
+    
+    message LocalProfilePhotoPendingUpload {
+        string id = 1;
+        google.protobuf.StringValue image_uri = 2;
+        bool is_only_visible_to_matches = 3;
+        AddMediaLaunchSource launch_source = 4;
+        MediaSelectSource media_select_source = 5;
+        MediaTemplate media_template = 6;
+        MediaType media_type = 7;
+        int32 order_index = 8;
+        google.protobuf.StringValue replaced_media_id = 9;
+    }
+    
+    message RemoteProfilePhoto {
+        string id = 1;
+        string image_uri = 2;
+        bool is_selfie_verified = 3;
+        bool is_only_visible_to_matches = 4;
+        MediaTemplate media_template = 5;
+        int32 width = 6;
+        int32 height = 7;
+        MediaType media_type = 8;
+        int32 order_index = 9;
+        google.protobuf.StringValue replaced_media_id = 10;
+    }
+    
+    message PendingFacebookPhoto {
+        string id = 1;
+        google.protobuf.StringValue image_uri = 2;
+        AddMediaLaunchSource launch_source = 3;
+        CroppingInfo cropping_info = 4;
+        MediaType media_type = 5;
+        int32 order_index = 6;
+    }
+    
+    message LocalLoopVideo {
+        string id = 1;
+        string image_uri = 2;
+        bool is_only_visible_to_matches = 3;
+        AddMediaLaunchSource launch_source = 4;
+        string video_uri = 5;
+        bool is_first_media = 6;
+        bool is_primary_media = 7;
+        MediaType media_type = 8;
+        int32 order_index = 9;
+        google.protobuf.StringValue replaced_media_id = 10;
+    }
+    
+    message LocalShortVideo {
+        string id = 1;
+        string image_uri = 2;
+        bool is_only_visible_to_matches = 3;
+        AddMediaLaunchSource launch_source = 4;
+        string video_uri = 5;
+        bool is_first_media = 6;
+        bool is_primary_media = 7;
+        bool is_muted = 8;
+        int32 content_length_seconds = 9;
+        MediaType media_type = 10;
+        int32 order_index = 11;
+        google.protobuf.StringValue replaced_media_id = 12;
+    }
+    
+    message RemoteLoopVideo {
+        string id = 1;
+        string image_uri = 2;
+        bool is_only_visible_to_matches = 3;
+        string video_uri = 4;
+        int32 width = 5;
+        int32 height = 6;
+        MediaType media_type = 7;
+        int32 order_index = 8;
+        google.protobuf.StringValue replaced_media_id = 9;
+    }
+    
+    message RemoteShortVideo {
+        string id = 1;
+        string image_uri = 2;
+        bool is_only_visible_to_matches = 3;
+        string video_uri = 4;
+        int32 width = 5;
+        int32 height = 6;
+        bool has_audio = 7;
+        MediaType media_type = 8;
+        int32 order_index = 9;
+        google.protobuf.StringValue replaced_media_id = 10;
+    }
+    
+    enum MediaSelectSource {
+        UNKNOWN = 0;
+        CAMERA = 1;
+        GALLERY = 2;
+        INSTAGRAM = 3;
+        SHARE_TO_TINDER = 4;
+    }
+    
+    enum ProfileMediaType {
+        LOCAL_MEDIA = 0;
+        LOCAL_SHORT_VIDEO = 1;
+        REMOTE_PHOTO = 2;
+        REMOTE_VIDEO = 3;
+        REMOTE_SHORT_VIDEO = 4;
+        LOCAL_PHOTO_PENDING_UPLOAD = 5;
+        PENDING_FACEBOOK_PHOT0 = 6;
+    }
+    
+    enum MediaType {
+        PHOTO = 0;
+        LOOP = 1;
+        PROMPTS = 2;
+        MEMES = 3;
+        SHORT_VIDEO = 4;
+    }
+}
+
+message CroppingInfo {
+    Coordinates offset_percent = 1;
+    Coordinates distance_percent = 2;
+}
+
+message Coordinates {
+    double x = 1;
+    double y = 2;
+}
+
+message BadgeSettingsValue {
+    BadgeSettings value = 1;
+}
+
+message BadgeSettings {
+    bool is_active_badge_enabled = 1;
+    bool is_profile_badge_enabled = 2;
+}
+
+enum SubscriptionCard {
+    SUBSCRIPTION_CARD_NULL = 0;
+    SUBSCRIPTION_CARD_PLUS = 1;
+    SUBSCRIPTION_CARD_GOLD = 2;
+    SUBSCRIPTION_CARD_PLATINUM = 3;
+}
+
+enum ControllaCarouselPanel {
+    CONTROLLA_CAROUSEL_PANEL_PLUS = 0;
+    CONTROLLA_CAROUSEL_PANEL_GOLD = 1;
+    CONTROLLA_CAROUSEL_PANEL_PLATINUM = 2;
+    CONTROLLA_CAROUSEL_PANEL_MERCHANDISING = 3;
+}
+
+enum TimeUnit {
+    UNKNOWN_UNIT = 0;
+    SECOND = 1;
+    MINUTE = 2;
+    HOUR = 3;
+    DAY = 4;
+    WEEK = 5;
+    MONTH = 6;
+}
+
+enum SubscriptionMerchandisingSectionType {
+    UNKNOWN_SECTION = 0;
+    LIKES = 1;
+    ALC = 2;
+    DISCOVERY = 3;
+    CONTROL = 4;
+}
+
+enum AddMediaLaunchSource {
+    UNKNOWN = 0;
+    EDIT_PROFILE = 1;
+    PROFILE_TAB = 2;
+    ONBOARDING = 3;
+    DEEP_LINK = 4;
+    SHARE_TO_TINDER = 5;
+    RECS_UNLOCK_PHOTO = 6;
+    POSTMATCH_PROFILE_UNLOCK_PHOT = 7;
+}

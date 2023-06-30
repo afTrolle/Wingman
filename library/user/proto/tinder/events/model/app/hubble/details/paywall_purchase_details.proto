@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package tinder.events.model.app.hubble.details;
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.events.model.app.hubble.details";
+
+message PaywallPurchaseDetails {
+    PurchaseType purchase_type = 1;
+    enum PurchaseType {
+        PURCHASE_TYPE_INVALID = 0;
+        PURCHASE_TYPE_APPLE = 1;
+        PURCHASE_TYPE_ANDROID = 2;
+        PURCHASE_TYPE_CC = 3;
+        PURCHASE_TYPE_IAC = 4;
+    }
+    
+    PurchaseOutcome purchase_outcome = 2;
+    enum PurchaseOutcome {
+        PURCHASE_OUTCOME_INVALID = 0;
+        PURCHASE_OUTCOME_SUCCESS = 1;
+        PURCHASE_OUTCOME_FAILURE = 2;
+    }
+}

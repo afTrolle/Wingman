@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package tinder.events.model.app.hubble;
+
+import "google/protobuf/wrappers.proto";
+import "tinder/events/model/app/hubble/instrument_details.proto";
+import "tinder/events/model/common/log_details.proto";
+import "tinder/events/model/options.proto";
+
+option java_multiple_files = true;
+option java_outer_classname = "HubbleProto";
+option java_package = "com.tinder.generated.events.model.app.hubble";
+
+message HubbleInstrument {
+    google.protobuf.StringValue id = 1;
+    HubbleInstrumentType type = 2;
+    InstrumentDetails instrument_details = 3;
+    common.LogDetails log_details = 4;
+}
+
+enum HubbleInstrumentType {
+    HUBBLE_INSTRUMENT_TYPE_INVALID = 0;
+    HUBBLE_INSTRUMENT_TYPE_IMPRESSION = 1;
+    HUBBLE_INSTRUMENT_TYPE_TAP = 2;
+    HUBBLE_INSTRUMENT_TYPE_SWIPE = 3;
+    HUBBLE_INSTRUMENT_TYPE_CUSTOM = 4;
+    HUBBLE_INSTRUMENT_TYPE_SWIPE_UP = 5;
+    HUBBLE_INSTRUMENT_TYPE_SWIPE_DOWN = 6;
+    HUBBLE_INSTRUMENT_TYPE_SWIPE_LEFT = 7;
+    HUBBLE_INSTRUMENT_TYPE_SWIPE_RIGHT = 8;
+    HUBBLE_INSTRUMENT_TYPE_NETWORK_REQUEST = 9;
+    HUBBLE_INSTRUMENT_TYPE_API_REQUEST = 10;
+    HUBBLE_INSTRUMENT_TYPE_API_RESPONSE = 11;
+    HUBBLE_INSTRUMENT_TYPE_PLATFORM = 12;
+}

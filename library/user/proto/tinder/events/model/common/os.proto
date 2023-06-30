@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package tinder.events.model.common;
+
+import "google/protobuf/wrappers.proto";
+import "tinder/events/model/common/semver.proto";
+import "tinder/events/model/options.proto";
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.events.model.common";
+
+message OperatingSystem {
+    google.protobuf.StringValue os_version = 1;
+    
+    oneof type {
+        Linux linux = 5;
+        Darwin darwin = 6;
+        Windows windows = 7;
+    }
+}
+
+message Linux {
+    SemanticVersion version = 1 [deprecated = true];
+}
+
+message Darwin {
+    SemanticVersion version = 1 [deprecated = true];
+}
+
+message Windows {
+    SemanticVersion version = 1 [deprecated = true];
+}

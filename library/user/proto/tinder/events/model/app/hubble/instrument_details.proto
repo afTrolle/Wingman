@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+package tinder.events.model.app.hubble;
+
+import "google/protobuf/wrappers.proto";
+import "tinder/events/model/app/hubble/details/app_close_details.proto";
+import "tinder/events/model/app/hubble/details/app_open_details.proto";
+import "tinder/events/model/app/hubble/details/crm_campaign_details.proto";
+import "tinder/events/model/app/hubble/details/deeplink_details.proto";
+import "tinder/events/model/app/hubble/details/disk_measure_details.proto";
+import "tinder/events/model/app/hubble/details/hubble_duration_measure.proto";
+import "tinder/events/model/app/hubble/details/media_download_details.proto";
+import "tinder/events/model/app/hubble/details/network_request_details.proto";
+import "tinder/events/model/app/hubble/details/onboarding_details.proto";
+import "tinder/events/model/app/hubble/details/paywall_details.proto";
+import "tinder/events/model/app/hubble/details/paywall_purchase_details.proto";
+import "tinder/events/model/app/hubble/details/phone_number_details.proto";
+import "tinder/events/model/app/hubble/details/recs_core_details.proto";
+import "tinder/events/model/app/hubble/details/recs_photo_details.proto";
+import "tinder/events/model/app/hubble/details/recs_status_details.proto";
+import "tinder/events/model/common/entity_type.proto";
+import "tinder/events/model/options.proto";
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.events.model.app.hubble";
+
+message InstrumentDetails {
+    common.EntityType entity_type = 4;
+    google.protobuf.StringValue entity_id = 5;
+    
+    oneof value {
+        details.PaywallDetails paywall_details = 1;
+        details.RecsPhotoDetails recs_photo_details = 2;
+        details.AppOpenDetails app_open_details = 3;
+        details.AppCloseDetails app_close_details = 6;
+        details.RecsCoreDetails recs_core_details = 20;
+        details.PhoneNumberDetails phone_number_details = 21;
+        details.RecsStatusDetails recs_status_details = 100;
+        details.HubbleDurationMeasure duration_measure = 101;
+        details.DeeplinkDetails deeplink_details = 102;
+        details.CrmCampaignDetails crm_campaign_details = 103;
+        details.NetworkRequestDetails network_request_details = 104;
+        details.PaywallPurchaseDetails paywall_purchase_details = 500;
+        details.MediaDownloadDetails media_download_details = 600;
+        details.DiskMeasureDetails disk_measure_details = 601;
+        details.OnboardingDetails onboarding_details = 602;
+    }
+}

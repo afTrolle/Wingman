@@ -12,6 +12,7 @@ import dev.trolle.wingman.user.userModule
 import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.protobuf.ProtoBuf
 import org.koin.core.module.Module
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.bind
@@ -23,6 +24,9 @@ internal val sharedModule: Module = module {
             isLenient = true
             ignoreUnknownKeys = true
         }
+    }
+    single {
+        ProtoBuf
     }
     single(createdAtStart = true) {
         if (BuildConfig.LOGGING_ENABLED) {

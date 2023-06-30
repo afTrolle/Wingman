@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package tinder.events.model.app.hubble.details;
+
+import "google/protobuf/wrappers.proto";
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.events.model.app.hubble.details";
+
+message RecsStatusDetails {
+    google.protobuf.StringValue category_id = 1;
+    google.protobuf.Int64Value s_number = 20;
+    google.protobuf.Int32Value profile_element_views_card = 21;
+    google.protobuf.Int32Value profile_element_count = 22;
+    google.protobuf.StringValue viewed_profile_elements = 23;
+    google.protobuf.StringValue value_profile_element_collectibles = 24;
+    google.protobuf.StringValue value_profile_element_identity = 25;
+    google.protobuf.StringValue value_profile_element_bio = 26;
+    google.protobuf.StringValue value_profile_element_anthem = 27;
+    google.protobuf.StringValue value_profile_element_top_artists = 28;
+    google.protobuf.StringValue value_profile_element_geo = 29;
+    google.protobuf.Int32Value value_profile_element_instagram = 30;
+    google.protobuf.StringValue value_profile_element_interests = 31;
+    google.protobuf.StringValue value_profile_element_swipe_surge = 32;
+    google.protobuf.StringValue value_profile_element_vibes = 33;
+    google.protobuf.StringValue value_profile_element_intent = 34;
+    google.protobuf.StringValue value_profile_element_descriptors = 35;
+    google.protobuf.StringValue profile_element_order = 36;
+    google.protobuf.Int32Value num_interests_collapsed = 37;
+    google.protobuf.StringValue shared_interests = 38;
+    google.protobuf.StringValue tappy_element_values = 39;
+    google.protobuf.BoolValue is_traveling = 40;
+}

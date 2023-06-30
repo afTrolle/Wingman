@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package tinder.services.keepalive;
+
+import "google/protobuf/wrappers.proto";
+
+option go_package = "github.com/TinderApp/proto/keepalive";
+option java_multiple_files = true;
+option java_outer_classname = "KeepAliveRoomEvent";
+option java_package = "com.tinder.proto.keepalive";
+
+message RoomEvent {
+    string room_id = 1;
+    RoomEventType room_event_type = 2;
+    google.protobuf.StringValue user_id = 3;
+    google.protobuf.StringValue name = 4;
+    Role role = 5;
+    Reason reason = 6;
+}
+
+enum RoomEventType {
+    END_ROOM = 0;
+    USER_JOINED = 1;
+    USER_LEFT = 2;
+    NEW_HOST = 3;
+    USER_BLOCKED = 4;
+    NEW_TITLE = 5;
+    USER_REPORTED = 6;
+    REPORT_ROOM = 7;
+}
+
+enum Reason {
+    REASON_NOT_APPLICABLE = 0;
+    HOST_ENDED = 1;
+    ROOM_TERMINATED = 2;
+    REPORTED_USER = 3;
+    USER_REPORT_ROOM = 4;
+}
+
+enum Role {
+    NOT_APPLICABLE = 0;
+    HOST = 1;
+    PARTICIPANT = 2;
+    AUDIENCE = 3;
+}

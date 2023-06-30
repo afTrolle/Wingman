@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package tinder.services.insendio.dsl.attribute;
+
+option java_generate_equals_and_hash = true;
+option java_multiple_files = true;
+option java_outer_classname = "ColorProto";
+option java_package = "com.tinder.proto.insendio.dsl.attribute";
+
+message ColorAttribute {
+    string solid = 1;
+    
+    GradientColor gradient = 2;
+    message GradientColor {
+        repeated string colors = 1;
+        double degrees = 2;
+    }
+}

@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package tinder.events.model.app;
+
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+import "tinder/events/model/options.proto";
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.events.model.app";
+
+message TestEvent1 {
+    google.protobuf.StringValue id = 1;
+    TestEvent1Type type = 2;
+    google.protobuf.Duration duration = 3;
+    google.protobuf.Timestamp time = 4;
+    google.protobuf.Int32Value count = 5;
+    google.protobuf.BoolValue is_enabled = 6;
+}
+
+enum TestEvent1Type {
+    TEST_EVENT1_TYPE_INVALID = 0;
+    TEST_EVENT1_TYPE_TYPE1 = 1;
+    TEST_EVENT1_TYPE_TYPE2 = 2;
+}

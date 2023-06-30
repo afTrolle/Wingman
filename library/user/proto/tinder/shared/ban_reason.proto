@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package tinder.shared;
+
+import "google/protobuf/wrappers.proto";
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.model.shared";
+
+message Verification {
+    string type = 1;
+    string state = 2;
+}
+
+message UnderageBan {
+    google.protobuf.Int64Value underage_ttl_duration_ms = 1;
+    google.protobuf.StringValue underage_token = 2;
+    Verification verification = 3;
+}
+
+message BanAppeal {
+    string challenge_type = 1;
+    string challenge_token = 2;
+    string refresh_token = 3;
+}
+
+message BanReason {
+    oneof reason {
+        UnderageBan underage_ban = 1;
+        BanAppeal ban_appeal = 2;
+    }
+}

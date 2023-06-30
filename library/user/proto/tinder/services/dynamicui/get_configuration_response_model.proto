@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package tinder.services.dynamicui;
+
+import "tinder/services/dynamicui/pages/page.proto";
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.model.services.dynamicui";
+
+message GetConfigurationResponseModel {
+    map<string, pages.Page> pages = 1;
+}

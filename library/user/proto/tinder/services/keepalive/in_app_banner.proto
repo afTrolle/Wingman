@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package tinder.services.keepalive;
+
+option go_package = "github.com/TinderApp/proto/keepalive";
+option java_multiple_files = true;
+option java_outer_classname = "KeepAliveInAppBanner";
+option java_package = "com.tinder.proto.keepalive";
+
+message InAppBanner {
+    string campaign_id = 1;
+    string subject = 2;
+    string body = 3;
+    string color = 4;
+    string deeplink_url = 5;
+    string image_url = 6;
+}

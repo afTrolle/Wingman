@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package tinder.events.model.common.session;
+
+import "google/protobuf/wrappers.proto";
+import "tinder/events/model/common/semver.proto";
+import "tinder/events/model/options.proto";
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.events.model.common.session";
+
+message AppAttributes {
+    AppName name = 1;
+    SemanticVersion version = 2;
+    AppSession session = 1024;
+}
+
+message AppName {
+    oneof value {
+        TinderApp tinder = 1;
+        AnalyticsSdkDemoApp analytics_sdk_demo = 2;
+        TestApp test_app = 3;
+    }
+}
+
+message AnalyticsSdkDemoApp {
+    
+}
+
+message TinderApp {
+    
+}
+
+message TestApp {
+    google.protobuf.StringValue name = 1;
+}
+
+message AppSession {
+    google.protobuf.StringValue session_id = 1;
+    google.protobuf.Int64Value session_time_elapsed = 2;
+}

@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package tinder.services.mediaservice;
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.model.services.mediaservice";
+
+message DeleteMediaResponseModel {
+    repeated string succeeded = 1;
+    repeated string not_found = 2;
+    repeated string failed = 3;
+}

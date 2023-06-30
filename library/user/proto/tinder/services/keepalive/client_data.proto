@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+package tinder.services.keepalive;
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+import "tinder/services/keepalive/connect_nudge.proto";
+import "tinder/services/keepalive/dynamic_ui_nudge.proto";
+import "tinder/services/keepalive/email_collection_settings.proto";
+import "tinder/services/keepalive/in_app_banner.proto";
+import "tinder/services/keepalive/insendio_campaign.proto";
+import "tinder/services/keepalive/media_hydration_nudge.proto";
+import "tinder/services/keepalive/notification.proto";
+import "tinder/services/keepalive/nudge.proto";
+import "tinder/services/keepalive/refresh_pull_campaign.proto";
+import "tinder/services/keepalive/room_event.proto";
+import "tinder/services/keepalive/room_interaction_nudge.proto";
+import "tinder/services/keepalive/room_ready_nudge.proto";
+import "tinder/services/keepalive/room_typing_indicator.proto";
+import "tinder/services/keepalive/tinder_lite_data.proto";
+import "tinder/services/keepalive/typing_indicator.proto";
+import "tinder/services/keepalive/update.proto";
+
+option go_package = "github.com/TinderApp/proto/keepalive";
+option java_multiple_files = true;
+option java_outer_classname = "KeepAliveClientData";
+option java_package = "com.tinder.proto.keepalive";
+
+message ClientData {
+    Meta meta = 1;
+    Error error = 2;
+    
+    oneof payload {
+        Nudge nudge = 3;
+        Update update = 4;
+        google.protobuf.Empty ping = 5;
+        google.protobuf.Empty pong = 6;
+        TypingIndicator typing_indicator = 7;
+        TinderLiteData tinder_lite_data = 8;
+        EmailCollectionSettings email_collection_settings = 15;
+        MediaHydrationNudge media_hydration_nudge = 16;
+        InAppBanner in_app_banner = 17;
+        RoomReadyNudge room_ready_nudge = 18;
+        RoomInteractionNudge room_interaction_nudge = 19;
+        RoomTypingIndicator room_typing_indicator = 20;
+        RoomEvent room_event = 21;
+        Notification notification = 22;
+        InsendioCampaign insendio_campaign = 23;
+        DynamicUiNudge dynamic_ui_nudge = 24;
+        RefreshPullCampaign refresh_pull_campaign = 25;
+        ConnectNudge connect_nudge = 26;
+    }
+}
+
+message Meta {
+    google.protobuf.Timestamp upstream_time = 1;
+    google.protobuf.Timestamp start_time = 2;
+}
+
+message Error {
+    int32 code = 1;
+    string message = 2;
+}

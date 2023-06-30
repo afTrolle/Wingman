@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package tinder.services.mediaservice.media;
+
+import "google/protobuf/wrappers.proto";
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.model.services.mediaservice.media";
+
+message Prompt {
+    int32 prompt_version = 1;
+    string prompt_id = 2;
+    string prompt_type = 3;
+    google.protobuf.StringValue campaign_id = 4;
+    google.protobuf.StringValue answer = 5;
+    google.protobuf.StringValue background_image_url = 6;
+    repeated google.protobuf.StringValue gradient = 7;
+    google.protobuf.StringValue prompt_title = 8;
+}

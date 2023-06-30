@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package tinder.services.mediaservice.media;
+
+import "google/protobuf/wrappers.proto";
+import "tinder/services/mediaservice/media/asset.proto";
+import "tinder/services/mediaservice/media/crop_info.proto";
+import "tinder/services/mediaservice/media/image_file.proto";
+import "tinder/services/mediaservice/media/resolution.proto";
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.model.services.mediaservice.media";
+
+message Media {
+    string id = 1;
+    google.protobuf.StringValue extension = 2;
+    google.protobuf.StringValue fileName = 3;
+    google.protobuf.StringValue url = 4;
+    repeated ImageFile processedFiles = 5;
+    google.protobuf.StringValue crop = 6;
+    CropInfo crop_info = 7;
+    google.protobuf.BoolValue is_selected = 8;
+    google.protobuf.Int64Value profile_user_number = 9;
+    google.protobuf.Int64Value user_number = 10;
+    google.protobuf.StringValue fbId = 11;
+    google.protobuf.BoolValue main = 12;
+    google.protobuf.StringValue ocrText = 13;
+    repeated ImageFile processedVideos = 14;
+    google.protobuf.FloatValue selectRate = 15;
+    google.protobuf.StringValue shape = 16;
+    google.protobuf.FloatValue successRate = 17;
+    google.protobuf.FloatValue xdistance_percent = 18;
+    google.protobuf.FloatValue xoffset_percent = 19;
+    google.protobuf.FloatValue ydistance_percent = 20;
+    google.protobuf.FloatValue yoffset_percent = 21;
+    google.protobuf.StringValue last_update_time = 22;
+    repeated google.protobuf.Int32Value webp_qf = 23;
+    repeated Resolution webp_res = 24;
+    google.protobuf.StringValue created_at = 25;
+    google.protobuf.StringValue updated_at = 26;
+    google.protobuf.StringValue type = 27;
+    repeated string tags = 28;
+    repeated Asset assets = 29;
+}

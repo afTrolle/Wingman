@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package tinder.services.dynamicui.components;
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.model.services.dynamicui.components";
+
+message ImageUrl {
+    string url = 1;
+    string quality = 2;
+    int32 width = 3;
+    int32 height = 4;
+}

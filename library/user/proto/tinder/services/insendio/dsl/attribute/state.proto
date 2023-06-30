@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package tinder.services.insendio.dsl.attribute;
+
+import "tinder/services/insendio/dsl/attribute/border.proto";
+import "tinder/services/insendio/dsl/attribute/color.proto";
+import "tinder/services/insendio/dsl/attribute/media.proto";
+import "tinder/services/insendio/dsl/attribute/text.proto";
+
+option java_generate_equals_and_hash = true;
+option java_multiple_files = true;
+option java_outer_classname = "StateProto";
+option java_package = "com.tinder.proto.insendio.dsl.attribute";
+
+message StatesAttribute {
+    StateAttribute disabled = 1;
+    message StateAttribute {
+        ColorAttribute color = 1;
+        TextAttribute text = 2;
+        BorderAttribute border = 3;
+        MediaAttribute media = 4;
+    }
+    
+    StateAttribute default = 2;
+    StateAttribute selected = 3;
+}

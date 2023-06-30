@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package tinder.services.userconnections;
+
+import "google/protobuf/wrappers.proto";
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.model.services.shared.userconnections";
+
+message ReqContact {
+    google.protobuf.StringValue contact_id = 1;
+    google.protobuf.StringValue name = 2;
+    repeated google.protobuf.StringValue phone_numbers = 3;
+    repeated google.protobuf.StringValue emails = 4;
+    google.protobuf.BoolValue is_blocked = 5;
+}
+
+message UpdateContactsRequest {
+    repeated ReqContact contacts = 1;
+}

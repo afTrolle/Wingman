@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package tinder.events.service;
+
+import "google/protobuf/wrappers.proto";
+import "tinder/events/model/app/app.proto";
+import "tinder/events/service/publish.proto";
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.events.service";
+
+message AppEventValidationResult {
+    model.app.AppEvent event = 1;
+    google.protobuf.BoolValue valid = 2;
+    map<string, string> field_message = 3;
+}
+
+message AppEventPublishRequest {
+    model.app.AppEventBatch batch = 1;
+    EventPublishRequestAttributes attributes = 2;
+}
+
+message AppEventPublishResponse {
+    EventPublishResponseAttributes attributes = 1;
+    repeated AppEventValidationResult event_validation_results = 2;
+}

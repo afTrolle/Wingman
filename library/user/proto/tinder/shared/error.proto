@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package tinder.shared;
+
+import "tinder/shared/ban_reason.proto";
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.model.shared";
+
+message ErrorProto {
+    int32 code = 1;
+    string message = 2;
+    BanReason ban_reason = 3;
+}

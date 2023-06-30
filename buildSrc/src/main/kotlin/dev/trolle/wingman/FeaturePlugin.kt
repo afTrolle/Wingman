@@ -11,11 +11,13 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.PluginContainer
 import org.gradle.api.provider.Provider
+import org.gradle.internal.os.OperatingSystem
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.creating
 import org.gradle.kotlin.dsl.getValue
 import org.gradle.kotlin.dsl.getting
 import org.gradle.plugin.use.PluginDependency
+import org.jetbrains.kotlin.gradle.dsl.KotlinCompile
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import org.jlleitschuh.gradle.ktlint.KtlintExtension
@@ -98,9 +100,11 @@ class BasePlugin : Plugin<Project> {
             jvmToolchain(17)
 
             android()
-            iosX64()
-            iosArm64()
-            iosSimulatorArm64()
+            val ios64 = iosX64()
+            val iosArm = iosArm64()
+            val iosSim = iosSimulatorArm64()
+
+            val iosTargets = listOf(ios64,iosArm,iosSim)
 
             sourceSets {
                 val commonMain by getting {
@@ -136,9 +140,25 @@ class BasePlugin : Plugin<Project> {
                     iosSimulatorArm64Test.dependsOn(this)
                 }
             }
+
+            val os = OperatingSystem.current()
+            val excludeTargets = when {
+                os.isMacOsX ->  emptyList()
+                    else -> iosTargets
+            }.forEach {target ->
+                target.compilations.all {
+                    cinterops.all {
+                        tasks.getByName(interopProcessingTaskName).enabled = false
+                    }
+                    compileTaskProvider.configure {
+                        enabled = false
+                    }
+                    tasks.getByName(processResourcesTaskName).enabled = false
+                }
+            }
         }
         extensions.configure<BaseExtension> {
-            namespace = "dev.trolle.af.wingman.${project.name.replace("-",".")}"
+            namespace = "dev.trolle.af.wingman.${project.name.replace("-", ".")}"
             compileSdkVersion(libs.versions.compileSdk.get().toInt())
             defaultConfig {
                 minSdk = libs.versions.minSdk.get().toInt()

@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package tinder.services.insendio.dsl.attribute;
+
+option java_generate_equals_and_hash = true;
+option java_multiple_files = true;
+option java_outer_classname = "MediaProto";
+option java_package = "com.tinder.proto.insendio.dsl.attribute";
+
+message MediaAttribute {
+    string url = 1;
+    string mime_type = 2;
+    
+    MediaProperties metadata = 3;
+    message MediaProperties {
+        string alt_text = 1;
+        map<string, string> lottie_strings = 2;
+    }
+}

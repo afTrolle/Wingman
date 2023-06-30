@@ -42,6 +42,7 @@ kotlin {
                 implementation(libs.voyager.navigator)
                 implementation(libs.koin.core)
                 implementation(libs.kotlinx.serialization.json)
+                implementation(libs.kotlinx.serialization.protobuf)
                 implementation(libs.napier)
 
                 implementation(projects.library.ui)

@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package tinder.events.model.common;
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.events.model.common";
+
+enum DirectionDescriptor {
+    DIRECTION_DESCRIPTOR_INVALID = 0;
+    DIRECTION_DESCRIPTOR_DOWN = 1;
+    DIRECTION_DESCRIPTOR_LEFT = 2;
+    DIRECTION_DESCRIPTOR_RIGHT = 3;
+    DIRECTION_DESCRIPTOR_UP = 4;
+}

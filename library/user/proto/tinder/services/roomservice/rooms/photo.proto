@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package tinder.services.roomservice.rooms;
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.model.services.roomservice.rooms";
+
+message Photo {
+    string url = 1;
+    int32 width = 2;
+    int32 height = 3;
+}

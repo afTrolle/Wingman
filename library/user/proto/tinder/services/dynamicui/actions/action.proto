@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package tinder.services.dynamicui.actions;
+
+import "google/protobuf/wrappers.proto";
+import "tinder/services/dynamicui/actions/route.proto";
+import "tinder/services/dynamicui/actions/search.proto";
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.model.services.dynamicui.actions";
+
+message Action {
+    string action_id = 1;
+    string action_trigger = 2;
+    string action_type = 3;
+    google.protobuf.StringValue target_component_id = 5;
+    
+    oneof details {
+        Route route = 4;
+        Search search = 6;
+    }
+}

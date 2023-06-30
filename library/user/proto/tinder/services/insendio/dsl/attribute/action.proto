@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package tinder.services.insendio.dsl.attribute;
+
+option java_generate_equals_and_hash = true;
+option java_multiple_files = true;
+option java_outer_classname = "ActionProto";
+option java_package = "com.tinder.proto.insendio.dsl.attribute";
+
+message ActionAttribute {
+    string url = 1;
+    string interaction = 2;
+}

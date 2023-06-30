@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package tinder.services.dynamicui.components;
+
+import "google/protobuf/wrappers.proto";
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.model.services.dynamicui.components";
+
+message TextBoxSelection {
+    string id = 1;
+    string text = 2;
+}
+
+message TextBoxDetails {
+    google.protobuf.StringValue header = 1;
+    google.protobuf.StringValue text_box_header = 2;
+    google.protobuf.StringValue input_text = 3;
+    google.protobuf.StringValue text_box_footer = 4;
+    google.protobuf.StringValue button_primary_text = 5;
+    google.protobuf.StringValue button_secondary_text = 6;
+    google.protobuf.StringValue background_text = 7;
+    repeated TextBoxSelection selections = 8;
+    google.protobuf.StringValue selection_image = 9;
+    bool prompt_with_selection = 10;
+    bool has_custom_selection = 11;
+    google.protobuf.StringValue selected_id = 12;
+    int32 character_limit = 13;
+    google.protobuf.StringValue selection_list_header = 14;
+    google.protobuf.StringValue input_text_source = 15;
+    google.protobuf.StringValue info_url = 16;
+}

@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package tinder.events.model.common;
+
+import "google/protobuf/wrappers.proto";
+import "tinder/events/model/options.proto";
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.events.model.common";
+
+message SemanticVersion {
+    google.protobuf.Int32Value major = 1;
+    google.protobuf.Int32Value minor = 2;
+    google.protobuf.Int32Value patch = 3;
+    google.protobuf.Int32Value build = 4;
+    google.protobuf.BoolValue release = 5;
+}

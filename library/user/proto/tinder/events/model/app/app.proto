@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package tinder.events.model.app;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+import "tinder/events/model/app/platform.proto";
+import "tinder/events/model/common/session/app.proto";
+import "tinder/events/model/common/session/auth.proto";
+import "tinder/events/model/common/session/device.proto";
+import "tinder/events/model/common/session/location.proto";
+import "tinder/events/model/common/session/user.proto";
+import "tinder/events/model/options.proto";
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.events.model.app";
+
+message AppEventBatch {
+    google.protobuf.StringValue id = 1;
+    repeated AppEvent events = 2;
+}
+
+message AppEvent {
+    google.protobuf.StringValue id = 1;
+    google.protobuf.Timestamp create_time = 2;
+    AppEventSession event_session = 4;
+    
+    oneof value {
+        AppPlatformEvent platform = 9;
+    }
+    
+    reserved 8, 10, "legacy", "feature";
+}
+
+message AppEventSession {
+    common.session.AppAttributes app = 1;
+    common.session.AuthAttributes auth = 2;
+    common.session.DeviceAttributes device = 3;
+    common.session.LocationAttributes location = 4;
+    common.session.UserAttributes user = 5;
+    
+    reserved 16, "legacy";
+}

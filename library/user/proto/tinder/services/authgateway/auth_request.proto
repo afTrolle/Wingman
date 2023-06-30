@@ -1,0 +1,139 @@
+syntax = "proto3";
+
+package tinder.services.authgateway;
+
+import "google/protobuf/wrappers.proto";
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.model.services.shared.authgateway";
+
+message FacebookToken {
+    string external_token = 1;
+    google.protobuf.StringValue refresh_token = 2;
+}
+
+message Phone {
+    string phone = 1;
+    google.protobuf.StringValue refresh_token = 2;
+    
+    oneof check {
+        google.protobuf.StringValue captcha_token = 3;
+        google.protobuf.StringValue ios_device_token = 4;
+        google.protobuf.StringValue android_jws = 5;
+    }
+}
+
+message PhoneOtpResend {
+    google.protobuf.StringValue phone = 1;
+    google.protobuf.StringValue refresh_token = 2;
+    
+    oneof check {
+        google.protobuf.StringValue ios_device_token = 3;
+        google.protobuf.StringValue android_jws = 4;
+    }
+}
+
+message PhoneOtp {
+    google.protobuf.StringValue phone = 1;
+    string otp = 2;
+    google.protobuf.StringValue refresh_token = 3;
+}
+
+message Email {
+    string email = 1;
+    google.protobuf.StringValue refresh_token = 2;
+    google.protobuf.BoolValue marketing_opt_in = 3;
+}
+
+message EmailOtpResend {
+    google.protobuf.StringValue email = 1;
+    google.protobuf.StringValue refresh_token = 2;
+}
+
+message GoogleToken {
+    string external_token = 1;
+    google.protobuf.StringValue refresh_token = 2;
+    google.protobuf.BoolValue marketing_opt_in = 3;
+    google.protobuf.BoolValue user_behavior = 4;
+}
+
+message EmailOtp {
+    google.protobuf.StringValue email = 1;
+    string otp = 2;
+    google.protobuf.StringValue refresh_token = 3;
+}
+
+message AppleToken {
+    string external_token = 1;
+    google.protobuf.StringValue refresh_token = 2;
+    google.protobuf.StringValue raw_nonce = 3;
+}
+
+message GetInitialState {
+    google.protobuf.StringValue refresh_token = 1;
+}
+
+message RefreshAuth {
+    string refresh_token = 1;
+}
+
+message DismissSocialConnectionList {
+    string refresh_token = 1;
+}
+
+message EmailMagicLink {
+    string email = 1;
+}
+
+message EmailMagicLinkOtp {
+    string otp_token = 1;
+}
+
+message CreateNewAccount {
+    string refresh_token = 1;
+}
+
+message ExternalAuthCode {
+    string auth_code = 1;
+    string client_id = 2;
+    google.protobuf.StringValue redirect_uri = 3;
+}
+
+message ExternalIdToken {
+    string id_token = 1;
+    google.protobuf.StringValue nonce_id = 2;
+}
+
+message ExternalAccessToken {
+    string access_token = 1;
+    string client_id = 2;
+    ExternalIdToken id_token = 3;
+}
+
+message Captcha {
+    string reference_token = 1;
+    string captcha_token = 2;
+}
+
+message AuthGatewayRequest {
+    oneof factor {
+        Phone phone = 1;
+        PhoneOtp phone_otp = 2;
+        Email email = 3;
+        GoogleToken google_token = 4;
+        EmailOtp email_otp = 5;
+        FacebookToken facebook_token = 6;
+        PhoneOtpResend phone_otp_resend = 7;
+        EmailOtpResend email_otp_resend = 8;
+        GetInitialState get_initial_state = 9;
+        RefreshAuth refresh_auth = 10;
+        AppleToken apple_token = 11;
+        DismissSocialConnectionList dismiss_social_connection_list = 12;
+        EmailMagicLink email_magic_link = 13;
+        EmailMagicLinkOtp email_magic_link_otp = 14;
+        CreateNewAccount create_new_account = 15;
+        ExternalAuthCode external_auth_code = 16;
+        ExternalAccessToken external_access_token = 17;
+        Captcha captcha = 18;
+    }
+}

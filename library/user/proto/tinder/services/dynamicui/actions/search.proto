@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package tinder.services.dynamicui.actions;
+
+import "google/protobuf/wrappers.proto";
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.model.services.dynamicui.actions";
+
+message Search {
+    google.protobuf.StringValue background_text = 1;
+    google.protobuf.StringValue no_results_text = 2;
+}

@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package tinder.events.model.common.session;
+
+import "google/protobuf/wrappers.proto";
+import "tinder/events/model/common/country_code.proto";
+import "tinder/events/model/common/language_code.proto";
+import "tinder/events/model/common/memory.proto";
+import "tinder/events/model/common/power.proto";
+import "tinder/events/model/common/session/platform.proto";
+import "tinder/events/model/options.proto";
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.events.model.common.session";
+
+message DeviceAttributes {
+    google.protobuf.StringValue device_id = 1;
+    google.protobuf.StringValue persistent_id = 3;
+    google.protobuf.StringValue manufacturer = 5;
+    google.protobuf.StringValue model = 6;
+    NetworkProvider device_network_provider = 7;
+    DevicePlatform platform = 8;
+    PowerAttributes power = 9;
+    MemoryAttributes memory = 10;
+    CountryCode country_code = 11;
+    LanguageCode language_code = 12;
+    google.protobuf.BoolValue is_emulator = 13;
+    google.protobuf.Int32Value time_zone = 14;
+    
+    reserved 2, 4, "locale", "language";
+}
+
+message NetworkProvider {
+    google.protobuf.StringValue name = 1;
+    
+    oneof value {
+        NetworkType type = 2;
+    }
+}
+
+enum NetworkType {
+    NETWORK_TYPE_INVALID = 0;
+    NETWORK_TYPE_INACTIVE = 1;
+    NETWORK_TYPE_WIFI = 2;
+    NETWORK_TYPE_CELLULAR = 3;
+    NETWORK_TYPE_CELLULAR_2G = 4;
+    NETWORK_TYPE_CELLULAR_3G = 5;
+    NETWORK_TYPE_CELLULAR_4G = 6;
+    NETWORK_TYPE_CELLULAR_5G = 7;
+}

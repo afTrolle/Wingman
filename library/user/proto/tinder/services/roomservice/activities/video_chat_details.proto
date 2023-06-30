@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package tinder.services.roomservice.activities;
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.model.services.roomservice.activities";
+
+message VideoChatDetails {
+    string session_id = 1;
+    string token = 2;
+    string api_key = 3;
+}

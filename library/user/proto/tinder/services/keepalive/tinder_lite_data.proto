@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package tinder.services.keepalive;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/TinderApp/proto/keepalive";
+option java_multiple_files = true;
+option java_outer_classname = "KeepAliveTinderLiteData";
+option java_package = "com.tinder.proto.keepalive";
+
+message TinderLiteData {
+    google.protobuf.Timestamp sent_time = 1;
+    string event = 2;
+    string sku = 3;
+    Receipt receipt = 4;
+    map<string, string> prices = 5;
+    repeated Purchase purchases = 6;
+    string transaction_id = 7;
+}
+
+message Receipt {
+    string signature = 1;
+    string receipt = 2;
+    string token = 3;
+}
+
+message Purchase {
+    string sku = 1;
+    string token = 2;
+    Receipt receipt = 3;
+}

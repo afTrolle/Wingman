@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package tinder.services.roomservice.rooms;
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.model.services.roomservice.rooms";
+
+message Link {
+    string link = 1;
+    string share_text = 2;
+}

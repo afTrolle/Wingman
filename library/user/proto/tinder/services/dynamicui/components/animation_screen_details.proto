@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package tinder.services.dynamicui.components;
+
+import "google/protobuf/wrappers.proto";
+import "tinder/services/dynamicui/components/image_url.proto";
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.model.services.dynamicui.components";
+
+message AnimationScreenDetails {
+    google.protobuf.StringValue header_text = 1;
+    repeated ImageUrl image_urls = 2;
+    google.protobuf.StringValue text = 3;
+}

@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package tinder.services.mediaservice;
+
+import "tinder/services/mediaservice/create_placeholder_response_model.proto";
+import "tinder/services/mediaservice/delete_media_response_model.proto";
+import "tinder/services/mediaservice/error.proto";
+import "tinder/services/mediaservice/media/media.proto";
+import "tinder/services/mediaservice/meta.proto";
+import "tinder/services/mediaservice/order_media_response_model.proto";
+import "tinder/services/mediaservice/update_photo_avatar_response_model.proto";
+import "tinder/services/mediaservice/upload_facebook_photo_response_model.proto";
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.model.services.mediaservice";
+
+message ClientDataProto {
+    MetaProto meta = 1;
+    ErrorProto error = 2;
+    
+    oneof payload {
+        CreatePlaceholderResponseModel createPlaceholderResponseModel = 16;
+        DeleteMediaResponseModel deleteMediaResponseModel = 17;
+        media.Media mediaResponseModel = 18;
+        OrderMediaResponseModel orderMediaResponseModel = 19;
+        UpdatePhotoAvatarResponseModel updatePhotoAvatarResponseModel = 20;
+        UploadFacebookPhotoResponseModel uploadFacebookPhotoResponseModel = 21;
+    }
+}

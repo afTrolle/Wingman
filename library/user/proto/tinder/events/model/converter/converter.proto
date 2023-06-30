@@ -1,0 +1,110 @@
+syntax = "proto3";
+
+package tinder.events.model.converter;
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.events.model.converter";
+
+message TypeConverterConfig {
+    string message = 1;
+    map<string, TypeAttributeConfig> mapping = 2;
+}
+
+message TypeAttributeConfig {
+    string source = 1;
+    repeated TypeAttributeConverter converter = 2;
+    string source_alias = 3;
+    bool repeated = 4;
+}
+
+message TypeAttributeConverter {
+    oneof value {
+        IdentityConverter identity = 6;
+        UppercaseConverter uppercase = 7;
+        LowercaseConverter lowercase = 8;
+        SubstringConverter substring = 9;
+        IntegerToEnumConverter int32_to_enum = 10;
+        StringToEnumConverter string_to_enum = 11;
+        TimeUnitToTimestampConverter time_unit_to_timestamp = 12;
+        TimeUnitToDurationConverter time_unit_to_duration = 13;
+        TimestampToTimeUnitConverter timestamp_to_time_unit = 14;
+        DurationToTimeUnitConverter duration_to_time_unit = 15;
+        EnumToStringConverter enum_to_string = 16;
+        EnumToIntegerConverter enum_to_int32 = 17;
+        RepeatedToStringConverter repeated_to_string = 18;
+        SemanticVersionToStringConverter semantic_version_to_string = 19;
+        OneofNameToStringConverter oneof_name_to_string = 20;
+    }
+}
+
+message IdentityConverter {
+    
+}
+
+message UppercaseConverter {
+    
+}
+
+message LowercaseConverter {
+    
+}
+
+message RepeatedToStringConverter {
+    
+}
+
+message IntegerToEnumConverter {
+    map<int32, int32> mapping = 1;
+}
+
+message EnumToIntegerConverter {
+    map<int32, int32> mapping = 1;
+}
+
+message StringToEnumConverter {
+    map<string, int32> mapping = 1;
+}
+
+message EnumToStringConverter {
+    map<int32, string> mapping = 1;
+}
+
+message SubstringConverter {
+    int32 start = 1;
+    int32 end = 2;
+}
+
+message TimeUnitToTimestampConverter {
+    TimeUnit time_unit = 1;
+}
+
+message TimeUnitToDurationConverter {
+    TimeUnit time_unit = 1;
+}
+
+message DurationToTimeUnitConverter {
+    TimeUnit time_unit = 1;
+}
+
+message TimestampToTimeUnitConverter {
+    TimeUnit time_unit = 1;
+}
+
+message SemanticVersionToStringConverter {
+    bool include_build = 1;
+    bool include_release = 2;
+}
+
+message OneofNameToStringConverter {
+    string attribute_name = 1;
+}
+
+enum TimeUnit {
+    TIME_UNIT_INVALID = 0;
+    TIME_UNIT_MILLISECONDS = 1;
+    TIME_UNIT_SECONDS = 2;
+    TIME_UNIT_MINUTES = 3;
+    TIME_UNIT_HOURS = 4;
+    TIME_UNIT_NANOSECONDS = 5;
+    TIME_UNIT_MICROSECONDS = 6;
+}

@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package tinder.events.model.app;
+
+import "tinder/events/model/app/hubble/hubble.proto";
+import "tinder/events/model/app/metrics/disk_measure.proto";
+import "tinder/events/model/app/metrics/sdk_perf.proto";
+import "tinder/events/model/app/network/network_perf.proto";
+import "tinder/events/model/app/performance/duration_measure.proto";
+import "tinder/events/model/app/test.proto";
+import "tinder/events/model/common/error.proto";
+import "tinder/events/model/common/json.proto";
+import "tinder/events/model/common/log.proto";
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.events.model.app";
+
+message AppPlatformEvent {
+    oneof value {
+        network.NetworkPerf network_perf = 4;
+        common.BinaryParseErrorEvent binary_parse_error_event = 5;
+        common.JsonParseErrorEvent json_parse_error_event = 6;
+        common.LogEvent log_event = 7;
+        performance.DurationMeasure duration_measure = 8;
+        common.JsonEvent json_event = 9;
+        hubble.HubbleInstrument hubble_instrument = 10;
+        metrics.SdkPerf sdk_perf = 11;
+        metrics.DiskMeasure disk_measure = 12;
+        TestEvent1 test_event_1 = 1024;
+    }
+}

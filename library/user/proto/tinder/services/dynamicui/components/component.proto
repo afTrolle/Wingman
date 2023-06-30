@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package tinder.services.dynamicui.components;
+
+import "tinder/services/dynamicui/actions/action.proto";
+import "tinder/services/dynamicui/components/animation_screen_details.proto";
+import "tinder/services/dynamicui/components/dynamic_pills_details.proto";
+import "tinder/services/dynamicui/components/info_box_details.proto";
+import "tinder/services/dynamicui/components/text_box_details.proto";
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.model.services.dynamicui.components";
+
+message Component {
+    string component_id = 1;
+    string component_type = 2;
+    repeated actions.Action actions = 3;
+    
+    oneof details {
+        DynamicPillsDetails dynamic_pills_details = 4;
+        TextBoxDetails text_box_details = 5;
+        InfoBoxDetails info_box_details = 6;
+        AnimationScreenDetails animation_screen_details = 7;
+    }
+}

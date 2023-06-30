@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package tinder.services.keepalive;
+
+option go_package = "github.com/TinderApp/proto/keepalive";
+option java_multiple_files = true;
+option java_outer_classname = "WebSocketInsendioCampaign";
+option java_package = "com.tinder.proto.keepalive";
+
+message InsendioCampaign {
+    int32 crm_campaign_id = 1;
+    string crm_experiment_name = 2;
+    string crm_variant_name = 3;
+    string crm_campaign_name = 4;
+    string crm_message_id = 5;
+    string crm_channel = 6;
+    string crm_channel_template = 7;
+    string deeplink_url = 8;
+}

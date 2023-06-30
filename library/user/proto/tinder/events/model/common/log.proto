@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package tinder.events.model.common;
+
+import "google/protobuf/wrappers.proto";
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.events.model.common";
+
+message LogEvent {
+    google.protobuf.StringValue owner = 1;
+    LogLevel level = 2;
+    google.protobuf.StringValue message = 3;
+    repeated string stacktrace = 4 [deprecated = true];
+    repeated string tags = 5;
+    google.protobuf.StringValue exception_class = 6;
+}
+
+enum LogLevel {
+    LOG_LEVEL_INVALID = 0;
+    LOG_LEVEL_DEBUG = 1;
+    LOG_LEVEL_INFO = 2;
+    LOG_LEVEL_WARNING = 3;
+    LOG_LEVEL_CRITICAL = 4;
+    LOG_LEVEL_ERROR = 5;
+    LOG_LEVEL_ASSERT = 6;
+    LOG_LEVEL_VERBOSE = 7;
+}

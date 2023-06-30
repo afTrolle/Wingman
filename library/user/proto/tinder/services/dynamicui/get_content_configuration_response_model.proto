@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package tinder.services.dynamicui;
+
+import "tinder/services/dynamicui/components/component.proto";
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.model.services.dynamicui";
+
+message GetContentConfigurationResponseModel {
+    repeated components.Component content = 1;
+}

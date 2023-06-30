@@ -42,14 +42,14 @@ internal fun user(
     ).flow
 
     override suspend fun signInRequestOneTimePassword(phoneNumber: String) {
-        tinder.otp(phoneNumber)
+//        tinder.otp(phoneNumber)
     }
 
     override suspend fun signInOneTimePassword(oneTimePassword: String, phoneNumber: String) {
-        tinder.refreshToken(
-            oneTimePassword = oneTimePassword,
-            phoneNumber = phoneNumber,
-        )
+//        tinder.refreshToken(
+//            oneTimePassword = oneTimePassword,
+//            phoneNumber = phoneNumber,
+//        )
     }
 
     override val isUserSignedIn: Boolean

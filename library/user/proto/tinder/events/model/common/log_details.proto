@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package tinder.events.model.common;
+
+import "google/protobuf/wrappers.proto";
+import "tinder/events/model/common/log.proto";
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.events.model.common";
+
+message LogDetails {
+    LogLevel level = 1;
+    google.protobuf.Int64Value code = 2;
+    google.protobuf.StringValue message = 3;
+    google.protobuf.StringValue type = 4;
+}

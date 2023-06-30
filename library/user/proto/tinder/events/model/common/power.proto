@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package tinder.events.model.common;
+
+import "google/protobuf/wrappers.proto";
+import "tinder/events/model/options.proto";
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.events.model.common";
+
+message PowerAttributes {
+    google.protobuf.DoubleValue battery_level_percent = 1;
+    google.protobuf.BoolValue lower_power_mode_enabled = 2;
+}

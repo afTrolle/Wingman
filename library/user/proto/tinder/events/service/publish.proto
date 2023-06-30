@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package tinder.events.service;
+
+import "google/protobuf/duration.proto";
+import "google/protobuf/wrappers.proto";
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.events.service";
+
+message EventPublishRequestAttributes {
+    google.protobuf.BoolValue should_validate_events = 1;
+}
+
+message EventPublishResponseAttributes {
+    google.protobuf.StringValue batch_id = 1;
+    google.protobuf.StringValue message = 2;
+    google.protobuf.Duration duration = 3;
+    google.protobuf.Int64Value count = 5;
+    EventPublishRequestValidationResult validation_result = 6;
+}
+
+message EventPublishRequestValidationResult {
+    map<string, string> request_validation_messages = 1;
+}

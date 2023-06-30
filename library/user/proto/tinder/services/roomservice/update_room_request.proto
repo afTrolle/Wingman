@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package tinder.services.roomservice;
+
+import "google/protobuf/wrappers.proto";
+import "tinder/services/roomservice/rooms/visibility.proto";
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.model.services.roomservice";
+
+message UpdateRoomRequest {
+    google.protobuf.StringValue title = 1;
+    rooms.Visibility visibility = 2;
+}

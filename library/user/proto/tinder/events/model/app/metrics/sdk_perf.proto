@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package tinder.events.model.app.metrics;
+
+import "google/protobuf/wrappers.proto";
+import "tinder/events/model/app/metrics/sdk_exception.proto";
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.events.model.app.metrics";
+
+message SdkPerf {
+    google.protobuf.StringValue batch_id = 1;
+    google.protobuf.Int32Value tracked_count = 2;
+    google.protobuf.Int32Value dropped_count = 3;
+    google.protobuf.Int32Value published_count = 4;
+    repeated ExceptionInfo exceptions = 10;
+}

@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package tinder.services.insendio.dsl;
+
+import "tinder/services/insendio/dsl/attribute/action.proto";
+import "tinder/services/insendio/dsl/attribute/border.proto";
+import "tinder/services/insendio/dsl/attribute/color.proto";
+import "tinder/services/insendio/dsl/attribute/media.proto";
+import "tinder/services/insendio/dsl/attribute/state.proto";
+import "tinder/services/insendio/dsl/attribute/text.proto";
+
+option java_generate_equals_and_hash = true;
+option java_multiple_files = true;
+option java_outer_classname = "WidgetProto";
+option java_package = "com.tinder.proto.insendio.dsl";
+
+message Widget {
+    attribute.ActionAttribute action = 1;
+    attribute.ColorAttribute color = 2;
+    attribute.MediaAttribute media = 3;
+    attribute.TextAttribute text = 4;
+    attribute.BorderAttribute border = 5;
+    attribute.StatesAttribute states = 6;
+}

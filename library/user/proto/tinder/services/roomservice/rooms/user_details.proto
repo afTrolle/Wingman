@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package tinder.services.roomservice.rooms;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+import "tinder/services/roomservice/rooms/photo.proto";
+import "tinder/services/roomservice/rooms/role.proto";
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.model.services.roomservice.rooms";
+
+message UserDetails {
+    string user_id = 1;
+    google.protobuf.StringValue name = 2;
+    Role role = 3;
+    repeated Photo photos = 4;
+    SwipeType swipe_received = 5;
+    SwipeType swipe_sent = 6;
+    google.protobuf.Timestamp birth_date = 7;
+    google.protobuf.StringValue hashed_user_id = 8;
+    int32 gender = 9;
+}
+
+enum SwipeType {
+    NONE = 0;
+    LIKE = 1;
+    PASS = 2;
+    SUPER_LIKE = 3;
+}

@@ -1,0 +1,41 @@
+syntax = "proto2";
+
+package google.protobuf.compiler;
+
+import "google/protobuf/descriptor.proto";
+
+option go_package = "google.golang.org/protobuf/types/pluginpb";
+option java_outer_classname = "PluginProtos";
+option java_package = "com.google.protobuf.compiler";
+
+message Version {
+    optional int32 major = 1;
+    optional int32 minor = 2;
+    optional int32 patch = 3;
+    optional string suffix = 4;
+}
+
+message CodeGeneratorRequest {
+    repeated string file_to_generate = 1;
+    optional string parameter = 2;
+    repeated FileDescriptorProto proto_file = 15;
+    optional Version compiler_version = 3;
+}
+
+message CodeGeneratorResponse {
+    optional string error = 1;
+    optional uint64 supported_features = 2;
+    
+    repeated File file = 15;
+    message File {
+        optional string name = 1;
+        optional string insertion_point = 2;
+        optional string content = 15;
+        optional GeneratedCodeInfo generated_code_info = 16;
+    }
+    
+    enum Feature {
+        FEATURE_NONE = 0;
+        FEATURE_PROTO3_OPTIONAL = 1;
+    }
+}

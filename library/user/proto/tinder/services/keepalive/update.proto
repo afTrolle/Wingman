@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package tinder.services.keepalive;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/TinderApp/proto/keepalive";
+option java_multiple_files = true;
+option java_outer_classname = "KeepAliveUpdate";
+option java_package = "com.tinder.proto.keepalive";
+
+message Update {
+    google.protobuf.Timestamp update_time = 1;
+}

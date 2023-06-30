@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package tinder.services.insendio.dsl.attribute;
+
+import "tinder/services/insendio/dsl/attribute/color.proto";
+
+option java_generate_equals_and_hash = true;
+option java_multiple_files = true;
+option java_outer_classname = "BorderProto";
+option java_package = "com.tinder.proto.insendio.dsl.attribute";
+
+message BorderAttribute {
+    double width = 1;
+    ColorAttribute color = 2;
+}

@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package tinder.services.mediaservice.media;
+
+import "google/protobuf/wrappers.proto";
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.model.services.mediaservice.media";
+
+message Asset {
+    google.protobuf.StringValue url = 1;
+    google.protobuf.StringValue format = 2;
+    google.protobuf.StringValue type = 3;
+    google.protobuf.StringValue created_at = 4;
+    google.protobuf.Int32Value width = 5;
+    google.protobuf.Int32Value height = 6;
+    google.protobuf.Int32Value qf = 7;
+}

@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package tinder.services.keepalive;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/TinderApp/proto/keepalive";
+option java_multiple_files = true;
+option java_outer_classname = "KeepAliveEmailCollectionSettings";
+option java_package = "com.tinder.proto.keepalive";
+
+message EmailCollectionSettings {
+    google.protobuf.Timestamp sent_time = 1;
+    bool email_prompt_required = 2;
+    bool email_prompt_dismissible = 3;
+    bool email_prompt_show_marketing_opt_in = 4;
+    bool email_prompt_show_strict_opt_in = 5;
+}

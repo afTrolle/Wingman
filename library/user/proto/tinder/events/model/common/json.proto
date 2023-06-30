@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package tinder.events.model.common;
+
+import "google/protobuf/wrappers.proto";
+
+option java_multiple_files = true;
+option java_outer_classname = "JsonProto";
+option java_package = "com.tinder.generated.events.model.common";
+
+message JsonEvent {
+    google.protobuf.StringValue value = 1;
+    google.protobuf.StringValue name = 2;
+}

@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package tinder.events.model.app.hubble.details;
+
+import "google/protobuf/wrappers.proto";
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.events.model.app.hubble.details";
+
+message OnboardingDetails {
+    google.protobuf.StringValue field_name = 1;
+    google.protobuf.StringValue field_value = 2;
+}

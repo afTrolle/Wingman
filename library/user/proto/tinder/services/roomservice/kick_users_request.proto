@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package tinder.services.roomservice;
+
+import "tinder/services/roomservice/rooms/room_user.proto";
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.model.services.roomservice";
+
+message KickUsersRequest {
+    repeated rooms.RoomUser users = 1;
+}

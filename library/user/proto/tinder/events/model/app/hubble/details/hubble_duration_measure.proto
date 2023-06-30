@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package tinder.events.model.app.hubble.details;
+
+import "google/protobuf/duration.proto";
+import "google/protobuf/wrappers.proto";
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.events.model.app.hubble.details";
+
+message HubbleDurationMeasure {
+    Category category = 1;
+    enum Category {
+        CATEGORY_INVALID = 0;
+        CATEGORY_STARTUP = 1;
+        CATEGORY_EXPERIENCE = 2;
+        CATEGORY_SCREEN = 3;
+        CATEGORY_FLOW = 4;
+    }
+    
+    google.protobuf.StringValue type = 2;
+    google.protobuf.StringValue subtype = 3;
+    google.protobuf.Duration duration = 4 [deprecated = true];
+    google.protobuf.BoolValue success = 5;
+    google.protobuf.StringValue component_name = 6;
+    google.protobuf.Int64Value duration_millis = 7;
+    google.protobuf.StringValue session_id = 8;
+}

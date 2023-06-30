@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package tinder.events.model.app.network;
+
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+import "tinder/events/model/options.proto";
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.events.model.app.network";
+
+message NetworkPerf {
+    NetworkCallAttributes network_call = 1;
+    HttpMethodType method = 2;
+    google.protobuf.StringValue error_code = 3;
+    google.protobuf.Int32Value status_code = 4;
+    google.protobuf.StringValue request_id = 5;
+    google.protobuf.StringValue endpoint = 6;
+    NetworkCallConnection connection = 7;
+    NetworkCallError error = 8;
+    google.protobuf.Int32Value response_body_bytes = 9;
+    google.protobuf.StringValue hubble_entity_id = 10;
+}
+
+message NetworkCallAttributes {
+    google.protobuf.Timestamp call_time = 2;
+    google.protobuf.Timestamp response_time = 3;
+    google.protobuf.Duration duration = 4;
+    
+    reserved 1, "name";
+}
+
+message NetworkCallConnection {
+    google.protobuf.Int32Value connection_attempts = 1;
+    google.protobuf.Duration connection_duration = 2;
+    google.protobuf.Duration dns_duration = 3;
+    google.protobuf.Duration secure_duration = 4;
+}
+
+message NetworkCallError {
+    google.protobuf.StringValue type = 1;
+    google.protobuf.StringValue message = 2;
+}
+
+enum HttpMethodType {
+    HTTP_METHOD_TYPE_INVALID = 0;
+    HTTP_METHOD_TYPE_GET = 1;
+    HTTP_METHOD_TYPE_PUT = 2;
+    HTTP_METHOD_TYPE_POST = 3;
+    HTTP_METHOD_TYPE_DELETE = 4;
+    HTTP_METHOD_TYPE_PATCH = 5;
+}

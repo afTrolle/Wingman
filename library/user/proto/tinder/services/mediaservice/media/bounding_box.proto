@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package tinder.services.mediaservice.media;
+
+import "google/protobuf/wrappers.proto";
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.model.services.mediaservice.media";
+
+message BoundingBox {
+    google.protobuf.FloatValue height_pct = 1;
+    google.protobuf.FloatValue width_pct = 2;
+    google.protobuf.FloatValue x_offset_pct = 3;
+    google.protobuf.FloatValue y_offset_pct = 4;
+}

@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package tinder.services.mediaservice;
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.model.services.mediaservice";
+
+message CreatePlaceholderResponseModel {
+    repeated string media_ids = 1;
+}

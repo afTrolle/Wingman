@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package tinder.services.dynamicui;
+
+import "tinder/services/dynamicui/tappy_content/tappy_content.proto";
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.model.services.dynamicui";
+
+message GetTappyContentResponseModel {
+    tappycontent.TappyContent tappy_content = 1;
+}

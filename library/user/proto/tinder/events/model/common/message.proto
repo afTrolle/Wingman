@@ -1,0 +1,172 @@
+syntax = "proto3";
+
+package tinder.events.model.common;
+
+import "google/protobuf/duration.proto";
+import "google/protobuf/wrappers.proto";
+import "tinder/events/model/common/content.proto";
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.events.model.common";
+
+message MessageDescriptor {
+    google.protobuf.StringValue id = 1;
+    MessageSource from = 3;
+    google.protobuf.Int32Value index = 4;
+    
+    reserved 2, "value";
+}
+
+message MessageFlags {
+    google.protobuf.BoolValue has_unsent_content = 1;
+    google.protobuf.BoolValue bitmoji_connected = 2;
+    google.protobuf.BoolValue bullseye_adjusted_avatar = 3;
+    google.protobuf.BoolValue message_sent_by_self = 4;
+    google.protobuf.BoolValue message_contains_address = 5;
+    google.protobuf.BoolValue message_contains_phone_number = 6;
+    google.protobuf.BoolValue message_contains_url = 7;
+    google.protobuf.BoolValue other_id_suppressed = 8;
+    google.protobuf.BoolValue first_move_enabled = 9;
+    google.protobuf.BoolValue has_ice_breaker = 10;
+    google.protobuf.BoolValue success = 11;
+    google.protobuf.BoolValue is_read_receipts_enabled = 12;
+    google.protobuf.BoolValue has_blocked_chat = 13;
+    google.protobuf.BoolValue has_common_interests = 14;
+    google.protobuf.BoolValue is_match_shown_as_active = 15;
+}
+
+message MessageAttributes {
+    google.protobuf.StringValue session_id = 1;
+    MessageDescriptor message = 2;
+    google.protobuf.StringValue match_id = 3;
+    google.protobuf.StringValue other_id = 4;
+    ContentDescriptor content = 5;
+    google.protobuf.Duration duration = 6;
+    google.protobuf.Int32Value position = 7;
+    google.protobuf.StringValue feed_item_id = 8;
+    google.protobuf.StringValue reason = 9;
+    MessageFlags flags = 10;
+    google.protobuf.Int64Value num_messages_me = 11;
+    google.protobuf.Int64Value num_messages_other = 12;
+    MessageDescriptor last_message = 13;
+}
+
+enum SessionAttribution {
+    SESSION_ATTRIBUTION_INVALID = 0;
+    SESSION_ATTRIBUTION_BOOST = 1;
+    SESSION_ATTRIBUTION_COMMON_PLACES = 2;
+    SESSION_ATTRIBUTION_EXPERIENCES = 3;
+    SESSION_ATTRIBUTION_FRIEND = 4;
+    SESSION_ATTRIBUTION_GOLD_SUB = 5;
+    SESSION_ATTRIBUTION_LIKES_YOU = 6;
+    SESSION_ATTRIBUTION_PLACES = 7;
+    SESSION_ATTRIBUTION_PLATINUM_SUB = 8;
+    SESSION_ATTRIBUTION_PLUS_SUB = 9;
+    SESSION_ATTRIBUTION_SUPER_BOOST = 10;
+    SESSION_ATTRIBUTION_SUPERLIKE = 11;
+    SESSION_ATTRIBUTION_TOP_PICKS = 12;
+}
+
+enum SessionDestination {
+    SESSION_DESTINATION_INVALID = 0;
+    SESSION_DESTINATION_BACKGROUND = 1;
+    SESSION_DESTINATION_FEED = 2;
+    SESSION_DESTINATION_HOME = 3;
+    SESSION_DESTINATION_MATCH_LIST = 4;
+    SESSION_DESTINATION_PLACES = 5;
+    SESSION_DESTINATION_RECS = 6;
+    SESSION_DESTINATION_TOP_PICKS = 7;
+    SESSION_DESTINATION_GOLD_HOME = 8;
+    SESSION_DESTINATION_HANGOUT = 9;
+    SESSION_DESTINATION_COMPOSE_DM = 10;
+    SESSION_DESTINATION_COMPOSE_DM_SEARCH = 11;
+    SESSION_DESTINATION_CATALOG_PAGE = 12;
+}
+
+enum SessionStartSource {
+    SESSION_START_SOURCE_INVALID = 0;
+    SESSION_START_SOURCE_BACKGROUND = 1;
+    SESSION_START_SOURCE_FEED = 2;
+    SESSION_START_SOURCE_FORCE_TOUCH = 3;
+    SESSION_START_SOURCE_IN_APP_NOTIFICATION = 4;
+    SESSION_START_SOURCE_ITS_A_MATCH = 5;
+    SESSION_START_SOURCE_ITS_A_MATCH_GIF_BUBBLE = 6;
+    SESSION_START_SOURCE_MESSAGES = 7;
+    SESSION_START_SOURCE_NEW_MATCHES = 8;
+    SESSION_START_SOURCE_PROFILE = 9;
+    SESSION_START_SOURCE_PUSH_NOTIFICATION = 10;
+    SESSION_START_SOURCE_COMPOSE_DM = 11;
+    SESSION_START_SOURCE_COMPOSE_DM_SEARCH = 12;
+    SESSION_START_SOURCE_CHAT = 13;
+}
+
+enum SessionEndSource {
+    SESSION_END_SOURCE_INVALID = 0;
+    SESSION_END_SOURCE_BACK = 1;
+    SESSION_END_SOURCE_BACKGROUND = 2;
+    SESSION_END_SOURCE_SEND_MESSAGE = 3;
+    SESSION_END_SOURCE_UNMATCH = 4;
+    SESSION_END_SOURCE_INITIALIZED = 5;
+    SESSION_END_SOURCE_PARENT_SESSION_END = 6;
+}
+
+enum SessionType {
+    SESSION_TYPE_INVALID = 0;
+    SESSION_TYPE_END = 1;
+    SESSION_TYPE_START = 2;
+}
+
+enum MessageSource {
+    MESSAGE_SOURCE_INVALID = 0;
+    MESSAGE_SOURCE_NONE = 1;
+    MESSAGE_SOURCE_OTHER = 2;
+    MESSAGE_SOURCE_SELF = 3;
+    MESSAGE_SOURCE_SYSTEM = 4;
+}
+
+enum MessageContentSource {
+    MESSAGE_CONTENT_SOURCE_INVALID = 0;
+    MESSAGE_CONTENT_SOURCE_BITMOJI = 1;
+    MESSAGE_CONTENT_SOURCE_BITMOJI_AVATAR = 2;
+    MESSAGE_CONTENT_SOURCE_FACEBOOK = 3;
+    MESSAGE_CONTENT_SOURCE_GIPHY = 4;
+    MESSAGE_CONTENT_SOURCE_INSTAGRAM = 5;
+    MESSAGE_CONTENT_SOURCE_KAKAO = 6;
+    MESSAGE_CONTENT_SOURCE_KIK = 7;
+    MESSAGE_CONTENT_SOURCE_LINE = 8;
+    MESSAGE_CONTENT_SOURCE_MOBILE = 9;
+    MESSAGE_CONTENT_SOURCE_SNAPCHAT = 10;
+    MESSAGE_CONTENT_SOURCE_TENOR = 11;
+    MESSAGE_CONTENT_SOURCE_VIBER = 12;
+    MESSAGE_CONTENT_SOURCE_VK = 13;
+    MESSAGE_CONTENT_SOURCE_WECHAT = 14;
+    MESSAGE_CONTENT_SOURCE_WHATSAPP = 15;
+    MESSAGE_CONTENT_SOURCE_LOOP = 16;
+    MESSAGE_CONTENT_SOURCE_SPOTIFY = 17;
+    MESSAGE_CONTENT_SOURCE_STICKER = 18;
+    MESSAGE_CONTENT_SOURCE_INBOX = 19;
+    MESSAGE_CONTENT_SOURCE_VIBES = 20;
+}
+
+enum MessageType {
+    MESSAGE_TYPE_INVALID = 0;
+    MESSAGE_TYPE_CONTACT = 1;
+    MESSAGE_TYPE_CONTACT_CARD = 2;
+    MESSAGE_TYPE_FEED = 3;
+    MESSAGE_TYPE_GIF = 4;
+    MESSAGE_TYPE_IMAGE = 5;
+    MESSAGE_TYPE_PROFILE = 6;
+    MESSAGE_TYPE_SONG = 7;
+    MESSAGE_TYPE_STICKER = 8;
+    MESSAGE_TYPE_TEXT = 9;
+    MESSAGE_TYPE_TYPING_INDICATOR = 10;
+    MESSAGE_TYPE_ACTIVITY_FEED = 11;
+    MESSAGE_TYPE_CONTEXTUAL_LIKE = 12;
+    MESSAGE_TYPE_CONTEXTUAL_MESSAGE = 13;
+    MESSAGE_TYPE_SWIPE_NOTE = 14;
+    MESSAGE_TYPE_SYSTEM = 15;
+    MESSAGE_TYPE_UNSUPPORTED = 16;
+    MESSAGE_TYPE_VINYL = 17;
+    MESSAGE_TYPE_VIBE = 18;
+    MESSAGE_TYPE_VIBES_AND_TEXT = 19;
+}

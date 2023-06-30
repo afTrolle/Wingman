@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package tinder.services.mediaservice.media;
+
+import "google/protobuf/wrappers.proto";
+import "tinder/services/mediaservice/media/bounding_box.proto";
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.model.services.mediaservice.media";
+
+message CropInfo {
+    BoundingBox algo = 1;
+    google.protobuf.BoolValue processed_by_bullseye = 2;
+    BoundingBox user = 3;
+    google.protobuf.BoolValue user_customized = 4;
+}

@@ -1,0 +1,100 @@
+syntax = "proto3";
+
+package tinder.events.model;
+
+import "google/protobuf/descriptor.proto";
+import "tinder/events/model/converter/converter.proto";
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.events.model";
+
+message CustomConversion {
+    converter.TypeAttributeConverter attribute_converter = 1075;
+    string output_type = 1076;
+}
+
+message EventRecordRoot {
+    repeated EventAttribute includes = 1073;
+}
+
+enum EventAttribute {
+    INVALID = 0;
+    EVENT_SERVER_TIME = 1;
+    EVENT_DERIVED_COUNTRY = 2;
+    APP_EVENT_ID = 30;
+    APP_EVENT_CREATE_TIME = 31;
+    APP_NAME = 50;
+    APP_VERSION = 51;
+    APP_SESSION_ID = 70;
+    APP_SESSION_TIME_ELAPSED = 71;
+    AUTH_ID = 90;
+    AUTH_SESSION_ID = 91;
+    DEVICE_ID = 120;
+    DEVICE_PLATFORM = 121;
+    DEVICE_OS_VERSION = 122;
+    DEVICE_MANUFACTURER = 123;
+    DEVICE_MODEL = 124;
+    DEVICE_PERSISTENT_ID = 125;
+    DEVICE_LANGUAGE = 126;
+    DEVICE_COUNTRY_CODE = 127;
+    DEVICE_NETWORK_PROVIDER_NAME = 128;
+    DEVICE_NETWORK_PROVIDER_TYPE = 129;
+    DEVICE_BATTERY_LEVEL_PERCENT = 130;
+    DEVICE_LOWER_POWER_MODE_ENABLED = 131;
+    DEVICE_TOTAL_RAM_BYTES = 132;
+    DEVICE_FREE_RAM_BYTES = 133;
+    DEVICE_RAM_USED_BY_APP_BYTES = 134;
+    DEVICE_TIME_ZONE = 135;
+    IOS_DEVICE_ID = 200;
+    IOS_OS_VERSION = 201;
+    IOS_COUNTRY = 202;
+    IOS_IS_JAILBROKEN = 203;
+    ANDROID_PLATFORM_VARIANT = 280;
+    ANDROID_INSTANCE_ID = 281;
+    ANDROID_DEVICE_ID = 282;
+    ANDROID_OS_VERSION = 283;
+    ANDROID_IS_ROOTED = 284;
+    ANDROID_STORE_VARIANT = 285;
+    BROWSER_NAME = 350;
+    BROWSER_VERSION = 351;
+    LOCATION_TIME = 380;
+    LOCATION_LATITUDE = 381;
+    LOCATION_LONGITUDE = 382;
+    USER_UID = 430;
+    USER_TYPE = 431;
+    USER_GENDER = 432;
+    USER_TARGET_GENDER = 433;
+    USER_SESSION_DURATION = 434;
+    USER_SESSION_ID = 435;
+    SERVER_EVENT_ID = 500;
+    SERVER_EVENT_CREATE_TIME = 501;
+    SERVICE_NAME = 520 [deprecated = true];
+    SERVICE_VERSION = 521;
+    SERVER_OPERATING_SYSTEM = 750;
+    WINDOWS_VERSION = 771 [deprecated = true];
+    LINUX_VERSION = 772 [deprecated = true];
+    DARWIN_VERSION = 773 [deprecated = true];
+    OS_VERSION = 774;
+    HUBBLE_INSTRUMENT_ID = 900;
+    HUBBLE_INSTRUMENT_TYPE = 901;
+    HUBBLE_ENTITY_TYPE = 902;
+    HUBBLE_ENTITY_ID = 903;
+    HUBBLE_SERVER_INSTRUMENT_ID = 920;
+}
+
+enum Adapter {
+    ADAPTER_INVALID = 0;
+    ADAPTER_EVENT_RECORD = 1;
+}
+
+extend google.protobuf.FieldOptions {
+    EventAttribute attribute_source = 1072;
+    bool omit_from_record = 1077;
+    bool contains_pii = 1078;
+}
+
+extend google.protobuf.MessageOptions {
+    EventRecordRoot event_record = 1071;
+    Adapter adapter_input_type = 1074;
+    CustomConversion custom_converter = 1075;
+}

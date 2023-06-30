@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+package tinder.services.keepalive;
+
+option go_package = "github.com/TinderApp/proto/keepalive";
+option java_multiple_files = true;
+option java_outer_classname = "KeepAliveMediaHydrationNudge";
+option java_package = "com.tinder.proto.keepalive";
+
+message ProcessedPhoto {
+    string url = 1;
+    int32 height = 2;
+    int32 width = 3;
+}
+
+message ProcessedVideo {
+    string url = 1;
+    int32 height = 2;
+    int32 width = 3;
+}
+
+message ImageType {
+    string url = 1;
+    int32 height = 2;
+    int32 width = 3;
+}
+
+message LoopType {
+    string url = 1;
+    int32 height = 2;
+    int32 width = 3;
+}
+
+message ShortVideoType {
+    string url = 1;
+    int32 height = 2;
+    int32 width = 3;
+    bool has_audio = 4;
+}
+
+message Asset {
+    oneof asset_type {
+        ImageType image = 1;
+        LoopType loop = 2;
+        ShortVideoType short_video = 3;
+    }
+}
+
+message MediaHydrationNudge {
+    string media_id = 1;
+    string original_media_url = 2;
+    repeated ProcessedPhoto processed_photos = 3;
+    repeated ProcessedVideo processed_videos = 4;
+    repeated Asset assets = 5;
+    MediaType media_type = 6;
+}
+
+enum MediaType {
+    UNSET_MEDIA_TYPE = 0;
+    IMAGE_TYPE = 1;
+    LOOP_TYPE = 2;
+    SHORT_VIDEO_TYPE = 3;
+}

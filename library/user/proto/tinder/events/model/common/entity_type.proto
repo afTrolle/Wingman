@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package tinder.events.model.common;
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.events.model.common";
+
+enum EntityType {
+    ENTITY_TYPE_INVALID = 0;
+    ENTITY_TYPE_USER = 4;
+    ENTITY_TYPE_SKU = 5;
+    ENTITY_TYPE_CRM_CAMPAIGN = 6;
+    ENTITY_TYPE_NETWORK_REQUEST = 20;
+}

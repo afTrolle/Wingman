@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package tinder.events.model.app.hubble.details;
+
+import "google/protobuf/wrappers.proto";
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.events.model.app.hubble.details";
+
+message RecsCoreDetails {
+    google.protobuf.Int32Value request_index = 1;
+    google.protobuf.Int32Value discovery_index = 2;
+    google.protobuf.Int32Value recs_cards_count = 3;
+}

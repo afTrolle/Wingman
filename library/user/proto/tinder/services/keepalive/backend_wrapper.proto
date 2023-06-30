@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package tinder.services.keepalive;
+
+import "google/protobuf/timestamp.proto";
+import "tinder/services/keepalive/client_data.proto";
+
+option go_package = "github.com/TinderApp/proto/keepalive";
+option java_multiple_files = true;
+option java_outer_classname = "KeepAliveservicesWrapper";
+option java_package = "com.tinder.proto.keepalive";
+
+message BackendWrapper {
+    ClientData client_data = 1;
+    google.protobuf.Timestamp start_time = 2;
+    string upstream_service = 3;
+    google.protobuf.Timestamp upstream_service_time = 4;
+    int64 user_number = 5;
+}

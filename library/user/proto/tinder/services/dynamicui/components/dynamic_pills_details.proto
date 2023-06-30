@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+package tinder.services.dynamicui.components;
+
+import "google/protobuf/wrappers.proto";
+import "tinder/services/dynamicui/components/image_url.proto";
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.model.services.dynamicui.components";
+
+message DynamicPillsDetails {
+    int32 min_selections = 1;
+    int32 max_selections = 2;
+    repeated Item items = 3;
+    google.protobuf.StringValue id = 4;
+    google.protobuf.StringValue name = 5;
+    google.protobuf.StringValue prompt = 6;
+    int32 row_limit = 7;
+    bool has_carousel = 8;
+    google.protobuf.StringValue num_selections_text = 9;
+    google.protobuf.StringValue prompt_link_text = 10;
+    bool show_results = 11;
+    google.protobuf.StringValue results_title_text = 12;
+    google.protobuf.StringValue results_header_text = 13;
+    google.protobuf.StringValue clear_results_button_text = 14;
+    google.protobuf.StringValue emoji = 15;
+}
+
+message Item {
+    string id = 1;
+    string type = 2;
+    google.protobuf.StringValue name = 3;
+    google.protobuf.StringValue prompt = 4;
+    google.protobuf.StringValue sub_prompt = 5;
+    repeated ImageUrl image_urls = 6;
+    repeated ChildItem children = 7;
+    int32 min_selections = 8;
+    int32 max_selections = 9;
+    google.protobuf.StringValue title_text = 10;
+}
+
+message ChildItem {
+    string id = 1;
+    string name = 2;
+    repeated ImageUrl image_urls = 3;
+    google.protobuf.StringValue emoji = 4;
+    bool is_selected = 5;
+}

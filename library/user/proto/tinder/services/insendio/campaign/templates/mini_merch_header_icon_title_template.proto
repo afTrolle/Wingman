@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package tinder.services.insendio.campaign.templates;
+
+import "tinder/services/insendio/dsl/widget.proto";
+
+option java_generate_equals_and_hash = true;
+option java_multiple_files = true;
+option java_outer_classname = "MiniMerchHeaderIconTitleTemplateProto";
+option java_package = "com.tinder.proto.insendio.campaign.templates";
+
+message MiniMerchHeaderIconTitleTemplate {
+    string name = 1;
+    dsl.Widget container = 2;
+    dsl.Widget header_media = 3;
+    dsl.Widget header_title = 4;
+    dsl.Widget title = 5;
+    dsl.Widget primary_cta = 6;
+    dsl.Widget secondary_cta = 7;
+}

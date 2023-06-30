@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package tinder.services.dynamicui.tappycontent;
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.model.services.dynamicui.tappycontent";
+
+message TappyContent {
+    repeated TappyPage tappy_pages = 1;
+}
+
+message TappyPage {
+    repeated TappyContentType content = 1;
+}
+
+enum TappyContentType {
+    TAPPY_CONTENT_TYPE_INVALID = 0;
+    TAPPY_CONTENT_TYPE_ANTHEM = 1;
+    TAPPY_CONTENT_TYPE_BIO = 2;
+    TAPPY_CONTENT_TYPE_CITY = 3;
+    TAPPY_CONTENT_TYPE_DESCRIPTORS = 4;
+    TAPPY_CONTENT_TYPE_DISTANCE = 5;
+    TAPPY_CONTENT_TYPE_GLOBAL_REC = 6;
+    TAPPY_CONTENT_TYPE_INSTAGRAM = 7;
+    TAPPY_CONTENT_TYPE_JOB = 8;
+    TAPPY_CONTENT_TYPE_PASSIONS = 9;
+    TAPPY_CONTENT_TYPE_SCHOOL = 10;
+    TAPPY_CONTENT_TYPE_SWIPE_SURGE = 11;
+    TAPPY_CONTENT_TYPE_TINDER_U = 12;
+    TAPPY_CONTENT_TYPE_TOP_ARTISTS = 13;
+    TAPPY_CONTENT_TYPE_COLLECTIBLE_SHOWCASE = 14;
+    TAPPY_CONTENT_TYPE_PRONOUNS = 15;
+    TAPPY_CONTENT_TYPE_HEIGHT = 16;
+    TAPPY_CONTENT_TYPE_USER_PROMPT = 17;
+    TAPPY_CONTENT_TYPE_POLL = 18;
+}

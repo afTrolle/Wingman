@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package tinder.events.model.common;
+
+import "google/protobuf/wrappers.proto";
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.events.model.common";
+
+message BinaryParseErrorEvent {
+    google.protobuf.StringValue tag = 1;
+    google.protobuf.StringValue message = 2;
+    google.protobuf.BytesValue bytes = 3;
+}
+
+message JsonParseErrorEvent {
+    google.protobuf.StringValue tag = 1;
+    google.protobuf.StringValue message = 2;
+    google.protobuf.StringValue json = 3;
+}

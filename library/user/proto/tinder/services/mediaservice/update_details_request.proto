@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package tinder.services.mediaservice;
+
+import "tinder/services/mediaservice/media/crop_info.proto";
+import "tinder/services/mediaservice/media/prompt.proto";
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.model.services.mediaservice";
+
+message UpdateMediaDetailsRequest {
+    string media_id = 1;
+    media.CropInfo crop_info = 2;
+    media.Prompt prompt = 3;
+}

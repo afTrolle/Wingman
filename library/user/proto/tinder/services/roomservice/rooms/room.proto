@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package tinder.services.roomservice.rooms;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+import "tinder/services/roomservice/activities/activity_type.proto";
+import "tinder/services/roomservice/rooms/link.proto";
+import "tinder/services/roomservice/rooms/user_count.proto";
+import "tinder/services/roomservice/rooms/user_details.proto";
+import "tinder/services/roomservice/rooms/visibility.proto";
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.model.services.roomservice.rooms";
+
+message Room {
+    string room_id = 1;
+    google.protobuf.StringValue room_title = 2;
+    repeated activities.ActivityType activity_types = 3;
+    repeated UserCount user_counts = 4;
+    repeated UserDetails user_details = 5;
+    google.protobuf.Timestamp created_at = 6;
+    Link link = 7;
+    Visibility visibility = 8;
+}

@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package tinder.services.roomservice.activities;
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.model.services.roomservice.activities";
+
+enum ActivityType {
+    VIDEO_CHAT = 0;
+    TEXT_CHAT = 1;
+    GET_RECS = 2;
+}

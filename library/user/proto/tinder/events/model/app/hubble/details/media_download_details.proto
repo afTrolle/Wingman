@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package tinder.events.model.app.hubble.details;
+
+import "google/protobuf/wrappers.proto";
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.events.model.app.hubble.details";
+
+message MediaDownloadDetails {
+    google.protobuf.StringValue media_id = 1;
+    
+    MediaType media_type = 2;
+    enum MediaType {
+        MEDIA_TYPE_INVALID = 0;
+        MEDIA_TYPE_PHOTO = 1;
+        MEDIA_TYPE_LOOP = 2;
+        MEDIA_TYPE_VIDEO = 3;
+    }
+    
+    google.protobuf.Int32Value photo_index = 3;
+    
+    PhotoSource photo_source = 4;
+    enum PhotoSource {
+        PHOTO_SOURCE_INVALID = 0;
+        PHOTO_SOURCE_CARD = 1;
+        PHOTO_SOURCE_PROFILE = 2;
+        PHOTO_SOURCE_NEW_MATCH = 3;
+    }
+}

@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package tinder.events.model.common.session;
+
+import "google/protobuf/wrappers.proto";
+import "tinder/events/model/common/semver.proto";
+import "tinder/events/model/options.proto";
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.events.model.common.session";
+
+message ServiceAttributes {
+    ServiceName name = 1 [deprecated = true];
+    SemanticVersion version = 2;
+    google.protobuf.StringValue service_name = 3;
+}
+
+message ServiceName {
+    oneof value {
+        PurchaseService purchase_service = 1;
+        TestService test = 1024;
+    }
+}
+
+message PurchaseService {
+    
+}
+
+message TestService {
+    
+}

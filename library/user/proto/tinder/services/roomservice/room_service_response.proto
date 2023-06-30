@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package tinder.services.roomservice;
+
+import "tinder/services/roomservice/create_room_response_model.proto";
+import "tinder/services/roomservice/error.proto";
+import "tinder/services/roomservice/get_room_details_response_model.proto";
+import "tinder/services/roomservice/get_rooms_response_model.proto";
+import "tinder/services/roomservice/join_room_response_model.proto";
+import "tinder/services/roomservice/kick_users_response_model.proto";
+import "tinder/services/roomservice/room_membership_response_model.proto";
+import "tinder/services/roomservice/room_status_response_model.proto";
+import "tinder/services/roomservice/share_room_response_model.proto";
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.model.services.roomservice";
+
+message RoomServiceResponse {
+    ErrorProto error = 1;
+    
+    oneof payload {
+        CreateRoomResponseModel create_room_response_model = 10;
+        GetRoomsResponseModel get_rooms_response_model = 11;
+        JoinRoomResponseModel join_room_response_model = 12;
+        GetRoomDetailsResponseModel get_room_details_response_model = 13;
+        RoomStatusResponseModel room_status_response_model = 14;
+        RoomMembershipResponseModel room_membership_response_model = 15;
+        KickUsersResponseModel kick_users_response_model = 16;
+        ShareRoomResponseModel share_room_response_model = 17;
+    }
+}

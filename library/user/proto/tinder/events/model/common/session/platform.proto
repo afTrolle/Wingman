@@ -1,0 +1,69 @@
+syntax = "proto3";
+
+package tinder.events.model.common.session;
+
+import "google/protobuf/wrappers.proto";
+import "tinder/events/model/common/country_code.proto";
+import "tinder/events/model/options.proto";
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.events.model.common.session";
+
+message DevicePlatform {
+    google.protobuf.StringValue os_version = 1;
+    
+    oneof type {
+        Android android = 5;
+        Browser browser = 6;
+        Ios ios = 7;
+        AndroidLite android_lite = 8;
+        IosLite ios_lite = 9;
+    }
+}
+
+message Android {
+    PlatformVariant platform_variant = 1;
+    google.protobuf.StringValue instance_id = 2;
+    google.protobuf.StringValue device_id = 3;
+    google.protobuf.StringValue os_version = 4;
+    google.protobuf.BoolValue is_rooted = 5;
+    StoreVariant store_variant = 6;
+}
+
+message Browser {
+    google.protobuf.StringValue name = 1;
+    google.protobuf.StringValue version = 2;
+}
+
+message Ios {
+    google.protobuf.StringValue device_id = 2;
+    google.protobuf.StringValue os_version = 3;
+    CountryCode country = 4;
+    google.protobuf.BoolValue is_jailbroken = 5;
+    
+    reserved 1, "idfa";
+}
+
+message AndroidLite {
+    
+}
+
+message IosLite {
+    
+}
+
+enum PlatformVariant {
+    PLATFORM_VARIANT_INVALID = 0;
+    PLATFORM_VARIANT_GOOGLE = 1;
+    PLATFORM_VARIANT_HUAWEI = 2;
+}
+
+enum StoreVariant {
+    STORE_VARIANT_INVALID = 0;
+    STORE_VARIANT_HUAWEI = 1;
+    STORE_VARIANT_OPPO = 2;
+    STORE_VARIANT_PLAY_STORE = 3;
+    STORE_VARIANT_SAMSUNG = 4;
+    STORE_VARIANT_XIAOMI = 5;
+    STORE_VARIANT_VIVO = 6;
+}

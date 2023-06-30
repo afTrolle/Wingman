@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package tinder.services.roomservice;
+
+import "tinder/services/roomservice/activities/activity.proto";
+import "tinder/services/roomservice/rooms/room.proto";
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.model.services.roomservice";
+
+message CreateRoomResponseModel {
+    rooms.Room room = 1;
+    repeated activities.Activity activities = 2;
+}

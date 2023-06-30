@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package tinder.services.roomservice.activities;
+
+import "tinder/services/roomservice/activities/activity_type.proto";
+import "tinder/services/roomservice/activities/video_chat_details.proto";
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.model.services.roomservice.activities";
+
+message Activity {
+    string activity_id = 1;
+    ActivityType type = 2;
+    
+    oneof payload {
+        VideoChatDetails video_chat_details = 10;
+    }
+}

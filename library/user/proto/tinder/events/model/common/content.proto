@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package tinder.events.model.common;
+
+import "google/protobuf/wrappers.proto";
+
+option java_multiple_files = true;
+option java_package = "com.tinder.generated.events.model.common";
+
+message ContentDescriptor {
+    google.protobuf.StringValue id = 1;
+    google.protobuf.StringValue url = 2;
+}
