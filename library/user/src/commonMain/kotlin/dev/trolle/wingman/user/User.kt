@@ -4,8 +4,6 @@ package dev.trolle.wingman.user
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import androidx.paging.PagingSource
-import androidx.paging.PagingState
 import dev.trolle.wingman.ai.AI
 import dev.trolle.wingman.user.model.Match
 import dev.trolle.wingman.user.tinder.Tinder
@@ -23,7 +21,8 @@ import dev.trolle.wingman.user.tinder.model.Match as TinderMatch
 interface User {
     val isUserSignedIn: Boolean
     suspend fun signInRequestOneTimePassword(phoneNumber: String)
-    suspend fun signInOneTimePassword(oneTimePassword: String, phoneNumber: String)
+    suspend fun verifyPhoneOneTimePassword(oneTimePassword: String)
+    suspend fun verifyEmailOneTimePassword(oneTimePassword: String)
     suspend fun getMatches(): List<Match>
     val matchesFlow: Flow<List<UiMatch>>
     fun matchPager(): Flow<PagingData<dev.trolle.wingman.user.tinder.model.Match>>
@@ -42,20 +41,21 @@ internal fun user(
     ).flow
 
     override suspend fun signInRequestOneTimePassword(phoneNumber: String) {
-//        tinder.otp(phoneNumber)
+        tinder.loginPhone(phoneNumber.removePrefix("+"))
     }
 
-    override suspend fun signInOneTimePassword(oneTimePassword: String, phoneNumber: String) {
-//        tinder.refreshToken(
-//            oneTimePassword = oneTimePassword,
-//            phoneNumber = phoneNumber,
-//        )
+    override suspend fun verifyPhoneOneTimePassword(oneTimePassword: String) {
+        tinder.loginPhoneOtp(oneTimePassword)
     }
 
     override val isUserSignedIn: Boolean
         get() = runBlocking {
             tinder.isSignedIn()
         }
+
+    override suspend fun verifyEmailOneTimePassword(oneTimePassword: String) {
+        tinder.loginEmailOtp(oneTimePassword)
+    }
 
     // TODO change this to a flow so we can stream data to ui
     override suspend fun getMatches(): List<Match> {

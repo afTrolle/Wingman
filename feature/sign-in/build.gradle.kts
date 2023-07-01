@@ -2,6 +2,8 @@
 
 plugins {
     `feature-plugin`
+    aliasId(libs.plugins.google.ksp)
+    aliasId(libs.plugins.kotlin.parcelize)
 }
 
 kotlin {

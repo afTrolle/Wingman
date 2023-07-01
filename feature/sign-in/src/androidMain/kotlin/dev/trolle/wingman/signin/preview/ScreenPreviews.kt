@@ -22,11 +22,11 @@ fun OneTimePasswordPreview() = PreviewDefaults {
         mutableStateOf("")
     }
     val state = OneTimePasswordState(
-        phoneNumber = "+46720208",
+
         oneTimePassword = oneTimePassword,
     )
     OneTimePasswordLayout(
-        oneTimePasswordState = state,
+        state = state,
         onOneTimePasswordChanged = setOneTimePassword,
     )
 }

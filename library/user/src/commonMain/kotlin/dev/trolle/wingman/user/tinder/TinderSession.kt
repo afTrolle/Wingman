@@ -1,83 +1,57 @@
 package dev.trolle.wingman.user.tinder
 
-import dev.trolle.wingman.common.ext.runCatchingCancelable
 import dev.trolle.wingman.db.Database
-import dev.trolle.wingman.db.get
 import dev.trolle.wingman.db.set
-import dev.trolle.wingman.user.tinder.model.AccessTokenResponse
-import io.ktor.client.plugins.ClientRequestException
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import kotlinx.serialization.builtins.serializer
+import kotlin.random.Random
 
-class TinderSession(
-    private val database: Database,
-    private val accessToken: suspend (refreshToken: String) -> AccessTokenResponse,
-) {
+class TinderSession(private val database: Database) {
+
     private val sessionMutex = Mutex()
 
-    suspend fun setSession(sessionData: SessionData) = sessionMutex.withLock {
-        database.set(key, sessionData)
+    val persistenceId = runBlocking {
+        database.getOrSet(
+            persistenceKey,
+            String.serializer(),
+        ) { generateTinderPersistenceKey() }
     }
 
-    suspend fun getAccessToken(): SessionData.AccessToken = sessionMutex.withLock {
-        val session = database.get<SessionData>(key) ?: error("Not signed in")
-        return session.accessToken
-            ?: runCatchingCancelable {
-                val response = accessToken(session.refreshToken).data ?: throw MissingDataException
-                val accessToken = response.apiToken
-
-                database.set<SessionData?>(key, null)
-                val updatedSession = SessionData(
-                    refreshToken = session.refreshToken,
-                    phoneNumber = session.phoneNumber,
-                    accessToken = SessionData.AccessToken(accessToken),
-                ).also {
-                    database.set(key, it)
-                }
-                updatedSession.accessToken ?: throw MissingDataException
-            }.onFailure {
-                // Side effect
-                when (it) {
-                    is ClientRequestException -> signOut()
-                    is MissingDataException -> signOut()
-                }
-            }.getOrThrow()
+    suspend fun updateSession(update: (SessionData) -> SessionData) = withSession { session ->
+        val updatedSession = update(session)
+        database.set(key, updatedSession)
     }
 
-    suspend fun removeAccessToken() = sessionMutex.withLock {
-        val session = database.get<SessionData>(key) ?: error("Not signed in")
-        database.set(key, session.copy(accessToken = null))
+    suspend fun <T> withSession(action: suspend (SessionData) -> T) = sessionMutex.withLock {
+        val session = database.getOrSet(key, SessionData.serializer()) { SessionData() }
+        action(session)
     }
 
-    suspend fun signOut() = sessionMutex.withLock {
-        database.set<SessionData?>(key, null)
+    suspend fun <T> withAccessToken(action: suspend (token: String) -> T) : T = withSession {
+       val token =  it.accessToken?.token ?: error("No access token")
+        action(token)
     }
 
-    suspend inline fun <T> withSession(call: (token: String) -> T): T =
-        runCatchingCancelable {
-            val accessToken = getAccessToken()
-            call(accessToken.token)
-        }.recoverCatching {
-            when (it) {
-                is ClientRequestException -> {
-                    removeAccessToken()
-                    val accessToken = getAccessToken()
-                    call(accessToken.token)
-                }
+    suspend fun removeAccessToken() = updateSession {
+        it.copy(accessToken = null)
+    }
 
-                else -> throw it
-            }
-        }.onFailure {
-            when (it) {
-                is ClientRequestException -> signOut()
-                else -> throw it
-            }
-        }.getOrThrow()
+    suspend fun signOut() = updateSession {
+        it.copy(accessToken = null, refreshToken = null, phoneNumber = null)
+    }
 
-    suspend fun isSignedIn() = database.get<SessionData>(key) != null
+    suspend fun isSignedIn() = withSession { it.isSignedIn() }
 
     companion object {
         private const val key = "tinderSessionKey"
+        private const val persistenceKey = "tinderPersistenceIdKey"
+
+        // 64-bit value as hex string - should retain between app restarts (guess refresh token is locked with this)
+        fun generateTinderPersistenceKey() = Random.nextLong().toString(16)
     }
 
 }
+
+fun SessionData.isSignedIn(): Boolean = accessToken != null && refreshToken != null

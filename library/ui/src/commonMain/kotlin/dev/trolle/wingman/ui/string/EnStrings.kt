@@ -4,10 +4,6 @@ import cafe.adriel.lyricist.LyricistStrings
 
 @LyricistStrings(languageTag = Locales.EN, default = true)
 internal val EnStrings = StringsDefinition(
-    phoneNumberSentTo = { phoneNumber -> "SMS: $phoneNumber" },
-    one_time_password_help =
-    "You'll receive an SMS shortly with a login code. Charges for SMS and data usage may apply",
-    enterOneTimePassword = "Enter one time password",
     phone_number_label = "Tinder account phone number",
     disclaimer = "Disclaimer: Use at your own risk. Not affiliated with Tinder LLC",
     phone_number_placeholder = "+467045024416",
@@ -19,4 +15,12 @@ internal val EnStrings = StringsDefinition(
     home_tab = "Home",
     bio_tab = "Bio",
     profile_tab = "Profile",
+
+    email_otp_label = "Enter Email one time password",
+    email_otp_desc = "You'll receive an Email shortly with a verification code,",
+    email_otp_caption =  { email -> "Sent to Email: $email" },
+
+    phone_otp_label =  "Enter one time password",
+    phone_otp_desc =  "You'll receive an SMS shortly with a login code. Charges for SMS and data usage may apply",
+    phone_otp_caption =  { phoneNumber -> "SMS: $phoneNumber" },
 )

@@ -79,7 +79,7 @@ internal class SignInScreenModel(
                 Napier.e("Sign In Error", error)
                 updateState { it.copy(errorMessage = stringsContainer.strings.error_something_went_wrong) }
             }.onSuccess {
-                navigationService.open(OneTimePasswordScreen(state.phoneNumber))
+                navigationService.open(OneTimePasswordScreen(OneTimePasswordConfig.Phone(state.phoneNumber)))
             }
             updateState { it.copy(isButtonEnabled = true) }
         }

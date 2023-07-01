@@ -69,7 +69,7 @@ fun generateImageLoader(isPreview: Boolean): ImageLoader {
                     density,
                 )
             }
-            options.allowInexactSize = true
+//            options.allowInexactSize = true
             interceptor {
                 if (!isPreview) {
                     diskCacheConfig {

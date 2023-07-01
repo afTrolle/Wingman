@@ -9,6 +9,7 @@ import cafe.adriel.voyager.navigator.NavigatorDisposeBehavior
 import cafe.adriel.voyager.navigator.OnBackPressed
 import dev.trolle.wingman.common.koin.rememberKoinInject
 import dev.trolle.wingman.home.compose.screen.home.HomeScreen
+import dev.trolle.wingman.signin.OneTimePasswordConfig
 import dev.trolle.wingman.signin.OneTimePasswordScreen
 import dev.trolle.wingman.ui.Navigation
 import kotlinx.coroutines.channels.BufferOverflow
@@ -47,9 +48,14 @@ internal class NavigationImpl : Navigation {
         replaceAll(HomeScreen)
     }
 
-    override suspend fun openOTP(phoneNumber: String) {
-        replaceAll(OneTimePasswordScreen(phoneNumber))
+    override suspend fun openPhoneOtp(phoneNumber: String) {
+        replaceAll(OneTimePasswordScreen(OneTimePasswordConfig.Phone(phoneNumber)))
     }
+
+    override suspend fun openEmailOtp(email: String) {
+        replaceAll(OneTimePasswordScreen(OneTimePasswordConfig.Email(email)))
+    }
+
 }
 
 @Composable

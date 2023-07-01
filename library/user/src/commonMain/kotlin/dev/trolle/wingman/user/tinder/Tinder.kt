@@ -2,15 +2,13 @@
 
 package dev.trolle.wingman.user.tinder
 
+import com.google.protobuf.StringValue
 import dev.trolle.wingman.db.Database
-import dev.trolle.wingman.user.tinder.model.AccessTokenResponse
 import dev.trolle.wingman.user.tinder.model.MatchesResponse
 import dev.trolle.wingman.user.tinder.model.MyProfileResponse
 import dev.trolle.wingman.user.tinder.model.ProfileResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
-import io.ktor.client.plugins.HttpRequestRetry
-import io.ktor.client.plugins.UserAgent
 import io.ktor.client.plugins.compression.ContentEncoding
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
@@ -27,8 +25,6 @@ import io.ktor.http.contentType
 import io.ktor.http.path
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.serialization.kotlinx.protobuf.protobuf
-import io.ktor.utils.io.errors.IOException
-import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.withContext
@@ -40,17 +36,24 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.protobuf.ProtoBuf
 import tinder.services.authgateway.AuthGatewayRequest
 import tinder.services.authgateway.AuthGatewayResponse
-import kotlin.random.Random
+import tinder.services.authgateway.EmailOtp
+import tinder.services.authgateway.LoginResult
+import tinder.services.authgateway.Phone
+import tinder.services.authgateway.PhoneOtp
+import tinder.services.authgateway.ValidateEmailOtpState
+import tinder.services.authgateway.ValidatePhoneOtpState
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.minutes
 
 interface Tinder {
-
     suspend fun matches(count: Int, pageToken: String?): MatchesResponse
     suspend fun profile(id: String): ProfileResponse
     suspend fun myProfile(): MyProfileResponse
     suspend fun isSignedIn(): Boolean
-    suspend fun login(authGatewayRequest: AuthGatewayRequest): AuthGatewayResponse
+    suspend fun loginPhone(phoneNumber: String): AuthGatewayResponse
+    suspend fun loginPhoneOtp(otpCode: String): AuthGatewayResponse
+    suspend fun loginEmailOtp(otpCode: String): AuthGatewayResponse
 }
-
 
 internal fun tinder(
     protoBuf: ProtoBuf,
@@ -61,14 +64,33 @@ internal fun tinder(
 ) = object : Tinder {
 
     val protoContentType = ContentType("application", "x-protobuf")
+    private val session = TinderSession(database)
 
-    private val session = TinderSession(
-        database,
-    ) {
-        AccessTokenResponse(null, null)
+    private suspend fun onLoginResult(result: LoginResult) {
+        val validFor = result.auth_token_ttl?.value?.milliseconds ?: 60.minutes
+        val expires = Clock.System.now().plus(validFor)
+        session.updateSession {
+            it.copy(
+                accessToken = SessionData.AccessToken(
+                    token = result.auth_Token,
+                    expireInstant = expires,
+                ),
+                refreshToken = result.refresh_token,
+            )
+        }
     }
 
-    private val client = HttpClient() {
+    private suspend fun onValidatePhone(response: ValidatePhoneOtpState) = session.updateSession {
+        val refresh = response.refresh_token?.value ?: it.refreshToken
+        it.copy(phoneNumber = response.phone, refreshToken = refresh)
+    }
+
+    private suspend fun onValidateEmail(response: ValidateEmailOtpState) = session.updateSession {
+        val refresh = response.refresh_token?.value ?: it.refreshToken
+        it.copy(refreshToken = refresh)
+    }
+
+    private val client = HttpClient {
         // Throw exception on non-2xx responses
         expectSuccess = true
         install(ContentNegotiation) {
@@ -91,15 +113,10 @@ internal fun tinder(
                 append("accept-language", "en-US")
                 append("tinder-version", "14.12.0")
                 append("store-variant", "Play-Store")
-
-                // So one of these are needed
-                val test = Random.nextLong().toString(16)
-                // 64 bit value as hex - that needs to be stored.
-                append("persistent-device-id", "66c87cc34a0dda82")
+                append("persistent-device-id", session.persistenceId)
             }
         }
 
-        // content-type: application/x-protobuf
 //        install(HttpRequestRetry) {
 //            // only retry on network issues
 //            retryOnExceptionIf(maxRetries = 3) { _, cause ->
@@ -111,27 +128,42 @@ internal fun tinder(
 //            }
 //            exponentialDelay()
 //        }
-
     }
 
     /*
      Endpoint calls
      */
-    override suspend fun login(authGatewayRequest: AuthGatewayRequest): AuthGatewayResponse {
-        return withContext(Dispatchers.IO) {
-            rateLimiter.delay()
-            client.post(host) {
-                url { path("/v3/auth/login") }
-                contentType(protoContentType)
-                setBody(authGatewayRequest)
-            }.body()
-        }
+    override suspend fun loginPhone(phoneNumber: String): AuthGatewayResponse =
+        authLoginCall(AuthGatewayRequest(phone = Phone(phone = phoneNumber)))
+
+    override suspend fun loginPhoneOtp( otpCode: String): AuthGatewayResponse = session.withSession {
+        val phoneNumber = it.phoneNumber ?: error("Phone number not set")
+        authLoginCall(
+            AuthGatewayRequest(
+                phone_otp = PhoneOtp(
+                    otp = otpCode,
+                    phone = StringValue(phoneNumber),
+                ),
+            ),
+        )
+    }
+
+    override suspend fun loginEmailOtp(otpCode: String): AuthGatewayResponse = session.withSession {
+        val refreshToken = it.refreshToken ?: error("Missing refresh token")
+        authLoginCall(
+            AuthGatewayRequest(
+                email_otp = EmailOtp(
+                    otp = otpCode,
+                    refresh_token = StringValue(refreshToken),
+                ),
+            ),
+        )
     }
 
     override suspend fun matches(
         count: Int,
         pageToken: String?,
-    ): MatchesResponse = session.withSession { token ->
+    ): MatchesResponse = session.withAccessToken { token ->
         commonDelayedRequest(
             token = token,
             path = "/v2/matches",
@@ -143,14 +175,14 @@ internal fun tinder(
         }
     }
 
-    override suspend fun profile(id: String): ProfileResponse = session.withSession { token ->
+    override suspend fun profile(id: String): ProfileResponse = session.withAccessToken { token ->
         commonDelayedRequest(
             token = token,
             path = "/user/$id",
         )
     }
 
-    override suspend fun myProfile(): MyProfileResponse = session.withSession { token ->
+    override suspend fun myProfile(): MyProfileResponse = session.withAccessToken { token ->
         commonDelayedRequest(
             token = token,
             path = "/profile",
@@ -182,21 +214,40 @@ internal fun tinder(
             }.body()
         }
     }
+
+    private suspend fun authLoginCall(request: AuthGatewayRequest): AuthGatewayResponse =
+        withContext<AuthGatewayResponse>(Dispatchers.IO) {
+            rateLimiter.delay()
+            client.post(host) {
+                url { path("/v3/auth/login") }
+                contentType(protoContentType)
+                setBody(request)
+            }.body()
+        }.apply {
+            when {
+                login_result != null -> onLoginResult(login_result)
+                validate_phone_otp_state != null -> onValidatePhone(validate_phone_otp_state)
+                validate_email_otp_state != null -> onValidateEmail(validate_email_otp_state)
+            }
+        }
 }
 
 object MissingDataException : Exception()
 
+inline fun <T> T.applyIf(predicate: Boolean, action: (T) -> T): T =
+    if (predicate) action(this) else this
+
 @Serializable
 data class SessionData(
     val accessToken: AccessToken? = null,
-    val refreshToken: String,
-    val phoneNumber: String,
+    val refreshToken: String? = null,
+    val phoneNumber: String? = null,
 ) {
 
     @Serializable
     data class AccessToken(
         val token: String,
-        val timestamp: Instant = Clock.System.now(),
+        val expireInstant: Instant,
     )
 }
 

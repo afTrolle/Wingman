@@ -12,7 +12,6 @@ import dev.trolle.wingman.signin.compose.OneTimePasswordLayout
 import dev.trolle.wingman.ui.compose.PreviewDefaults
 
 val state = OneTimePasswordState(
-    phoneNumber = "+46720208",
     oneTimePassword = "",
 )
 
@@ -22,14 +21,13 @@ private fun OneTimePreview() = PreviewDefaults {
     val mutableState = remember {
          mutableStateOf(
              OneTimePasswordState(
-                 phoneNumber = "+46720208",
                  oneTimePassword = "",
              )
          )
     }
     val state = mutableState.value
     OneTimePasswordLayout(
-        oneTimePasswordState = state,
+        state = state,
         onOneTimePasswordChanged = {
             mutableState.value = state.copy(
                 oneTimePassword = it
@@ -42,7 +40,7 @@ private fun OneTimePreview() = PreviewDefaults {
 @Composable
 private fun OneTimePreviewDarkMode() = PreviewDefaults {
     OneTimePasswordLayout(
-        oneTimePasswordState = state,
+        state = state,
     )
 }
 
@@ -50,7 +48,7 @@ private fun OneTimePreviewDarkMode() = PreviewDefaults {
 @Composable
 private fun OneTimePreviewFoldable() = PreviewDefaults {
     OneTimePasswordLayout(
-        oneTimePasswordState = state,
+        state = state,
     )
 }
 
@@ -58,6 +56,6 @@ private fun OneTimePreviewFoldable() = PreviewDefaults {
 @Composable
 private fun OneTimePreviewFoldableLandscape() = PreviewDefaults(heightSizeClass = WindowHeightSizeClass.Compact) {
     OneTimePasswordLayout(
-        oneTimePasswordState = state,
+        state = state,
     )
 }

@@ -5,20 +5,19 @@ ktor = "2.3.1"
 datetime = "0.4.0"
 serialization = "1.5.1"
 coroutines = "1.7.1"
-openai = "3.2.4"
-agp = "8.0.2"
-compose = "1.4.0"
+openai = "3.3.1"
+agp = "8.1.0-rc01"
+compose = "1.4.1"
 voyager = "1.0.0-rc06"
-koin = "3.4.0"
+koin = "3.4.1"
 accompanist = "0.30.1"
 napier = "2.6.1"
 settings = "1.0.0"
-image = "1.4.3"
+image = "1.5.2"
 buildconfig = "3.1.0"
-ktlint = "11.3.1"
+ktlint = "11.4.2"
 ksp = "1.8.20-1.0.11"
-lyricist = "1.4.1"
-paging = "3.1.1-0.2.0"
+lyricist = "1.4.1" # https://github.com/adrielcafe/lyricist
 atomicfu = "0.20.2"
 stately = "2.0.0-rc3"
 # Config
@@ -56,7 +55,7 @@ voyager-tab = { module = "cafe.adriel.voyager:voyager-tab-navigator", version.re
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
-koin-compose = "io.insert-koin:koin-compose:1.0.1"
+koin-compose = "io.insert-koin:koin-compose:1.0.3"
 
 androidx-activity-compose = "androidx.activity:activity-compose:1.7.2"
 androidx-appcompat = "androidx.appcompat:appcompat:1.6.1"
@@ -73,17 +72,14 @@ lyricist-library = { module = "cafe.adriel.lyricist:lyricist", version.ref = "ly
 lyricist-processor = { module = "cafe.adriel.lyricist:lyricist-processor", version.ref = "lyricist" }
 lyricist-processorXml = { module = "cafe.adriel.lyricist:lyricist-processor-xml", version.ref = "lyricist" }
 
-cash-paging-compose-common = { module = "app.cash.paging:paging-common", version.ref = "paging" }
-cash-paging-runtime-composeui = { module = "app.cash.paging:paging-runtime", version.ref = "paging" }
-
 accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist" }
 
 stately-core = { module = "co.touchlab:stately-concurrency", version.ref = "stately" }
 stately-common = { module = "co.touchlab:stately-common", version.ref = "stately" }
 stately-collection = { module = "co.touchlab:stately-concurrent-collections", version.ref = "stately" }
 
-libphonenumber = "com.googlecode.libphonenumber:libphonenumber:8.13.9"
-play-services-auth = "com.google.android.gms:play-services-auth:20.5.0"
+libphonenumber = "com.googlecode.libphonenumber:libphonenumber:8.13.15"
+play-services-auth = "com.google.android.gms:play-services-auth:20.6.0"
 napier = { module = "io.github.aakira:napier", version.ref = "napier" }
 openai-client = { module = "com.aallam.openai:openai-client", version.ref = "openai" }
 image-loader-core = { module = "io.github.qdsfdhvh:image-loader", version.ref = "image" }

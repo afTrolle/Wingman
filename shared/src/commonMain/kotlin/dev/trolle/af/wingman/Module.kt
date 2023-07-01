@@ -25,9 +25,7 @@ internal val sharedModule: Module = module {
             ignoreUnknownKeys = true
         }
     }
-    single {
-        ProtoBuf
-    }
+
     single(createdAtStart = true) {
         if (BuildConfig.LOGGING_ENABLED) {
             Napier.base(DebugAntilog())

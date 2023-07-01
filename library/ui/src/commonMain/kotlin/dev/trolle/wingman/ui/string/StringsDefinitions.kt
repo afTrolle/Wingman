@@ -1,3 +1,5 @@
+@file:Suppress("PropertyName")
+
 package dev.trolle.wingman.ui.string
 
 import androidx.compose.runtime.Composable
@@ -5,9 +7,6 @@ import androidx.compose.runtime.ReadOnlyComposable
 import cafe.adriel.lyricist.LocalStrings
 
 data class StringsDefinition(
-    val phoneNumberSentTo: (phoneNumber: String) -> String,
-    val one_time_password_help: String,
-    val enterOneTimePassword: String,
     val phone_number_label: String,
     val disclaimer: String,
     val phone_number_placeholder: String,
@@ -19,6 +18,14 @@ data class StringsDefinition(
     val home_tab : String,
     val bio_tab : String,
     val profile_tab : String,
+
+    val phone_otp_label: String,
+    val phone_otp_desc: String,
+    val phone_otp_caption: (phoneNumber: String) -> String,
+
+    val email_otp_label: String,
+    val email_otp_desc: String,
+    val email_otp_caption: (email: String) -> String,
 )
 
 val Strings

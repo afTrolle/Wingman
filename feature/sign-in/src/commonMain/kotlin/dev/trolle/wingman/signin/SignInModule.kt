@@ -10,5 +10,5 @@ val signInModule = module {
 
     // viewModels
     factory { SignInScreenModel(get(), get(), get(), get(), get()) }
-    factory { params -> OneTimePasswordModel(params.get(), get(), get()) }
+    factory { params -> OneTimePasswordModel(params.get(), get(), get(), get()) }
 }
