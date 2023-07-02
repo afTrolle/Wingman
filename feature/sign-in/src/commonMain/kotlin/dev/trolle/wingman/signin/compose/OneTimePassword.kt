@@ -3,6 +3,7 @@ package dev.trolle.wingman.signin.compose
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,10 +21,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.moriatsushi.insetsx.safeArea
 import dev.trolle.wingman.signin.OneTimePasswordState
 import dev.trolle.wingman.ui.MaterialThemeWingman
 import dev.trolle.wingman.ui.compose.BigButton
 import dev.trolle.wingman.ui.compose.Pane
+import dev.trolle.wingman.ui.ext.coerceAtLeast
 import dev.trolle.wingman.ui.string.Strings
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -35,9 +38,10 @@ fun OneTimePasswordLayout(
 ) = Scaffold(
     containerColor = MaterialThemeWingman.colorScheme.secondaryContainer,
     contentColor = MaterialThemeWingman.colorScheme.onSurface,
+    contentWindowInsets = WindowInsets.safeArea,
 ) { paddingValues ->
     Pane(
-        Modifier.padding(paddingValues),
+        Modifier.padding(paddingValues.coerceAtLeast(4.dp)),
         innerModifier = Modifier.fillMaxSize(),
         containerColor = MaterialThemeWingman.colorScheme.surface,
     ) {

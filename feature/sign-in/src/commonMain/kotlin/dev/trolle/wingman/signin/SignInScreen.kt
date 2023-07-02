@@ -45,7 +45,6 @@ internal class SignInScreenModel(
 ) : StateScreenModel<SignInState>(
     initialState = SignInState(),
 ) {
-
     init {
         phoneNumberService.phoneNumber.onEach { result ->
             result.onSuccess {

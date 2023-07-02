@@ -18,7 +18,7 @@ internal val EnStrings = StringsDefinition(
 
     email_otp_label = "Enter Email one time password",
     email_otp_desc = "You'll receive an Email shortly with a verification code,",
-    email_otp_caption =  { email -> "Sent to Email: $email" },
+    email_otp_caption =  { email -> "Email: $email" },
 
     phone_otp_label =  "Enter one time password",
     phone_otp_desc =  "You'll receive an SMS shortly with a login code. Charges for SMS and data usage may apply",

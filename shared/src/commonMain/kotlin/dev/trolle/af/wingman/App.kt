@@ -7,6 +7,8 @@ import cafe.adriel.voyager.navigator.CurrentScreen
 import dev.trolle.wingman.common.koin.KoinApplication
 import dev.trolle.wingman.common.koin.rememberKoinInject
 import dev.trolle.wingman.home.compose.screen.home.HomeScreen
+import dev.trolle.wingman.signin.OneTimePasswordConfig
+import dev.trolle.wingman.signin.OneTimePasswordScreen
 import dev.trolle.wingman.signin.SignInScreen
 import dev.trolle.wingman.signin.service.InitPhoneNumberService
 import dev.trolle.wingman.ui.UiBase
@@ -17,7 +19,8 @@ internal fun App() {
     UiBase {
         KoinApplication(buildKoinAppDeclaration()) {
             InitPhoneNumberService()
-            Navigation(listOf(startScreen)) {
+            Navigation(listOf(OneTimePasswordScreen(OneTimePasswordConfig.Email("al...@gmail.com")))) {
+//            Navigation(listOf(startScreen)) {
                 CurrentScreen()
             }
         }
