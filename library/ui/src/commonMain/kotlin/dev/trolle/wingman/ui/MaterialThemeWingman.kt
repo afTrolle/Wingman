@@ -1,12 +1,12 @@
 package dev.trolle.wingman.ui
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Shapes
 import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
+import dev.trolle.wingman.ui.ext.isSystemInDarkTheme
 import dev.trolle.wingman.ui.theme.DarkColors
 import dev.trolle.wingman.ui.theme.LightColors
 

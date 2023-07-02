@@ -3,9 +3,12 @@ package dev.trolle.wingman.signin.compose
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -18,10 +21,16 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.unit.coerceAtLeast
 import androidx.compose.ui.unit.dp
 import com.moriatsushi.insetsx.safeArea
 import dev.trolle.wingman.ui.MaterialThemeWingman
@@ -46,15 +55,15 @@ fun SignInLayout(
     onFocusCaptured: () -> Unit = { },
 ) = Scaffold(
     containerColor = MaterialThemeWingman.colorScheme.secondaryContainer,
-    contentWindowInsets = WindowInsets.safeArea
+    contentWindowInsets = WindowInsets.safeArea,
 ) {
     val requestFocusModifier = Modifier.requestFocus(requestFocus)
-    LayoutOnDifferentHeights(
-        upTo = {
-            Pane(
-                Modifier.padding(it),
-                containerColor = MaterialThemeWingman.colorScheme.surface,
-            ) {
+    Pane(
+        Modifier.padding(it.coerceAtLeast(4.dp, 4.dp, 4.dp, 4.dp)),
+        containerColor = MaterialThemeWingman.colorScheme.surface,
+    ) {
+        LayoutOnDifferentHeights(
+            upTo = {
                 SignInLimitedHeight(
                     text = text,
                     isError = isError,
@@ -65,13 +74,8 @@ fun SignInLayout(
                     onFocusCaptured = onFocusCaptured,
                     requestFocusModifier = requestFocusModifier,
                 )
-            }
-        },
-        over = {
-            Pane(
-                Modifier.padding(it),
-                containerColor = MaterialThemeWingman.colorScheme.surface,
-            ) {
+            },
+            over = {
                 SignInNotLimitedHeight(
                     text = text,
                     isError = isError,
@@ -82,8 +86,21 @@ fun SignInLayout(
                     onFocusCaptured = onFocusCaptured,
                     requestFocusModifier = requestFocusModifier,
                 )
-            }
-        },
+            },
+        )
+    }
+}
+
+@ReadOnlyComposable
+@Stable
+@Composable
+fun PaddingValues.coerceAtLeast(start: Dp, top: Dp, bottom: Dp, end: Dp): PaddingValues {
+    val rtl = LocalLayoutDirection.current
+    return PaddingValues(
+        start = calculateStartPadding(rtl).coerceAtLeast(start),
+        top = calculateTopPadding().coerceAtLeast(top),
+        bottom = calculateBottomPadding().coerceAtLeast(bottom),
+        end = calculateEndPadding(rtl).coerceAtLeast(end),
     )
 }
 

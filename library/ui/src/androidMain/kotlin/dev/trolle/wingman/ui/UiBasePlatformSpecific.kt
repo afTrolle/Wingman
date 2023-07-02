@@ -2,7 +2,6 @@ package dev.trolle.wingman.ui
 
 import android.content.Context
 import android.content.ContextWrapper
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -18,6 +17,7 @@ import com.seiko.imageloader.ImageLoader
 import com.seiko.imageloader.LocalImageLoader
 import com.seiko.imageloader.cache.memory.maxSizePercent
 import com.seiko.imageloader.component.setupDefaultComponents
+import dev.trolle.wingman.ui.ext.isSystemInDarkTheme
 import okio.Path.Companion.toOkioPath
 
 @Composable

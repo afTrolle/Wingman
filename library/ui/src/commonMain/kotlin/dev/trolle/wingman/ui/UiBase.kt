@@ -2,9 +2,7 @@ package dev.trolle.wingman.ui
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ProvidableCompositionLocal
@@ -28,7 +26,7 @@ fun UiBase(
         widthSizeClass = WindowWidthSizeClass.Compact,
         heightSizeClass = WindowHeightSizeClass.Compact,
     ),
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     MaterialThemeWingman {
         CustomProvideStrings {
@@ -59,10 +57,12 @@ fun CustomProvideStrings(
 
 // This might cause a bit of flickering.
 val LocalWindowSizeClass: ProvidableCompositionLocal<WindowSizeClass> =
-    compositionLocalOf { WindowSizeClass(
-        widthSizeClass = WindowWidthSizeClass.Compact,
-        heightSizeClass = WindowHeightSizeClass.Medium,
-    ) }
+    compositionLocalOf {
+        WindowSizeClass(
+            widthSizeClass = WindowWidthSizeClass.Compact,
+            heightSizeClass = WindowHeightSizeClass.Medium,
+        )
+    }
 
 // This is quite the hack, "work-around".
 // Couldn't find a nice way to figure out screen size from compose multiplatform.

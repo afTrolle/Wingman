@@ -4,7 +4,7 @@ kotlin = "1.8.20"
 ktor = "2.3.2"
 datetime = "0.4.0"
 serialization = "1.5.1"
-coroutines = "1.7.1"
+coroutines = "1.7.2"
 openai = "3.3.1"
 agp = "8.1.0-rc01"
 compose = "1.4.1"
@@ -37,7 +37,7 @@ kotlinx-serialization-protobuf = { module = "org.jetbrains.kotlinx:kotlinx-seria
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
 kotlinx-coroutines-play = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "coroutines" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
-kotlinx-atomicfu = "org.jetbrains.kotlinx:atomicfu:0.20.2"
+kotlinx-atomicfu = "org.jetbrains.kotlinx:atomicfu:0.21.0"
 
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
