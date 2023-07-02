@@ -1,7 +1,7 @@
 package dev.trolle.wingman.signin.preview
 
 import android.content.res.Configuration
-import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
+import dev.trolle.wingman.ui.WindowHeightSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember

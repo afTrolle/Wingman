@@ -14,15 +14,13 @@
  * limitations under the License.
  */
 
-package androidx.compose.material3.windowsizeclass
+package dev.trolle.wingman.ui
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import dev.trolle.wingman.ui.CommonParcelable
-import dev.trolle.wingman.ui.CommonParcelize
 
 /**
  * Window size classes are a set of opinionated viewport breakpoints to design, develop, and test

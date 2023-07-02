@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -22,8 +23,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.moriatsushi.insetsx.safeArea
 import dev.trolle.wingman.ui.MaterialThemeWingman
-import dev.trolle.wingman.ui.compose.LayoutOnDifferentHeight
 import dev.trolle.wingman.ui.compose.Pane
 import dev.trolle.wingman.ui.ext.captureFocus
 import dev.trolle.wingman.ui.ext.imePadding
@@ -45,9 +46,10 @@ fun SignInLayout(
     onFocusCaptured: () -> Unit = { },
 ) = Scaffold(
     containerColor = MaterialThemeWingman.colorScheme.secondaryContainer,
+    contentWindowInsets = WindowInsets.safeArea
 ) {
     val requestFocusModifier = Modifier.requestFocus(requestFocus)
-    LayoutOnDifferentHeight(
+    LayoutOnDifferentHeights(
         upTo = {
             Pane(
                 Modifier.padding(it),

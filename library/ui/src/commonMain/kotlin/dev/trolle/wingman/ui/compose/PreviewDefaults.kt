@@ -1,8 +1,8 @@
 package dev.trolle.wingman.ui.compose
 
-import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
-import androidx.compose.material3.windowsizeclass.WindowSizeClass
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
+import dev.trolle.wingman.ui.WindowHeightSizeClass
+import dev.trolle.wingman.ui.WindowSizeClass
+import dev.trolle.wingman.ui.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import dev.trolle.wingman.ui.UiBase
 

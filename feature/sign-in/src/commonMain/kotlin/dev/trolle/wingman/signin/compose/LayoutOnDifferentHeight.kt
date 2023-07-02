@@ -1,11 +1,11 @@
-package dev.trolle.wingman.ui.compose
+package dev.trolle.wingman.signin.compose
 
-import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
+import dev.trolle.wingman.ui.WindowHeightSizeClass
 import androidx.compose.runtime.Composable
 import dev.trolle.wingman.ui.LocalWindowSizeClass
 
 @Composable
-fun LayoutOnDifferentHeight(
+internal fun LayoutOnDifferentHeights(
     upTo: @Composable () -> Unit,
     over: @Composable () -> Unit,
     heightSizeClass: WindowHeightSizeClass = WindowHeightSizeClass.Compact,

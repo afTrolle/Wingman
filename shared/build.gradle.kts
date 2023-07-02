@@ -39,6 +39,7 @@ kotlin {
                 implementation(compose.runtime)
                 implementation(compose.ui)
 
+                implementation(libs.insetsx)
                 implementation(libs.voyager.navigator)
                 implementation(libs.koin.core)
                 implementation(libs.kotlinx.serialization.json)

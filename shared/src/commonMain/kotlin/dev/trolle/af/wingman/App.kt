@@ -17,7 +17,7 @@ internal fun App() {
     UiBase {
         KoinApplication(buildKoinAppDeclaration()) {
             InitPhoneNumberService()
-            Navigation(startScreen) {
+            Navigation(listOf(startScreen)) {
                 CurrentScreen()
             }
         }

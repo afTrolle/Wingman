@@ -1,7 +1,7 @@
 package dev.trolle.wingman.home.preview
 
 import android.content.res.Configuration
-import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
+import dev.trolle.wingman.ui.WindowHeightSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview

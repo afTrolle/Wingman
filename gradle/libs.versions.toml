@@ -1,7 +1,7 @@
 [versions]
 # Libs & Plugins
 kotlin = "1.8.20"
-ktor = "2.3.1"
+ktor = "2.3.2"
 datetime = "0.4.0"
 serialization = "1.5.1"
 coroutines = "1.7.1"
@@ -72,6 +72,7 @@ lyricist-library = { module = "cafe.adriel.lyricist:lyricist", version.ref = "ly
 lyricist-processor = { module = "cafe.adriel.lyricist:lyricist-processor", version.ref = "lyricist" }
 lyricist-processorXml = { module = "cafe.adriel.lyricist:lyricist-processor-xml", version.ref = "lyricist" }
 
+insetsx = "com.moriatsushi.insetsx:insetsx:0.1.0-alpha10"
 accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist" }
 
 stately-core = { module = "co.touchlab:stately-concurrency", version.ref = "stately" }

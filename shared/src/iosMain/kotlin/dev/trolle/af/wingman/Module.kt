@@ -7,8 +7,7 @@ import org.koin.dsl.KoinAppDeclaration
 
 @Composable
 internal actual fun buildKoinAppDeclaration(): KoinAppDeclaration {
-    val strings = LocalStrings.current
     return {
-        modules(appModule(uiModule(strings)))
+        modules(appModule)
     }
 }

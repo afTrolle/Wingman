@@ -6,6 +6,6 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 
 @OptIn(ExperimentalResourceApi::class)
 @Composable
-actual fun painterResource(res: String): Painter  = org.jetbrains.compose.resources.painterResource(res)
+actual fun painterResource(res: String): Painter  = org.jetbrains.compose.resources.painterResource(res.removePrefix("drawable/"))
 
 
