@@ -1,121 +1,130 @@
 package dev.trolle.wingman.signin.compose
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.Layout
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.text.ExperimentalTextApi
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.OffsetMapping
-import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.text.input.TransformedText
-import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusProperties
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEvent
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onKeyEvent
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 
 
-@OptIn(ExperimentalTextApi::class)
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun OneTimePasswordInput(
     length: Int = 6,
-    text: String,
-    textStyle: TextStyle = MaterialTheme.typography.bodyLarge,
     onTextChanged: (String) -> Unit,
-    modifier: Modifier = Modifier,
-    error: Boolean,
 ) {
-    val spacerSize: TextUnit = with(LocalDensity.current) { 24.dp.toSp() }
-    var textFieldValue = remember { mutableStateOf(TextFieldValue("")) }
+    var text by rememberSaveable { mutableStateOf("") }
+    LaunchedEffect(text) { onTextChanged(text) }
+    val focus = remember { List(length) { FocusRequester() } }
 
-    // TODO Figure out custom layouts to add boxes under the input fields.
-    BoxWithConstraints {
-        Extracted(spacerSize, textFieldValue, length)
-    }
-}
-
-@Composable
-private fun Extracted(
-    spacerSize: TextUnit,
-    textFieldValue: MutableState<TextFieldValue>,
-    length: Int,
-) {
-    // Fixed width, draw boxes based on the fixed width,
-    // set letter spacing depending on textfieldSize.
-    var textFieldValue1 by textFieldValue
-    Box {
-        BasicTextField(
-            value = TextFieldValue(annotatedString(spacerSize, "123456")),
-            onValueChange = { },
-            enabled = false,
-            readOnly = true,
-            singleLine = true,
-        )
-        Box(Modifier.matchParentSize().background(MaterialTheme.colorScheme.surface))
-        BasicTextField(
-            value = textFieldValue1,
-            onValueChange = {
-                textFieldValue1 = it
-            },
-            modifier = Modifier.matchParentSize().background(Color.Cyan),
-            keyboardOptions = KeyboardOptions(
-                autoCorrect = false,
-                keyboardType = KeyboardType.Number,
-            ),
-            singleLine = true,
-            visualTransformation = { string ->
-                TransformedText(
-                    annotatedString(spacerSize, string.text),
-                    object : OffsetMapping {
-                        override fun originalToTransformed(offset: Int): Int = when (offset) {
-                            0 -> 1
-                            length -> offset * 2
-                            string.length -> offset * 2 + 1
-                            else -> offset * 2
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        repeat(length) { index ->
+            val writeableIndex by derivedStateOf { text.length.coerceAtMost(length - 1) }
+            val currentFocus = focus[index]
+            val boxText = text.getOrNull(index)?.toString() ?: ""
+            val onKeyEvent: (KeyEvent) -> Boolean = {
+                when (it.key) {
+                    Key.Backspace, Key.Delete -> if (text.getOrNull(index) == null) {
+                        text = text.dropLast(1)
+                        kotlin.runCatching {
+                            focus.getOrNull(writeableIndex)?.requestFocus()
                         }
+                        true
+                    } else {
+                        text = text.removeRange(index, index + 1)
+                        true
+                    }
 
-                        override fun transformedToOriginal(offset: Int): Int {
-                            // TODO look into fixing this
-                            return when (offset) {
-                                0 -> 0
-                                1 -> 0
-                                else -> offset / 2
+                    else -> false
+                }
+            }
+            BasicTextField(
+                modifier = Modifier
+                    .onKeyEvent(onKeyEvent)
+                    ,
+                value = boxText,
+                onValueChange = { updatedText: String ->
+                    val beforeText = text
+                    val firstPart =
+                        beforeText.substring(0, index.coerceAtMost(beforeText.length))
+                    val secondPart = beforeText.substring(
+                        (index + 1).coerceAtMost(beforeText.length),
+                        beforeText.length,
+                    )
+                    val filtered = buildString {
+                        append(firstPart)
+                        append(updatedText.filter { it.isDigit() })
+                        append(secondPart)
+                    }.take(length)
+
+                    val updated = filtered.getOrNull(index)
+                    if (text != filtered) {
+                        text = filtered
+                        kotlin.runCatching {
+                            when {
+                                updated == null ->
+                                    focus.getOrNull(index - 1)?.requestFocus()
+
+                                writeableIndex == index + 1 -> focus.getOrNull(writeableIndex)
+                                    ?.requestFocus()
+
+                                else -> Unit
                             }
                         }
-                    },
-                )
-            },
-        )
-    }
-}
-
-private fun annotatedString(
-    spacerSize: TextUnit,
-    textFieldValue: String,
-    maxLength: Int = 5,
-) = buildAnnotatedString {
-    withStyle(SpanStyle(letterSpacing = spacerSize)) {
-        append(" ")
-        textFieldValue.forEachIndexed { index, c ->
-            withStyle(SpanStyle(letterSpacing = 0.sp)) {
-                append(c)
-            }
-            append(" ")
+                    }
+                },
+                singleLine = true,
+                textStyle = MaterialTheme.typography.headlineSmall.copy(
+                    textAlign = TextAlign.Center,
+                ),
+                decorationBox = { content ->
+                    Box(
+                        Modifier.size(40.dp, 52.dp).background(
+                            MaterialTheme.colorScheme.secondaryContainer,
+                            MaterialTheme.shapes.small,
+                        )
+                            .focusRequester(currentFocus)
+                            .focusProperties {
+                                focus.getOrNull(index - 1)?.let { previous = it }
+                                focus.getOrNull(index + 1)?.let { next = it }
+                            }.onFocusChanged {
+                                if (it.isFocused && index > 0 && text.getOrNull(index - 1) == null) {
+                                    kotlin.runCatching { focus.getOrNull(index - 1)?.requestFocus() }
+                                }
+                            }
+                        ,
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        content()
+                    }
+                },
+            )
         }
     }
 }

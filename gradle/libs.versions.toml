@@ -1,13 +1,17 @@
 [versions]
 # Libs & Plugins
+conscryptAndroid = "2.2.1"
+coreSplashscreen = "1.0.1"
 kotlin = "1.8.20"
 ktor = "2.3.2"
 datetime = "0.4.0"
+material = "1.9.0"
 serialization = "1.5.1"
 coroutines = "1.7.2"
 openai = "3.3.1"
 agp = "8.1.0-rc01"
 compose = "1.4.1"
+slf4jSimple = "2.0.6"
 voyager = "1.0.0-rc06"
 koin = "3.4.1"
 accompanist = "0.30.1"
@@ -28,6 +32,8 @@ appVersion = "1.0"
 buildVersion = "1"
 
 [libraries]
+androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
+conscrypt-android = { module = "org.conscrypt:conscrypt-android", version.ref = "conscryptAndroid" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-test-common = { module = "org.jetbrains.kotlin:kotlin-test-common", version.ref = "kotlin" }
 kotlin-test-annotations-common = { module = "org.jetbrains.kotlin:kotlin-test-annotations-common", version.ref = "kotlin" }
@@ -48,6 +54,8 @@ ktor-serialization-json = { module = "io.ktor:ktor-serialization-kotlinx-json", 
 ktor-serialization-protobuf = { module = "io.ktor:ktor-serialization-kotlinx-protobuf", version.ref = "ktor" }
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
 
+material = { module = "com.google.android.material:material", version.ref = "material" }
+slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4jSimple" }
 voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
 voyager-transitions = { module = "cafe.adriel.voyager:voyager-transitions", version.ref = "voyager" }
 voyager-tab = { module = "cafe.adriel.voyager:voyager-tab-navigator", version.ref = "voyager" }

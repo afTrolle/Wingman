@@ -9,6 +9,7 @@ import dev.trolle.wingman.ui.Navigation
 import dev.trolle.wingman.ui.StringsContainer
 import dev.trolle.wingman.ui.ext.getScreenModel
 import dev.trolle.wingman.ui.ext.launch
+import dev.trolle.wingman.ui.string.EnStrings
 import dev.trolle.wingman.ui.string.StringsDefinition
 import dev.trolle.wingman.ui.voyager.StateScreenModel
 import dev.trolle.wingman.user.User
@@ -20,9 +21,9 @@ data class OneTimePasswordState(
     val oneTimePassword: String = "",
     val isOneTimePasswordError: Boolean = false,
     val signInEnabled: Boolean = true,
-    val label: String = "",
-    val desc: String = "",
-    val caption: String = "",
+    val label: String = EnStrings.email_otp_label,
+    val desc: String = EnStrings.email_otp_desc,
+    val caption: String = EnStrings.email_otp_caption("a****.com"),
 )
 
 val OneTimePasswordState.isCorrectLength get() = oneTimePassword.length == oneTimePasswordLength

@@ -49,7 +49,7 @@ fun OneTimePasswordLayout(
         Column(
             modifier = Modifier
                 .fillMaxHeight()
-                .widthIn(max = 420.dp)
+                .widthIn(max = 520.dp)
                 .padding(horizontal = 16.dp)
                 .verticalScroll(scroll),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -72,8 +72,6 @@ fun OneTimePasswordLayout(
             Spacer(Modifier.height(32.dp))
             OneTimePasswordInput(
                 length = state.oneTimePasswordLength,
-                error = state.isOneTimePasswordError,
-                text = state.oneTimePassword,
                 onTextChanged = { onOneTimePasswordChanged(it) },
             )
             Text(
@@ -86,7 +84,7 @@ fun OneTimePasswordLayout(
             BigButton(
                 Strings.button_sign_in,
                 onSignIn,
-                modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp),
+                modifier = Modifier.fillMaxWidth().padding(bottom = 32.dp),
             )
         }
     }

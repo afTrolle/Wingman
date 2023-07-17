@@ -3,7 +3,7 @@ package dev.trolle.wingman.ui.string
 import cafe.adriel.lyricist.LyricistStrings
 
 @LyricistStrings(languageTag = Locales.EN, default = true)
-internal val EnStrings = StringsDefinition(
+val EnStrings = StringsDefinition(
     phone_number_label = "Tinder account phone number",
     disclaimer = "Disclaimer: Use at your own risk. Not affiliated with Tinder LLC",
     phone_number_placeholder = "+467045024416",

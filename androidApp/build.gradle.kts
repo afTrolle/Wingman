@@ -27,7 +27,7 @@ android {
             isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
@@ -49,11 +49,11 @@ android {
 
 dependencies {
     implementation(projects.shared)
-    implementation(compose.uiTooling)
+    debugImplementation(compose.uiTooling)
     implementation(compose.material3)
-    implementation("com.google.android.material:material:1.9.0")
-    implementation("androidx.core:core-splashscreen:1.0.1")
-    implementation ("org.conscrypt:conscrypt-android:2.2.1") // used for proguard
-    implementation("org.slf4j:slf4j-simple:2.0.6")
+    implementation(libs.material)
+    implementation(libs.androidx.core.splashscreen)
+//    implementation(libs.conscrypt.android) // used for proguard
+    implementation(libs.slf4j.simple)
     implementation(libs.androidx.activity.compose)
 }

@@ -23,7 +23,7 @@ kotlin {
                 implementation(libs.kotlinx.coroutines.play)
                 implementation(libs.libphonenumber)
                 implementation(libs.androidx.activity.compose)
-                implementation(compose.preview)
+
             }
         }
     }

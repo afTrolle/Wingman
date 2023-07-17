@@ -19,7 +19,7 @@ internal fun App() {
     UiBase {
         KoinApplication(buildKoinAppDeclaration()) {
             InitPhoneNumberService()
-            Navigation(listOf(OneTimePasswordScreen(OneTimePasswordConfig.Email("al...@gmail.com")))) {
+            Navigation(listOf(OneTimePasswordScreen(OneTimePasswordConfig.Email("all2...@gmail.com")))) {
 //            Navigation(listOf(startScreen)) {
                 CurrentScreen()
             }

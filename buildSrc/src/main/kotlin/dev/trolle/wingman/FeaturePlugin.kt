@@ -49,7 +49,7 @@ class FeaturePlugin : Plugin<Project> {
                 val androidMain by getting {
                     dependencies {
                         implementation(compose.preview)
-                        implementation(compose.uiTooling)
+//                        debugImplementation(compose.uiTooling)
                         implementation(libs.androidx.core)
                         implementation(libs.koin.android)
                         implementation(libs.image.loader.core) // Check to disble later
@@ -166,6 +166,15 @@ class BasePlugin : Plugin<Project> {
             compileOptions {
                 sourceCompatibility = JavaVersion.VERSION_17
                 targetCompatibility = JavaVersion.VERSION_17
+            }
+
+            buildTypes {
+                val release by getting {
+                    isMinifyEnabled = true
+                    proguardFiles(
+                        getDefaultProguardFile("proguard-android-optimize.txt")
+                    )
+                }
             }
         }
 

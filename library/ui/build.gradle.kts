@@ -15,6 +15,8 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation(libs.androidx.core)
+                api(compose.uiTooling)
+                api(compose.preview)
             }
         }
         val commonMain by getting {
@@ -29,7 +31,6 @@ kotlin {
                 api(libs.insetsx)
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
-
                 // Manually imported it to be used in multiplatform.
 //                implementation("androidx.compose.material3:material3-window-size-class:1.2.0-alpha01")
                 implementation(libs.image.loader.core)
