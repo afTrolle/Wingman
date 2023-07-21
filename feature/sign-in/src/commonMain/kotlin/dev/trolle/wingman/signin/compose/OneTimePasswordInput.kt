@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.MaterialTheme
@@ -63,11 +62,21 @@ fun OneTimePasswordInput(
 
                     else -> false
                 }
-            }
+        }
+        Box(modifier = Modifier.onKeyEvent(onKeyEvent)) {
             BasicTextField(
                 modifier = Modifier
-                    .onKeyEvent(onKeyEvent)
-                    ,
+                    .focusRequester(currentFocus)
+                    .focusProperties {
+                        focus.getOrNull(index - 1)?.let { previous = it }
+                        focus.getOrNull(index + 1)?.let { next = it }
+                    }.onFocusChanged {
+                        if (it.isFocused && index > 0 && text.getOrNull(index - 1) == null) {
+                            kotlin.runCatching {
+                                focus.getOrNull(index - 1)?.requestFocus()
+                            }
+                        }
+                    },
                 value = boxText,
                 onValueChange = { updatedText: String ->
                     val beforeText = text
@@ -82,21 +91,15 @@ fun OneTimePasswordInput(
                         append(updatedText.filter { it.isDigit() })
                         append(secondPart)
                     }.take(length)
-
-                    val updated = filtered.getOrNull(index)
                     if (text != filtered) {
                         text = filtered
+                        val hasText = filtered.getOrNull(index) == null
                         kotlin.runCatching {
                             when {
-                                updated == null ->
-                                    focus.getOrNull(index - 1)?.requestFocus()
-
-                                writeableIndex == index + 1 -> focus.getOrNull(writeableIndex)
-                                    ?.requestFocus()
-
+                                hasText -> focus.getOrNull(writeableIndex)?.requestFocus()
+                                writeableIndex == index + 1 -> focus.getOrNull(writeableIndex)?.requestFocus()
                                 else -> Unit
-                            }
-                        }
+                            }                        }
                     }
                 },
                 singleLine = true,
@@ -105,20 +108,11 @@ fun OneTimePasswordInput(
                 ),
                 decorationBox = { content ->
                     Box(
-                        Modifier.size(40.dp, 52.dp).background(
-                            MaterialTheme.colorScheme.secondaryContainer,
-                            MaterialTheme.shapes.small,
-                        )
-                            .focusRequester(currentFocus)
-                            .focusProperties {
-                                focus.getOrNull(index - 1)?.let { previous = it }
-                                focus.getOrNull(index + 1)?.let { next = it }
-                            }.onFocusChanged {
-                                if (it.isFocused && index > 0 && text.getOrNull(index - 1) == null) {
-                                    kotlin.runCatching { focus.getOrNull(index - 1)?.requestFocus() }
-                                }
-                            }
-                        ,
+                        Modifier.size(40.dp, 52.dp)
+                            .background(
+                                MaterialTheme.colorScheme.secondaryContainer,
+                                MaterialTheme.shapes.small,
+                            ),
                         contentAlignment = Alignment.Center,
                     ) {
                         content()
@@ -127,4 +121,5 @@ fun OneTimePasswordInput(
             )
         }
     }
+}
 }
