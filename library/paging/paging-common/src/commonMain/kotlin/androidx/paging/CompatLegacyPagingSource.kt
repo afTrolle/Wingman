@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 The Android Open Source Project
+ * Copyright 2023 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,9 +16,15 @@
 
 package androidx.paging
 
+import androidx.annotation.RestrictTo
+
 /**
- * Fetcher-side callbacks for presenter-side access events communicated through [PagingData].
+ * Backwards compatible interface for Paging2 LegacyPagingSource
+ *
+ * This interface allows PageFetcher to continue support for LegacyPagingSource in KMP structure
  */
-internal interface HintReceiver {
-    fun accessHint(viewportHint: ViewportHint)
+internal interface CompatLegacyPagingSource {
+
+    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+    public fun setPageSize(pageSize: Int)
 }

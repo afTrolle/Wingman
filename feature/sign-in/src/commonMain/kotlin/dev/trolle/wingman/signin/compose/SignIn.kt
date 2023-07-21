@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -15,7 +14,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -23,17 +21,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.moriatsushi.insetsx.safeArea
 import dev.trolle.wingman.ui.MaterialThemeWingman
-import dev.trolle.wingman.ui.compose.Pane
+import dev.trolle.wingman.ui.compose.ScreenPane
 import dev.trolle.wingman.ui.ext.captureFocus
-import dev.trolle.wingman.ui.ext.coerceAtLeast
 import dev.trolle.wingman.ui.ext.painterResource
 import dev.trolle.wingman.ui.ext.requestFocus
 import dev.trolle.wingman.ui.string.Strings
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignInLayout(
     text: String = "",
@@ -44,42 +39,34 @@ fun SignInLayout(
     onChange: (String) -> Unit = {},
     onSignIn: () -> Unit = {},
     onFocusCaptured: () -> Unit = { },
-) = Scaffold(
-    containerColor = MaterialThemeWingman.colorScheme.secondaryContainer,
-    contentWindowInsets = WindowInsets.safeArea,
-) {
+) = ScreenPane {
     val requestFocusModifier = Modifier.requestFocus(requestFocus)
-    Pane(
-        Modifier.padding(it.coerceAtLeast(4.dp)),
-        containerColor = MaterialThemeWingman.colorScheme.surface,
-    ) {
-        LayoutOnDifferentHeights(
-            upTo = {
-                SignInLimitedHeight(
-                    text = text,
-                    isError = isError,
-                    captureFocus = captureFocus,
-                    isSignInEnabled = isSignInEnabled,
-                    onChange = onChange,
-                    onSignIn = onSignIn,
-                    onFocusCaptured = onFocusCaptured,
-                    requestFocusModifier = requestFocusModifier,
-                )
-            },
-            over = {
-                SignInNotLimitedHeight(
-                    text = text,
-                    isError = isError,
-                    captureFocus = captureFocus,
-                    isSignInEnabled = isSignInEnabled,
-                    onChange = onChange,
-                    onSignIn = onSignIn,
-                    onFocusCaptured = onFocusCaptured,
-                    requestFocusModifier = requestFocusModifier,
-                )
-            },
-        )
-    }
+    LayoutOnDifferentHeights(
+        upTo = {
+            SignInLimitedHeight(
+                text = text,
+                isError = isError,
+                captureFocus = captureFocus,
+                isSignInEnabled = isSignInEnabled,
+                onChange = onChange,
+                onSignIn = onSignIn,
+                onFocusCaptured = onFocusCaptured,
+                requestFocusModifier = requestFocusModifier,
+            )
+        },
+        over = {
+            SignInNotLimitedHeight(
+                text = text,
+                isError = isError,
+                captureFocus = captureFocus,
+                isSignInEnabled = isSignInEnabled,
+                onChange = onChange,
+                onSignIn = onSignIn,
+                onFocusCaptured = onFocusCaptured,
+                requestFocusModifier = requestFocusModifier,
+            )
+        },
+    )
 }
 
 @Composable

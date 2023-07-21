@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-@file:RestrictTo(RestrictTo.Scope.LIBRARY)
 
 package androidx.paging.internal
 

@@ -25,14 +25,14 @@ import co.touchlab.stately.collections.ConcurrentMutableList
  * Calling [invalidate] on this [InvalidatingPagingSourceFactory] will forward invalidate signals
  * to all active [PagingSource]s that were produced by calling [invoke].
  *
- * This class is backed by a [CopyOnWriteArrayList], which is thread-safe for concurrent calls to
+ * This class is backed by a [ConcurrentMutableList], which is thread-safe for concurrent calls to
  * any mutative operations including both [invoke] and [invalidate].
  *
  * @param pagingSourceFactory The [PagingSource] factory that returns a PagingSource when called
  */
 public class InvalidatingPagingSourceFactory<Key : Any, Value : Any>(
     private val pagingSourceFactory: () -> PagingSource<Key, Value>
-) : () -> PagingSource<Key, Value> {
+) : PagingSourceFactory<Key, Value> {
 
     @VisibleForTesting
     internal val pagingSources = ConcurrentMutableList<PagingSource<Key, Value>>()
@@ -50,11 +50,9 @@ public class InvalidatingPagingSourceFactory<Key : Any, Value : Any>(
      * [InvalidatingPagingSourceFactory]
      */
     public fun invalidate() {
-        for (pagingSource in pagingSources) {
-            if (!pagingSource.invalid) {
-                pagingSource.invalidate()
-            }
-        }
+        pagingSources
+            .filterNot { it.invalid }
+            .forEach { it.invalidate() }
 
         pagingSources.removeAll { it.invalid }
     }

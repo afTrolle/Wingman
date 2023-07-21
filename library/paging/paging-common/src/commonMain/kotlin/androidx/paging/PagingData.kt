@@ -16,10 +16,10 @@
 
 package androidx.paging
 
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
 import kotlin.jvm.JvmOverloads
 import kotlin.jvm.JvmStatic
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 
 /**
  * Container for Paged data from a single generation of loads.
@@ -117,6 +117,15 @@ public class PagingData<T : Any> internal constructor(
             ),
             uiReceiver = NOOP_UI_RECEIVER,
             hintReceiver = NOOP_HINT_RECEIVER,
+            cachedPageEvent = {
+                PageEvent.Insert.Refresh(
+                    pages = listOf(TransformablePage(0, data)),
+                    placeholdersBefore = 0,
+                    placeholdersAfter = 0,
+                    sourceLoadStates = LoadStates.IDLE,
+                    mediatorLoadStates = null
+                )
+            }
         )
 
         /**
@@ -145,6 +154,15 @@ public class PagingData<T : Any> internal constructor(
             ),
             uiReceiver = NOOP_UI_RECEIVER,
             hintReceiver = NOOP_HINT_RECEIVER,
+            cachedPageEvent = {
+                PageEvent.Insert.Refresh(
+                    pages = listOf(TransformablePage(0, data)),
+                    placeholdersBefore = 0,
+                    placeholdersAfter = 0,
+                    sourceLoadStates = sourceLoadStates,
+                    mediatorLoadStates = mediatorLoadStates
+                )
+            }
         )
     }
 

@@ -26,9 +26,10 @@ import androidx.paging.PageEvent.Insert
 import androidx.paging.PageEvent.StaticList
 import androidx.paging.PagePresenter.ProcessPageEventCallback
 import androidx.paging.internal.BUGANIZER_URL
-import androidx.paging.internal.CopyOnWriteArrayList
 import androidx.paging.internal.appendMediatorStatesIfNotNull
+import co.touchlab.stately.collections.ConcurrentMutableList
 import kotlin.coroutines.CoroutineContext
+import kotlin.jvm.Volatile
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.BufferOverflow.DROP_OLDEST
 import kotlinx.coroutines.flow.Flow
@@ -37,7 +38,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.yield
-import kotlin.jvm.Volatile
 
 /** @suppress */
 @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
@@ -52,7 +52,7 @@ public abstract class PagingDataDiffer<T : Any>(
     private val combinedLoadStatesCollection = MutableCombinedLoadStateCollection().apply {
         cachedPagingData?.cachedEvent()?.let { set(it.sourceLoadStates, it.mediatorLoadStates) }
     }
-    private val onPagesUpdatedListeners = CopyOnWriteArrayList<() -> Unit>()
+    private val onPagesUpdatedListeners = ConcurrentMutableList<() -> Unit>()
 
     private val collectFromRunner = SingleRunner()
 
@@ -260,7 +260,7 @@ public abstract class PagingDataDiffer<T : Any>(
      * @param index Index of the presented item to return, including placeholders.
      * @return The presented item at position [index], `null` if it is a placeholder.
      */
-//    @MainThread TODO
+    @MainThread
     public operator fun get(@IntRange(from = 0) index: Int): T? {
         lastAccessedIndexUnfulfilled = true
         lastAccessedIndex = index
@@ -277,7 +277,7 @@ public abstract class PagingDataDiffer<T : Any>(
      * @param index Index of the presented item to return, including placeholders.
      * @return The presented item at position [index], `null` if it is a placeholder
      */
-//    @MainThread TODO
+    @MainThread
     public fun peek(@IntRange(from = 0) index: Int): T? {
         return presenter.get(index)
     }

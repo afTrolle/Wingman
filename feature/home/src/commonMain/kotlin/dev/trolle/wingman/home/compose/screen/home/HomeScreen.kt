@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Description
@@ -20,7 +21,6 @@ import androidx.compose.material3.NavigationRailItem
 import androidx.compose.material3.NavigationRailItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import dev.trolle.wingman.ui.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
@@ -39,7 +39,11 @@ import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabNavigator
 import dev.trolle.wingman.ui.LocalWindowSizeClass
 import dev.trolle.wingman.ui.MaterialThemeWingman
+import dev.trolle.wingman.ui.WindowSizeClass
+import dev.trolle.wingman.ui.WindowWidthSizeClass
 import dev.trolle.wingman.ui.compose.Pane
+import dev.trolle.wingman.ui.ext.isHeightCompact
+import dev.trolle.wingman.ui.ext.isWidthCompact
 import dev.trolle.wingman.ui.ext.statusBarsPadding
 import dev.trolle.wingman.ui.string.Strings
 
@@ -50,18 +54,24 @@ object HomeScreen : Screen {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
-        TabNavigator(HomeTab) {
+        HomeLayout(StartTab)
+    }
+
+    @OptIn(ExperimentalMaterial3Api::class)
+    @Composable
+    fun HomeLayout(initTab: Tab) {
+        TabNavigator(initTab) {
             Scaffold(
                 containerColor = MaterialThemeWingman.colorScheme.surface,
                 contentWindowInsets = WindowInsets(0.dp),
                 content = { paddingValues ->
-                    val size = LocalWindowSizeClass.current.widthSizeClass
+                    val size = LocalWindowSizeClass.current
                     Row {
-                        if (size != WindowWidthSizeClass.Compact) {
-                            NavigationRail() {
+                        if (size.isWidthCompact) {
+                            NavigationRail {
                                 RailNavigationItem(
                                     true,
-                                    HomeTab,
+                                    StartTab,
                                     Strings.home_tab,
                                     Icons.Default.Home,
                                 )
@@ -81,9 +91,11 @@ object HomeScreen : Screen {
                         }
                         Pane(
                             modifier = Modifier.statusBarsPadding(),
-                            cutout = true,
-                            innerModifier = Modifier,
-                            shape =  MaterialThemeWingman.shapes.extraLarge.copy( bottomEnd = CornerSize(0.dp), bottomStart = CornerSize(0.dp), topEnd =  CornerSize(0.dp)),
+                            innerModifier = Modifier.fillMaxSize(),
+                            shape = MaterialThemeWingman.shapes.extraLarge.copy(
+                                bottomEnd = CornerSize(0.dp),
+                                bottomStart = CornerSize(0.dp), topEnd = CornerSize(0.dp),
+                            ),
                         ) {
                             CompositionLocalProvider(LocalTabPaddingValues provides paddingValues) {
                                 CurrentTab()
@@ -92,12 +104,12 @@ object HomeScreen : Screen {
                     }
                 },
                 bottomBar = {
-                    val size = LocalWindowSizeClass.current
-                    if (size.widthSizeClass == WindowWidthSizeClass.Compact)
+                    val sizeClass = LocalWindowSizeClass.current
+                    if (sizeClass.isHeightCompact)
                         BottomAppBar(
                             tonalElevation = 3.dp,
                         ) {
-                            TabNavigationItem(true, HomeTab, Strings.home_tab, Icons.Default.Home)
+                            TabNavigationItem(true, StartTab, Strings.home_tab, Icons.Default.Home)
                             TabNavigationItem(
                                 false,
                                 BioTab,

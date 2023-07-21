@@ -16,8 +16,8 @@
 
 package androidx.paging
 
-import kotlinx.coroutines.flow.Flow
 import kotlin.jvm.JvmOverloads
+import kotlinx.coroutines.flow.Flow
 
 /**
  * Primary entry point into Paging; constructor for a reactive stream of [PagingData].

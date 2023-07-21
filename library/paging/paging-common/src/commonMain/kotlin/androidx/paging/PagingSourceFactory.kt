@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 The Android Open Source Project
+ * Copyright 2023 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,8 +17,16 @@
 package androidx.paging
 
 /**
- * Fetcher-side callbacks for presenter-side access events communicated through [PagingData].
+ * Interface for a factory that generates [PagingSource].
+ *
+ * The factory extending this interface can be used to instantiate a [Pager] as the
+ * pagingSourceFactory.
  */
-internal interface HintReceiver {
-    fun accessHint(viewportHint: ViewportHint)
+public fun interface PagingSourceFactory<Key : Any, Value : Any> : () -> PagingSource<Key, Value> {
+    /**
+     * Returns a new PagingSource instance.
+     *
+     * This function can be invoked by calling pagingSourceFactory() or pagingSourceFactory::invoke.
+     */
+    public override operator fun invoke(): PagingSource<Key, Value>
 }

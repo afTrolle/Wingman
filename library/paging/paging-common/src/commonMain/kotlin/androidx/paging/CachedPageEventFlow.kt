@@ -23,7 +23,6 @@ import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onSubscription
 import kotlinx.coroutines.flow.takeWhile
@@ -159,7 +158,7 @@ private class FlattenedPageController<T : Any> {
  *
  * There is no synchronization in this code so it should be used with locks around if necessary.
  */
-@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+@VisibleForTesting
 internal class FlattenedPageEventStorage<T : Any> {
     private var placeholdersBefore: Int = 0
     private var placeholdersAfter: Int = 0

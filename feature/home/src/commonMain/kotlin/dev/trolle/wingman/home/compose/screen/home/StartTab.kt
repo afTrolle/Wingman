@@ -8,22 +8,16 @@ import androidx.paging.map
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.coroutineScope
 import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.core.screen.ScreenKey
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
-import dev.trolle.wingman.home.compose.Home
+import dev.trolle.wingman.home.compose.StartLayout
 import dev.trolle.wingman.home.compose.custom.CustomTab
 import dev.trolle.wingman.home.compose.screen.prompt.PromptScreen
 import dev.trolle.wingman.ui.Navigation
 import dev.trolle.wingman.ui.ext.getScreenModel
-import dev.trolle.wingman.ui.ext.parentOrThrow
-import dev.trolle.wingman.ui.ext.parentScreenOrThrow
 import dev.trolle.wingman.user.User
 import dev.trolle.wingman.user.age
 import dev.trolle.wingman.user.tinder.model.Match
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -35,13 +29,13 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.plus
 import kotlin.time.Duration.Companion.milliseconds
 
-object HomeTab : CustomTab {
+object StartTab : CustomTab {
 
     @Composable
     override fun Content() {
         val viewModel = getScreenModel<HomeScreenModel>()
         val lazyPagingMatches = viewModel.matches.collectAsLazyPagingItems()
-        Home(
+        StartLayout(
             lazyPagingMatches,
             viewModel::onMatchItem,
         )

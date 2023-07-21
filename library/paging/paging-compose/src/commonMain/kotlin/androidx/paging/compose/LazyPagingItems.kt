@@ -16,7 +16,6 @@
 
 package androidx.paging.compose
 
-import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -27,16 +26,11 @@ import androidx.compose.runtime.setValue
 import androidx.paging.CombinedLoadStates
 import androidx.paging.DifferCallback
 import androidx.paging.ItemSnapshotList
-import androidx.paging.LOGGER
-import androidx.paging.LOG_TAG
 import androidx.paging.LoadState
 import androidx.paging.LoadStates
-import androidx.paging.Logger
 import androidx.paging.NullPaddedList
 import androidx.paging.PagingData
 import androidx.paging.PagingDataDiffer
-import io.github.aakira.napier.LogLevel
-import io.github.aakira.napier.Napier
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 import kotlinx.coroutines.Dispatchers
@@ -98,7 +92,7 @@ public class LazyPagingItems<T : Any> internal constructor(
         differCallback = differCallback,
         mainContext = mainDispatcher,
         cachedPagingData =
-        if (flow is SharedFlow<PagingData<T>>) flow.replayCache.firstOrNull() else null
+            if (flow is SharedFlow<PagingData<T>>) flow.replayCache.firstOrNull() else null
     ) {
         override suspend fun presentNewList(
             previousList: NullPaddedList<T>,
@@ -198,7 +192,7 @@ public class LazyPagingItems<T : Any> internal constructor(
                 append = InitialLoadStates.append,
                 source = InitialLoadStates
             )
-    )
+        )
         private set
 
     internal suspend fun collectLoadState() {
@@ -210,39 +204,6 @@ public class LazyPagingItems<T : Any> internal constructor(
     internal suspend fun collectPagingData() {
         flow.collectLatest {
             pagingDataDiffer.collectFrom(it)
-        }
-    }
-
-    private companion object {
-        init {
-            /**
-             * Implements the Logger interface from paging-common and injects it into the LOGGER
-             * global var stored within Pager.
-             *
-             * Checks for null LOGGER because other runtime entry points to paging can also
-             * inject a Logger
-             */
-            LOGGER = LOGGER ?: object : Logger {
-                val levels =LogLevel.values()
-                override fun isLoggable(level: Int): Boolean {
-                    return Napier.isEnable(levels[level], LOG_TAG)
-                }
-
-                override fun log(level: Int, message: String, tr: Throwable?) {
-                    when {
-                        tr != null && levels[level] == LogLevel.DEBUG -> Napier.d( message, tr, LOG_TAG)
-                        tr != null && levels[level] == LogLevel.VERBOSE -> Napier.v( message, tr, LOG_TAG)
-                        levels[level] == LogLevel.DEBUG -> Napier.d( message, null, LOG_TAG)
-                        levels[level] == LogLevel.VERBOSE -> Napier.v( message, null, LOG_TAG)
-                        else -> {
-                            throw IllegalArgumentException(
-                                "debug level $level is requested but Paging only supports " +
-                                        "default logging for level 2 (DEBUG) or level 3 (VERBOSE)"
-                            )
-                        }
-                    }
-                }
-            }
         }
     }
 }
@@ -292,129 +253,4 @@ public fun <T : Any> Flow<PagingData<T>>.collectAsLazyPagingItems(
     }
 
     return lazyPagingItems
-}
-
-/**
- * Adds the [LazyPagingItems] and their content to the scope. The range from 0 (inclusive) to
- * [LazyPagingItems.itemCount] (exclusive) always represents the full range of presentable items,
- * because every event from [PagingDataDiffer] will trigger a recomposition.
- *
- * @sample androidx.paging.compose.samples.ItemsDemo
- *
- * @param items the items received from a [Flow] of [PagingData].
- * @param key a factory of stable and unique keys representing the item. Using the same key
- * for multiple items in the list is not allowed. Type of the key should be saveable
- * via Bundle on Android. If null is passed the position in the list will represent the key.
- * When you specify the key the scroll position will be maintained based on the key, which
- * means if you add/remove items before the current visible item the item with the given key
- * will be kept as the first visible one.
- * @param contentType a factory of the content types for the item. The item compositions of the
- * same type could be reused more efficiently. Note that null is a valid type and items of such
- * type will be considered compatible.
- * @param itemContent the content displayed by a single item. In case the item is `null`, the
- * [itemContent] method should handle the logic of displaying a placeholder instead of the main
- * content displayed by an item which is not `null`.
- *
- * @deprecated Call [LazyListScope.items] directly with LazyPagingItems [itemKey] and
- * [itemContentType] helper functions.
- */
-@Deprecated(
-    message = "Call LazyListScope.items directly with LazyPagingItems #itemKey and " +
-            "#itemContentType helper functions.",
-    replaceWith = ReplaceWith(
-        expression = """items(
-           count = items.itemCount,
-           key = items.itemKey(key),
-           contentType = items.itemContentType(
-                contentType
-           )
-        ) { index ->
-            val item = items[index]
-            itemContent(item)
-        }""",
-    )
-)
-public fun <T : Any> LazyListScope.items(
-    items: LazyPagingItems<T>,
-    key: ((item: T) -> Any)? = null,
-    contentType: ((item: T) -> Any?)? = null,
-    itemContent: @Composable LazyItemScope.(value: T?) -> Unit
-) {
-    items(
-        count = items.itemCount,
-        key = items.itemKey(key),
-        contentType = items.itemContentType(contentType)
-    ) { index ->
-        itemContent(items[index])
-    }
-}
-
-/**
- * Adds the [LazyPagingItems] and their content to the scope where the content of an item is
- * aware of its local index. The range from 0 (inclusive) to [LazyPagingItems.itemCount] (exclusive)
- * always represents the full range of presentable items, because every event from
- * [PagingDataDiffer] will trigger a recomposition.
- *
- * @sample androidx.paging.compose.samples.ItemsIndexedDemo
- *
- * @param items the items received from a [Flow] of [PagingData].
- * @param key a factory of stable and unique keys representing the item. Using the same key
- * for multiple items in the list is not allowed. Type of the key should be saveable
- * via Bundle on Android. If null is passed the position in the list will represent the key.
- * When you specify the key the scroll position will be maintained based on the key, which
- * means if you add/remove items before the current visible item the item with the given key
- * will be kept as the first visible one.
- * @param contentType a factory of the content types for the item. The item compositions of the
- * same type could be reused more efficiently. Note that null is a valid type and items of such
- * type will be considered compatible.
- * @param itemContent the content displayed by a single item. In case the item is `null`, the
- * [itemContent] method should handle the logic of displaying a placeholder instead of the main
- * content displayed by an item which is not `null`.
- *
- * @deprecated Deprecating support for indexed keys on non-null items as it is susceptible to
- * errors when items indices shift due to prepends. Call LazyListScope.items directly
- * with LazyPagingItems #itemKey and #itemContentType helper functions.
- */
-@Deprecated(
-    message = "Deprecating support for indexed keys on non-null items as it is susceptible to " +
-            "errors when items indices shift due to prepends. Call LazyListScope.items directly " +
-            "with LazyPagingItems #itemKey and #itemContentType helper functions.",
-    replaceWith = ReplaceWith(
-        expression = """items(
-           count = items.itemCount,
-           key = items.itemKey(key),
-           contentType = items.itemContentType(
-                contentType
-           )
-        ) { index ->
-            val item = items[index]
-            itemContent(item)
-        }""",
-    )
-)
-public fun <T : Any> LazyListScope.itemsIndexed(
-    items: LazyPagingItems<T>,
-    key: ((index: Int, item: T) -> Any)? = null,
-    contentType: ((index: Int, item: T) -> Any?)? = null,
-    itemContent: @Composable LazyItemScope.(index: Int, value: T?) -> Unit
-) {
-    items(
-        count = items.itemCount,
-        key = if (key == null) null else { index ->
-            val item = items.peek(index)
-            if (item == null) {
-                PagingPlaceholderKey(index)
-            } else {
-                key(index, item)
-            }
-        },
-        contentType = { index ->
-            if (contentType == null) null else {
-                val item = items.peek(index)
-                if (item == null) null else contentType(index, item)
-            }
-        }
-    ) { index ->
-        itemContent(index, items[index])
-    }
 }

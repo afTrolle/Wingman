@@ -16,31 +16,19 @@ import androidx.compose.ui.unit.dp
 import dev.trolle.wingman.ui.LocalWindowSizeClass
 import dev.trolle.wingman.ui.MaterialThemeWingman
 
-private val paneModifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
-private val innerPaneModifier = Modifier.fillMaxSize().padding(16.dp)
 
 @Composable
 fun Pane(
-    modifier: Modifier = paneModifier,
-    innerModifier: Modifier = innerPaneModifier,
+    modifier: Modifier = Modifier,
+    innerModifier: Modifier = Modifier,
     shape: Shape = MaterialThemeWingman.shapes.extraLarge,
     containerColor : Color = MaterialThemeWingman.colorScheme.surface,
-    cutout: Boolean = false,
     content: @Composable BoxScope.() -> Unit,
 ) {
-    val size = LocalWindowSizeClass.current
-    val horizontalPadding = if (size.widthSizeClass <= WindowWidthSizeClass.Compact) 16.dp else 8.dp
-    val verticalPadding = if (size.heightSizeClass <= WindowHeightSizeClass.Compact) 4.dp else 16.dp
-    val shapePadding = if (cutout) {
-        modifier.padding(start = horizontalPadding, top = verticalPadding)
-    } else {
-        modifier.padding(horizontal = horizontalPadding, vertical = verticalPadding)
-    }
-
     Surface(
         shape = shape,
         color = containerColor,
-        modifier = shapePadding,
+        modifier = modifier,
         content = {
             Box(
                 innerModifier,

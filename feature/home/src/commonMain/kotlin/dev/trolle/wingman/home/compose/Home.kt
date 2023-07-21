@@ -1,14 +1,11 @@
-
 package dev.trolle.wingman.home.compose
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Divider
-import androidx.compose.material3.Surface
 import androidx.compose.material3.pullrefresh.PullRefreshIndicator
 import androidx.compose.material3.pullrefresh.pullRefresh
 import androidx.compose.material3.pullrefresh.rememberPullRefreshState
@@ -21,43 +18,40 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
-import dev.trolle.wingman.home.compose.screen.home.LocalTabPaddingValues
 import dev.trolle.wingman.home.compose.screen.home.MatchItem
 import dev.trolle.wingman.ui.ext.statusBarsPadding
 
 @Composable
-fun Home(
+fun StartLayout(
     lazyPagingMatches: LazyPagingItems<MatchItem>,
     onMatchItem: (MatchItem?) -> Unit = {},
 ) {
-    val padding = LocalTabPaddingValues.current
-        PullToRefreshBox(lazyPagingMatches) {
-            LazyColumn(
-            ) {
-                item {
-                    // Append so first item is bellow status-bar
-                    // Not sure but content padding didn't work for this task.
-                    Box(Modifier.statusBarsPadding()) {}
-                }
-                items(count = lazyPagingMatches.itemCount) { index ->
-                    val item = lazyPagingMatches[index]
-                    MatchItem(
-                        item,
-                        Modifier
-                            .clickable { onMatchItem(item) }
-                            .padding(horizontal = 32.dp, vertical = 16.dp),
-                    )
-                    Divider(modifier = Modifier.padding(end = 48.dp))
-                }
+    PullToRefreshBox(lazyPagingMatches) {
+        LazyColumn {
+            item {
+                // Append so first item is bellow status-bar
+                // Not sure but content padding didn't work for this task.
+                Box(Modifier.statusBarsPadding()) {}
+            }
+            items(count = lazyPagingMatches.itemCount) { index ->
+                val item = lazyPagingMatches[index]
+                MatchItem(
+                    item,
+                    Modifier
+                        .clickable { onMatchItem(item) }
+                        .padding(horizontal = 32.dp, vertical = 16.dp),
+                )
+                Divider(modifier = Modifier.padding(end = 48.dp))
+            }
 
-                if (lazyPagingMatches.loadState.append == LoadState.Loading) item {
-                    MatchItem(
-                        null,
-                        modifier = Modifier.padding(horizontal = 32.dp, vertical = 16.dp),
-                    )
-                }
+            if (lazyPagingMatches.loadState.append == LoadState.Loading) item {
+                MatchItem(
+                    null,
+                    modifier = Modifier.padding(horizontal = 32.dp, vertical = 16.dp),
+                )
             }
         }
+    }
 }
 
 @Composable

@@ -14,6 +14,7 @@ kotlin {
                 implementation(libs.kotlinx.coroutines.core)
                 implementation(libs.kotlinx.atomicfu)
                 implementation(libs.stately.collection)
+                implementation(libs.stately.core)
             }
         }
         val iosMain by getting {

@@ -17,8 +17,8 @@
 package androidx.paging
 
 import androidx.annotation.VisibleForTesting
-import kotlinx.atomicfu.locks.reentrantLock
-import kotlinx.atomicfu.locks.withLock
+import co.touchlab.stately.concurrency.Lock
+import co.touchlab.stately.concurrency.withLock
 
 /**
  * Helper class for thread-safe invalidation callback tracking + triggering on registration.
@@ -30,7 +30,7 @@ internal class InvalidateCallbackTracker<T>(
      */
     private val invalidGetter: (() -> Boolean)? = null,
 ) {
-    private val lock = reentrantLock()
+    private val lock = Lock()
     private val callbacks = mutableListOf<T>()
     internal var invalid = false
         private set

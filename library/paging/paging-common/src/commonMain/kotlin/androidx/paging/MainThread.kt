@@ -1,6 +1,5 @@
-package utilsa
 /*
- * Copyright 2018 The Android Open Source Project
+ * Copyright 2023 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,18 +14,8 @@ package utilsa
  * limitations under the License.
  */
 
-/**
- * Represents a function.
- *
- * @param <I> the type of the input to the function
- * @param <O> the type of the output of the function
-</O></I> */
-fun interface Function<I, O> {
-    /**
-     * Applies this function to the given input.
-     *
-     * @param input the input
-     * @return the function result.
-     */
-    fun apply(input: I): O
-}
+package androidx.paging
+
+@OptIn(ExperimentalMultiplatform::class)
+@OptionalExpectation
+public expect annotation class MainThread()
